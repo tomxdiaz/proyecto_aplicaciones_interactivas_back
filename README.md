@@ -1,2 +1,2 @@
 # proyecto_aplicaciones_interactivas
-Proyecto Grupal - Aplicaciones Interactivas
+Proyecto Grupal - Aplicaciones Interactivas Backend
