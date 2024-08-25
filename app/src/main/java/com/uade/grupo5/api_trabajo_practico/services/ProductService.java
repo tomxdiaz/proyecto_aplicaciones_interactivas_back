@@ -20,7 +20,6 @@ public class ProductService {
         List<Product> products = productRepository.getAllProducts();
         List<ProductDTO> productsDTO = products.stream()
                 .map(product -> new ProductDTO(
-                        product.getId(),
                         product.getTitle(),
                         product.getDescription(),
                         product.getPrice(),
@@ -35,11 +34,25 @@ public class ProductService {
         return productsDTO;
     }
 
+    public ProductDTO getProductByTitle(String title) throws Exception {
+        Product product = productRepository.getProductByTitle(title);
+        ProductDTO productDTO = new ProductDTO(
+                product.getTitle(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getImages(),
+                product.getAdditionalInfo(),
+                product.getStock(),
+                product.getCategory(),
+                product.getFeatured());
+
+        return productDTO;
+    }
+
     public ProductDTO createProduct(
             ProductDTO productDTO) {
         Product product = productRepository.createProduct(productDTO);
         ProductDTO newProductDTO = new ProductDTO(
-                product.getId(),
                 product.getTitle(),
                 product.getDescription(),
                 product.getPrice(),

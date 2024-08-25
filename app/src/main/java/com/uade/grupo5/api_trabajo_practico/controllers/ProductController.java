@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +21,17 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+    public ResponseEntity<List<ProductDTO>> getAllProducts() throws Exception {
         List<ProductDTO> allProducts = productService.getAllProducts();
         return ResponseEntity.ok(allProducts);
+    }
+
+    @GetMapping("/{title}")
+    public ResponseEntity<ProductDTO> getProductByTitle(
+            @PathVariable String title) throws Exception {
+
+        ProductDTO product = productService.getProductByTitle(title);
+        return ResponseEntity.ok(product);
     }
 
     @PostMapping("/create")

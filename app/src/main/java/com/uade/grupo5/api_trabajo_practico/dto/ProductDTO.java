@@ -3,7 +3,6 @@ package com.uade.grupo5.api_trabajo_practico.dto;
 import java.util.List;
 
 public class ProductDTO {
-    private String id;
     private String title;
     private String description;
     private double price;
@@ -13,9 +12,8 @@ public class ProductDTO {
     private String category;
     private boolean featured;
 
-    public ProductDTO(String id, String title, String description, double price, List<String> images,
+    public ProductDTO(String title, String description, double price, List<String> images,
             String additionalInfo, int stock, String category, boolean featured) {
-        this.id = id;
         this.title = title;
         this.description = description;
         this.price = price;
@@ -24,10 +22,6 @@ public class ProductDTO {
         this.stock = stock;
         this.category = category;
         this.featured = featured;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getTitle() {
