@@ -23,7 +23,7 @@ public class ProductRepository {
 
         Product product = products.stream()
                 .filter(p -> p.getTitle().equals(title))
-                .findFirst().orElseThrow(() -> new RuntimeException("Product already exists"));
+                .findFirst().orElseThrow(() -> new RuntimeException("Product not exists"));
 
         return product;
 
