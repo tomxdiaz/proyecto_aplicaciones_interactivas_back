@@ -19,15 +19,36 @@ public class ProductService {
     public List<ProductDTO> getAllProducts() {
         List<Product> products = productRepository.getAllProducts();
         List<ProductDTO> productsDTO = products.stream()
-                .map(product -> new ProductDTO(product.getName(), product.getDescription(), product.getPrice()))
+                .map(product -> new ProductDTO(
+                        product.getId(),
+                        product.getTitle(),
+                        product.getDescription(),
+                        product.getPrice(),
+                        product.getImages(),
+                        product.getAdditionalInfo(),
+                        product.getStock(),
+                        product.getCategory(),
+                        product.getFeatured())
+
+                )
                 .collect(Collectors.toList());
         return productsDTO;
     }
 
-    public ProductDTO createProduct(String name, String description, String price) {
-        Product product = productRepository.createProduct(name, description, price);
-        ProductDTO productDTO = new ProductDTO(product.getName(), product.getDescription(), product.getPrice());
-        return productDTO;
+    public ProductDTO createProduct(
+            ProductDTO productDTO) {
+        Product product = productRepository.createProduct(productDTO);
+        ProductDTO newProductDTO = new ProductDTO(
+                product.getId(),
+                product.getTitle(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getImages(),
+                product.getAdditionalInfo(),
+                product.getStock(),
+                product.getCategory(),
+                product.getFeatured());
+        return newProductDTO;
 
     }
 

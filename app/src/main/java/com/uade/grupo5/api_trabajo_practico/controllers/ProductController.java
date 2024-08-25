@@ -29,8 +29,7 @@ public class ProductController {
     public ResponseEntity<ProductDTO> createProduct(
             @RequestBody ProductDTO productDTO) throws Exception {
 
-        ProductDTO product = productService.createProduct(productDTO.getName(), productDTO.getDescription(),
-                productDTO.getPrice());
+        ProductDTO product = productService.createProduct(productDTO);
         return ResponseEntity.ok(product);
     }
 

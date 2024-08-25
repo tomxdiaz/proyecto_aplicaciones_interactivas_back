@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 
 @Repository
@@ -16,8 +17,19 @@ public class ProductRepository {
         return products;
     }
 
-    public Product createProduct(String name, String description, String price) {
-        Product newProduct = new Product(name, description, price);
+    public Product createProduct(
+            ProductDTO productDTO) {
+
+        Product newProduct = new Product(
+                productDTO.getId(),
+                productDTO.getTitle(),
+                productDTO.getDescription(),
+                productDTO.getPrice(),
+                productDTO.getImages(),
+                productDTO.getAdditionalInfo(),
+                productDTO.getStock(),
+                productDTO.getCategory(),
+                productDTO.getFeatured());
 
         products.add(newProduct);
 
