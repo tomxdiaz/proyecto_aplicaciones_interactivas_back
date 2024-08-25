@@ -3,6 +3,7 @@ package com.uade.grupo5.api_trabajo_practico.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ public class ProductController {
     @GetMapping("/list")
     public ResponseEntity<List<ProductDTO>> getAllProducts() throws Exception {
         List<ProductDTO> allProducts = productService.getAllProducts();
-        return ResponseEntity.ok(allProducts);
+        return ResponseEntity.status(HttpStatus.OK).body(allProducts);
     }
 
     @GetMapping("/{title}")
@@ -31,7 +32,7 @@ public class ProductController {
             @PathVariable String title) throws Exception {
 
         ProductDTO product = productService.getProductByTitle(title);
-        return ResponseEntity.ok(product);
+        return ResponseEntity.status(HttpStatus.OK).body(product);
     }
 
     @PostMapping("/create")
@@ -39,7 +40,7 @@ public class ProductController {
             @RequestBody ProductDTO productDTO) throws Exception {
 
         ProductDTO product = productService.createProduct(productDTO);
-        return ResponseEntity.ok(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
 }
