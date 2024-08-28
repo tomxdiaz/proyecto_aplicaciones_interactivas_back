@@ -13,56 +13,59 @@ import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 @Service
 public class ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+        @Autowired
+        private ProductRepository productRepository;
 
-    public List<ProductDTO> getAllProducts() {
-        List<Product> products = productRepository.getAllProducts();
-        List<ProductDTO> productsDTO = products.stream()
-                .map(product -> new ProductDTO(
-                        product.getTitle(),
-                        product.getDescription(),
-                        product.getPrice(),
-                        product.getImages(),
-                        product.getAdditionalInfo(),
-                        product.getStock(),
-                        product.getCategory(),
-                        product.getFeatured())
+        public List<ProductDTO> getAllProducts() {
+                List<Product> products = productRepository.getAllProducts();
+                List<ProductDTO> productsDTO = products.stream()
+                                .map(product -> new ProductDTO(
+                                                product.getId(),
+                                                product.getTitle(),
+                                                product.getDescription(),
+                                                product.getPrice(),
+                                                product.getImages(),
+                                                product.getAdditionalInfo(),
+                                                product.getStock(),
+                                                product.getCategory(),
+                                                product.getFeatured())
 
-                )
-                .collect(Collectors.toList());
-        return productsDTO;
-    }
+                                )
+                                .collect(Collectors.toList());
+                return productsDTO;
+        }
 
-    public ProductDTO getProductByTitle(String title) throws Exception {
-        Product product = productRepository.getProductByTitle(title);
-        ProductDTO productDTO = new ProductDTO(
-                product.getTitle(),
-                product.getDescription(),
-                product.getPrice(),
-                product.getImages(),
-                product.getAdditionalInfo(),
-                product.getStock(),
-                product.getCategory(),
-                product.getFeatured());
+        public ProductDTO getProductById(String id) throws Exception {
+                Product product = productRepository.getProductById(id);
+                ProductDTO productDTO = new ProductDTO(
+                                product.getId(),
+                                product.getTitle(),
+                                product.getDescription(),
+                                product.getPrice(),
+                                product.getImages(),
+                                product.getAdditionalInfo(),
+                                product.getStock(),
+                                product.getCategory(),
+                                product.getFeatured());
 
-        return productDTO;
-    }
+                return productDTO;
+        }
 
-    public ProductDTO createProduct(
-            ProductDTO productDTO) {
-        Product product = productRepository.createProduct(productDTO);
-        ProductDTO newProductDTO = new ProductDTO(
-                product.getTitle(),
-                product.getDescription(),
-                product.getPrice(),
-                product.getImages(),
-                product.getAdditionalInfo(),
-                product.getStock(),
-                product.getCategory(),
-                product.getFeatured());
-        return newProductDTO;
+        public ProductDTO createProduct(
+                        ProductDTO productDTO) {
+                Product product = productRepository.createProduct(productDTO);
+                ProductDTO newProductDTO = new ProductDTO(
+                                product.getId(),
+                                product.getTitle(),
+                                product.getDescription(),
+                                product.getPrice(),
+                                product.getImages(),
+                                product.getAdditionalInfo(),
+                                product.getStock(),
+                                product.getCategory(),
+                                product.getFeatured());
+                return newProductDTO;
 
-    }
+        }
 
 }

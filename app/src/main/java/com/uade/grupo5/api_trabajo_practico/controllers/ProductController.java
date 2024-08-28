@@ -21,21 +21,21 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/list")
+    @GetMapping("/")
     public ResponseEntity<List<ProductDTO>> getAllProducts() throws Exception {
         List<ProductDTO> allProducts = productService.getAllProducts();
         return ResponseEntity.status(HttpStatus.OK).body(allProducts);
     }
 
-    @GetMapping("/{title}")
-    public ResponseEntity<ProductDTO> getProductByTitle(
-            @PathVariable String title) throws Exception {
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDTO> getProductById(
+            @PathVariable String id) throws Exception {
 
-        ProductDTO product = productService.getProductByTitle(title);
+        ProductDTO product = productService.getProductById(id);
         return ResponseEntity.status(HttpStatus.OK).body(product);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<ProductDTO> createProduct(
             @RequestBody ProductDTO productDTO) throws Exception {
 

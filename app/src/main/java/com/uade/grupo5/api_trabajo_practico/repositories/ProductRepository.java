@@ -19,10 +19,10 @@ public class ProductRepository {
         return products;
     }
 
-    public Product getProductByTitle(String title) throws Exception {
+    public Product getProductById(String id) throws Exception {
 
         Product product = products.stream()
-                .filter(p -> p.getTitle().equals(title))
+                .filter(p -> p.getId().equals(id))
                 .findFirst().orElseThrow(() -> new RuntimeException("Product not exists"));
 
         return product;

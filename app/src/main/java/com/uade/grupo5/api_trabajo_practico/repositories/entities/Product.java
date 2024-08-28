@@ -15,6 +15,7 @@ public class Product {
 
     public Product(String id, String title, String description, double price, List<String> images,
             String additionalInfo, int stock, String category, boolean featured) {
+
         this.id = id;
         this.title = title;
         this.description = description;
