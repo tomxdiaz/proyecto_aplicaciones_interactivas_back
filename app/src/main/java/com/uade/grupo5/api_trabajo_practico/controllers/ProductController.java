@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 import com.uade.grupo5.api_trabajo_practico.services.ProductService;
 
 @RestController
@@ -23,24 +24,56 @@ public class ProductController {
 
     @GetMapping("/")
     public ResponseEntity<List<ProductDTO>> getAllProducts() throws Exception {
-        List<ProductDTO> allProducts = productService.getAllProducts();
-        return ResponseEntity.status(HttpStatus.OK).body(allProducts);
+        List<Product> allProducts = productService.getAllProducts();
+
+        List<ProductDTO> allProductsDTO = allProducts.stream()
+                .map(product -> new ProductDTO(
+                        product.getId(),
+                        product.getTitle(),
+                        product.getDescription(),
+                        product.getPrice(),
+                        product.getImages(),
+                        product.getAdditionalInfo(),
+                        product.getStock(),
+                        product.getCategory(),
+                        product.getFeatured()))
+                .toList();
+        return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(
             @PathVariable String id) throws Exception {
 
-        ProductDTO product = productService.getProductById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(product);
+        Product product = productService.getProductById(id);
+        ProductDTO productDTO = new ProductDTO(
+                product.getId(),
+                product.getTitle(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getImages(),
+                product.getAdditionalInfo(),
+                product.getStock(),
+                product.getCategory(),
+                product.getFeatured());
+        return ResponseEntity.status(HttpStatus.OK).body(productDTO);
     }
 
     @PostMapping("/")
     public ResponseEntity<ProductDTO> createProduct(
-            @RequestBody ProductDTO productDTO) throws Exception {
-
-        ProductDTO product = productService.createProduct(productDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(product);
+            @RequestBody ProductDTO productData) throws Exception {
+        Product product = productService.createProduct(productData);
+        ProductDTO productDTO = new ProductDTO(
+                product.getId(),
+                product.getTitle(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getImages(),
+                product.getAdditionalInfo(),
+                product.getStock(),
+                product.getCategory(),
+                product.getFeatured());
+        return ResponseEntity.status(HttpStatus.CREATED).body(productDTO);
     }
 
 }

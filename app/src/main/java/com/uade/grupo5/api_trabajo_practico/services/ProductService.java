@@ -1,7 +1,6 @@
 package com.uade.grupo5.api_trabajo_practico.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,55 +15,20 @@ public class ProductService {
         @Autowired
         private ProductRepository productRepository;
 
-        public List<ProductDTO> getAllProducts() {
+        public List<Product> getAllProducts() {
                 List<Product> products = productRepository.getAllProducts();
-                List<ProductDTO> productsDTO = products.stream()
-                                .map(product -> new ProductDTO(
-                                                product.getId(),
-                                                product.getTitle(),
-                                                product.getDescription(),
-                                                product.getPrice(),
-                                                product.getImages(),
-                                                product.getAdditionalInfo(),
-                                                product.getStock(),
-                                                product.getCategory(),
-                                                product.getFeatured())
-
-                                )
-                                .collect(Collectors.toList());
-                return productsDTO;
+                return products;
         }
 
-        public ProductDTO getProductById(String id) throws Exception {
+        public Product getProductById(String id) throws Exception {
                 Product product = productRepository.getProductById(id);
-                ProductDTO productDTO = new ProductDTO(
-                                product.getId(),
-                                product.getTitle(),
-                                product.getDescription(),
-                                product.getPrice(),
-                                product.getImages(),
-                                product.getAdditionalInfo(),
-                                product.getStock(),
-                                product.getCategory(),
-                                product.getFeatured());
-
-                return productDTO;
+                return product;
         }
 
-        public ProductDTO createProduct(
+        public Product createProduct(
                         ProductDTO productDTO) {
                 Product product = productRepository.createProduct(productDTO);
-                ProductDTO newProductDTO = new ProductDTO(
-                                product.getId(),
-                                product.getTitle(),
-                                product.getDescription(),
-                                product.getPrice(),
-                                product.getImages(),
-                                product.getAdditionalInfo(),
-                                product.getStock(),
-                                product.getCategory(),
-                                product.getFeatured());
-                return newProductDTO;
+                return product;
 
         }
 
