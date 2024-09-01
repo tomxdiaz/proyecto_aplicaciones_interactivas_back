@@ -1,55 +1,33 @@
 package com.uade.grupo5.api_trabajo_practico.repositories;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import org.springframework.stereotype.Repository;
-
-import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 
-@Repository
-public class ProductRepository {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    private final List<Product> products = new ArrayList<>();
+    // public List<Product> getAllProducts() {
+    // return products;
+    // }
 
-    private int nextID = 1;
+    // public Product getProductById(String id) throws Exception {
 
-    public List<Product> getAllProducts() {
-        return products;
-    }
+    // Product product = products.stream()
+    // .filter(p -> p.getId().equals(id))
+    // .findFirst().orElseThrow(() -> new RuntimeException("Product not exists"));
 
-    public Product getProductById(String id) throws Exception {
+    // return product;
 
-        Product product = products.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst().orElseThrow(() -> new RuntimeException("Product not exists"));
+    // }
 
-        return product;
+    // public Product createProduct(
+    // ProductDTO productDTO) {
 
-    }
+    // Product newProduct = new Product();
 
-    public Product createProduct(
-            ProductDTO productDTO) {
+    // products.add(newProduct);
 
-        if (products.stream().anyMatch(p -> p.getTitle().equals(productDTO.getTitle()))) {
-            throw new RuntimeException("Product already exists");
-        }
-
-        Product newProduct = new Product(
-                String.valueOf(nextID++),
-                productDTO.getTitle(),
-                productDTO.getDescription(),
-                productDTO.getPrice(),
-                productDTO.getImages(),
-                productDTO.getAdditionalInfo(),
-                productDTO.getStock(),
-                productDTO.getCategory(),
-                productDTO.getFeatured());
-
-        products.add(newProduct);
-
-        return newProduct;
-    }
+    // return newProduct;
+    // }
 
 }

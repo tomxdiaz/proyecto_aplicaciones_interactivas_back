@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
 import com.uade.grupo5.api_trabajo_practico.repositories.ProductRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 
@@ -16,20 +15,20 @@ public class ProductService {
         private ProductRepository productRepository;
 
         public List<Product> getAllProducts() {
-                List<Product> products = productRepository.getAllProducts();
+                List<Product> products = productRepository.findAll();
                 return products;
         }
 
-        public Product getProductById(String id) throws Exception {
-                Product product = productRepository.getProductById(id);
+        public Product getProductById(Long id) throws Exception {
+                Product product = productRepository.getReferenceById(id);
                 return product;
+
         }
 
         public Product createProduct(
-                        ProductDTO productDTO) {
-                Product product = productRepository.createProduct(productDTO);
-                return product;
-
+                        Product product) {
+                Product createdProduct = productRepository.save(product);
+                return createdProduct;
         }
 
 }
