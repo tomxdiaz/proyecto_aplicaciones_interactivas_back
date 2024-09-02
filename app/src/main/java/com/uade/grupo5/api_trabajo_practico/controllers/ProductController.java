@@ -27,17 +27,9 @@ public class ProductController {
                 List<Product> allProducts = productService.getAllProducts();
 
                 List<ProductDTO> allProductsDTO = allProducts.stream()
-                                .map(product -> new ProductDTO(
-                                                product.getId(),
-                                                product.getTitle(),
-                                                product.getDescription(),
-                                                product.getPrice(),
-                                                product.getImages(),
-                                                product.getAdditionalInfo(),
-                                                product.getStock(),
-                                                product.getCategory(),
-                                                product.isFeatured()))
+                                .map(product -> product.toDTO())
                                 .toList();
+
                 return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
         }
 
@@ -46,43 +38,20 @@ public class ProductController {
                         @PathVariable Long id) throws Exception {
 
                 Product product = productService.getProductById(id);
-                ProductDTO productDTO = new ProductDTO(
-                                product.getId(),
-                                product.getTitle(),
-                                product.getDescription(),
-                                product.getPrice(),
-                                product.getImages(),
-                                product.getAdditionalInfo(),
-                                product.getStock(),
-                                product.getCategory(),
-                                product.isFeatured());
+
+                ProductDTO productDTO = product.toDTO();
                 return ResponseEntity.status(HttpStatus.OK).body(productDTO);
         }
 
         @PostMapping("")
         public ResponseEntity<ProductDTO> createProduct(
                         @RequestBody ProductDTO productDTO) throws Exception {
-                Product product = new Product(
-                                productDTO.getId(),
-                                productDTO.getTitle(),
-                                productDTO.getDescription(),
-                                productDTO.getPrice(),
-                                productDTO.getImages(),
-                                productDTO.getAdditionalInfo(),
-                                productDTO.getStock(),
-                                productDTO.getCategory(),
-                                productDTO.isFeatured());
+
+                Product product = productDTO.toEntity();
+
                 Product createdProduct = productService.createProduct(product);
-                ProductDTO createdProductDTO = new ProductDTO(
-                                createdProduct.getId(),
-                                createdProduct.getTitle(),
-                                createdProduct.getDescription(),
-                                createdProduct.getPrice(),
-                                createdProduct.getImages(),
-                                createdProduct.getAdditionalInfo(),
-                                createdProduct.getStock(),
-                                createdProduct.getCategory(),
-                                createdProduct.isFeatured());
+
+                ProductDTO createdProductDTO = createdProduct.toDTO();
                 return ResponseEntity.status(HttpStatus.CREATED).body(createdProductDTO);
         }
 

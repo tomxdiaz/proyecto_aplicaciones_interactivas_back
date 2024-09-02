@@ -2,6 +2,8 @@ package com.uade.grupo5.api_trabajo_practico.dto;
 
 import java.util.List;
 
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -17,5 +19,18 @@ public class ProductDTO {
     private int stock;
     private String category;
     private boolean featured;
+
+    public Product toEntity() {
+        return new Product(
+                this.id,
+                this.title,
+                this.description,
+                this.price,
+                this.images,
+                this.additionalInfo,
+                this.stock,
+                this.category,
+                this.featured);
+    }
 
 }

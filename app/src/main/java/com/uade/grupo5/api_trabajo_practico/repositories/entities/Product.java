@@ -2,6 +2,8 @@ package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
 import java.util.List;
 
+import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,5 +29,18 @@ public class Product {
     private int stock;
     private String category;
     private boolean featured;
+
+    public ProductDTO toDTO() {
+        return new ProductDTO(
+                this.id,
+                this.title,
+                this.description,
+                this.price,
+                this.images,
+                this.additionalInfo,
+                this.stock,
+                this.category,
+                this.featured);
+    }
 
 }
