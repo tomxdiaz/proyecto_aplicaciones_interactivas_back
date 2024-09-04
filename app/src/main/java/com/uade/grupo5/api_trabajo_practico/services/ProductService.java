@@ -27,10 +27,6 @@ public class ProductService {
         public Product createProduct(
                         Product product) {
 
-                if (product.getId() != null) {
-                        throw new IllegalArgumentException("Property 'id' should not exist.");
-                }
-
                 Product createdProduct = productRepository.save(product);
                 return createdProduct;
         }

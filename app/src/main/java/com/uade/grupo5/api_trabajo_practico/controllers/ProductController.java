@@ -49,6 +49,9 @@ public class ProductController {
         public ResponseEntity<ProductDTO> createProduct(
                         @RequestBody ProductDTO productDTO) throws Exception {
 
+                // The 'id' field must be null in order to create a new product
+                productDTO.setId(null);
+
                 Product product = productDTO.toEntity();
 
                 Product createdProduct = productService.createProduct(product);
