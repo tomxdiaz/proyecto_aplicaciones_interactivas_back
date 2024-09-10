@@ -9,12 +9,12 @@ import lombok.Data;
 @Builder
 public class BuyDTO{
   private long id;
-  private long chartId;
+  private long cartId;
   private String buyDate;
 
   public Buy toEntity(BuyDTO buy){
     return Buy.builder()
-              .chartId(buy.getChartId())
+              .cartId(buy.getCartId())
               .buyDate(buy.getBuyDate())
               .build();
 

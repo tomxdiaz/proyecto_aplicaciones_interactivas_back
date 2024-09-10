@@ -1,27 +1,24 @@
 package com.uade.grupo5.api_trabajo_practico.repositories;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
-import com.uade.grupo5.api_trabajo_practico.dto.BuyDTO;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
-
-
-import java.util.List;
 
 @Repository
 public class BuyRepository {
-  @Autowired
-  private List<Buy> buys;
+  private final List<Buy> buys = new ArrayList<>();
 
   public BuyRepository(){
-    buys.add(new Buy(1, 12, "20240901"));
-    buys.add(new Buy(2, 9, "20240903"));
+    buys.add(Buy.builder().cartId(12L).buyDate("20240901").build());
+    buys.add(Buy.builder().cartId(9L).buyDate("20240903").build());
   }
 
-  public void addBuy(BuyDTO buy){
+  /* public void addBuy(BuyDTO buy){
     buys.add(Buy.builder().chartId(buy.getChartId()).buyDate(buy.getBuyDate()).build());
-  }
+  } */
 
   public List<Buy> getBuys(){
     return buys;
