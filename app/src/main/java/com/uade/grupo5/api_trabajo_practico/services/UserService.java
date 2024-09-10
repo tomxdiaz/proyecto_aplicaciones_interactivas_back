@@ -1,5 +1,4 @@
 package com.uade.grupo5.api_trabajo_practico.services;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,4 +17,20 @@ public class UserService {
         return user;
 
     }
+    public User createUser(
+                    User user) {
+            User createdUser = userRepository.save(user);
+            return createdUser;
+    }
+
+    public User updateUser(
+                User user) {
+            User updatedUser = userRepository.save(user);
+            return updatedUser;
+    }
+
+    public void deleteUser(Long id) {
+            userRepository.deleteById(id);
+    }    
+
 }

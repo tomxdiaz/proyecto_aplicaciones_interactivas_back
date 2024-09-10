@@ -1,9 +1,5 @@
 package com.uade.grupo5.api_trabajo_practico.controllers;
 
-import java.util.List;
-
-import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
-import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,5 +28,38 @@ public class UserController {
         UserDTO userDTO = user.toDTO();
         return ResponseEntity.status( HttpStatus.OK).body(userDTO);
     }
+//ALTA: create a user
+    @PostMapping("")
+    public ResponseEntity<UserDTO> createUser(
+                    @RequestBody UserDTO userDTO) throws Exception {
+
+            User user = userDTO.toEntity();
+
+            User createdUser = userService.createUser(user);
+
+            UserDTO createdUserDTO = createdUser.toDTO();
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdUserDTO);
+    }
+//MODIFY: update
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDTO> updateUser(
+                    @RequestBody UserDTO userDTO) throws Exception {
+
+            User user = userDTO.toEntity();
+
+            User updatedUser = userService.updateUser(user);
+
+            UserDTO updatedUserDTO = updatedUser.toDTO();
+            return ResponseEntity.status(HttpStatus.OK).body(updatedUserDTO);
+    }
+//BAJA: delete
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(
+                    @PathVariable Long id) throws Exception {
+
+            userService.deleteUser(id);
+
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+}
 
 }
