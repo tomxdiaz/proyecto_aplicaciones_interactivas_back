@@ -3,8 +3,6 @@ package com.uade.grupo5.api_trabajo_practico.dto;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.core.annotation.MergedAnnotations.Search;
-
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 
