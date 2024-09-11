@@ -26,10 +26,10 @@ public class Buy {
   private String buyDate;
 
 
-  public BuyDTO toDTO(Buy buy){
+  public BuyDTO toDTO(){
     return BuyDTO.builder()
-            .cartId(buy.getCartId())
-            .buyDate(buy.getBuyDate())
+            .cartId(this.cartId)
+            .buyDate(this.buyDate)
             .build();
   }
 

@@ -14,8 +14,8 @@ public class BuyDTO{
 
   public Buy toEntity(BuyDTO buy){
     return Buy.builder()
-              .cartId(buy.getCartId())
-              .buyDate(buy.getBuyDate())
+              .cartId(this.cartId)
+              .buyDate(this.buyDate)
               .build();
 
   }

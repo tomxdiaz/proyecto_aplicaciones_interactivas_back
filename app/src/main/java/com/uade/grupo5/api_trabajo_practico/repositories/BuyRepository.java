@@ -16,10 +16,6 @@ public class BuyRepository {
     buys.add(Buy.builder().cartId(9L).buyDate("20240903").build());
   }
 
-  /* public void addBuy(BuyDTO buy){
-    buys.add(Buy.builder().chartId(buy.getChartId()).buyDate(buy.getBuyDate()).build());
-  } */
-
   public List<Buy> getBuys(){
     return buys;
   }

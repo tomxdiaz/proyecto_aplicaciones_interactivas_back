@@ -3,6 +3,7 @@ package com.uade.grupo5.api_trabajo_practico.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,6 @@ public class BuyController {
                     .build())
         .toList();
     
-    return ResponseEntity.status(200).body(buys);
+    return ResponseEntity.status(HttpStatus.OK).body(buys);
   }
 }
