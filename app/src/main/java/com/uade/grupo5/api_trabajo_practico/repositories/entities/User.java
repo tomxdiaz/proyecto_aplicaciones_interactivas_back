@@ -34,7 +34,8 @@ public class User {
     private List<Search> lastSearches;
     @OneToMany(mappedBy = "buy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Buy> orders;
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id")
     private List<Cart> carts;
 
     public UserDTO toDTO(){
