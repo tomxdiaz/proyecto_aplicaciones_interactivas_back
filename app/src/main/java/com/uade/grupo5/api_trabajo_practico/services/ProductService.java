@@ -14,7 +14,7 @@ public class ProductService {
         @Autowired
         private ProductRepository productRepository;
 
-        public List<Product> getAllProducts() {
+        public List<Product> getAllProducts() throws Exception {
                 List<Product> products = productRepository.findAll();
                 return products;
         }
@@ -22,13 +22,28 @@ public class ProductService {
         public Product getProductById(Long id) throws Exception {
                 Product product = productRepository.getReferenceById(id);
                 return product;
-
         }
 
         public Product createProduct(
-                        Product product) {
+                        Product product) throws Exception {
+
                 Product createdProduct = productRepository.save(product);
                 return createdProduct;
+        }
+
+        public Product updateProduct(
+                        Product product) throws Exception {
+
+                if (!productRepository.existsById(product.getId())) {
+                        throw new IllegalArgumentException("The product whit the given 'id' does not exist.");
+                }
+
+                Product updatedProduct = productRepository.save(product);
+                return updatedProduct;
+        }
+
+        public void deleteProduct(Long id) throws Exception {
+                productRepository.deleteById(id);
         }
 
 }
