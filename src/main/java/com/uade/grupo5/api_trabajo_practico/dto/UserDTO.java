@@ -1,15 +1,15 @@
 package com.uade.grupo5.api_trabajo_practico.dto;
 
-import com.uade.grupo5.api_trabajo_practico.repositories.entities.WishListItem;
-import com.uade.grupo5.api_trabajo_practico.repositories.entities.Search;
-import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
-mport com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
-import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.core.annotation.MergedAnnotations.Search;
+
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 @Data
 @AllArgsConstructor
@@ -22,10 +22,10 @@ public class UserDTO {
     private Date birthDate;
     private String password;
     private String rol;
+    private List<Cart> cart;
+    private List<Buy> orders;
     private List<WishListItem> wishList;
     private List<Search> lastSearches;
-    private List<Buy> orders;
-    private List<Cart> carts;
 
     public User toEntity() {
         return new User(
@@ -37,9 +37,9 @@ public class UserDTO {
                 this.birthDate,
                 this.password,
                 this.rol,
-                this.wishList,
-                this.lastSearches,
+                this.cart,
                 this.orders,
-                this.carts);
+                this.wishList,
+                this.lastSearches);
     }
 }

@@ -3,12 +3,18 @@ package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.CascadeType;
+import org.springframework.core.annotation.MergedAnnotations.Search;
+
 import com.uade.grupo5.api_trabajo_practico.dto.UserDTO;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String userName;
     private String name;
@@ -28,17 +34,20 @@ public class User {
     private Date birthDate;
     private String password;
     private String rol;
-    @OneToMany(mappedBy = "wish_list_item", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WishListItem> wishList;
-    @OneToMany(mappedBy = "search", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Search> lastSearches;
-    @OneToMany(mappedBy = "buy", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Buy> orders;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
-    private List<Cart> carts;
+    private List<Cart> cart;
 
-    public UserDTO toDTO(){
+    @OneToMany(mappedBy = "buy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Buy> orders;
+
+    @OneToMany(mappedBy = "wish_list_item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WishListItem> wishList;
+
+    @OneToMany(mappedBy = "search", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Search> lastSearches;
+
+    public UserDTO toDTO() {
         return new UserDTO(
                 this.id,
                 this.userName,
@@ -51,6 +60,6 @@ public class User {
                 this.wishList,
                 this.lastSearches,
                 this.orders,
-                this.carts);
+                this.cart);
     }
 }
