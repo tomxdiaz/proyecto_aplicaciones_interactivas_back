@@ -1,6 +1,9 @@
 package com.uade.grupo5.api_trabajo_practico.dto;
 
-import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.WishListItem;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Search;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
+mport com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,29 +15,31 @@ import java.util.List;
 @AllArgsConstructor
 public class UserDTO {
     private Long id;
-    private String username;
+    private String userName;
     private String name;
     private String surname;
     private String emailAddress;
     private Date birthDate;
     private String password;
     private String rol;
-    private List<Product> whishList;
-    private List<Product> lastSearches;
-    private List<Product> orders;
+    private List<WishListItem> wishList;
+    private List<Search> lastSearches;
+    private List<Buy> orders;
+    private List<Cart> carts;
 
     public User toEntity() {
         return new User(
                 this.id,
-                this.username,
+                this.userName,
                 this.name,
                 this.surname,
                 this.emailAddress,
                 this.birthDate,
                 this.password,
                 this.rol,
-                this.whishList,
+                this.wishList,
                 this.lastSearches,
-                this.orders);
+                this.orders,
+                this.carts);
     }
 }

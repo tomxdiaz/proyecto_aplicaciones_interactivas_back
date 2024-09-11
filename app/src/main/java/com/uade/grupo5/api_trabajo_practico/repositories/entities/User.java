@@ -21,29 +21,35 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    private String username;
+    private String userName;
     private String name;
     private String surname;
     private String emailAddress;
     private Date birthDate;
     private String password;
     private String rol;
-    private List<Product> whishList;
-    private List<Product> lastSearches;
-    private List<Product> orders;
+    @OneToMany(mappedBy = "wish_list_item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WishListItem> wishList;
+    @OneToMany(mappedBy = "search", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Search> lastSearches;
+    @OneToMany(mappedBy = "buy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Buy> orders;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cart> carts;
 
     public UserDTO toDTO(){
         return new UserDTO(
                 this.id,
-                this.username,
+                this.userName,
                 this.name,
                 this.surname,
                 this.emailAddress,
                 this.birthDate,
                 this.password,
                 this.rol,
-                this.whishList,
+                this.wishList,
                 this.lastSearches,
-                this.orders);
+                this.orders,
+                this.carts);
     }
 }
