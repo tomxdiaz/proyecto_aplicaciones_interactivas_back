@@ -35,7 +35,7 @@ public class User {
     private String rol;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
-    private List<Cart> cart;
+    private Cart cart;
 
     @OneToMany(mappedBy = "buy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Buy> orders;
