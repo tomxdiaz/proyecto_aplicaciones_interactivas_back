@@ -20,7 +20,7 @@ public class UserDTO {
     private Date birthDate;
     private String password;
     private String rol;
-    private List<Cart> cart;
+    private Cart cart;
     private List<Buy> orders;
     private List<WishListItem> wishList;
     private List<Search> lastSearches;
