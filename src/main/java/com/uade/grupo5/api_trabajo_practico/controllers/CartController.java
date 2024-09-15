@@ -1,9 +1,7 @@
 package com.uade.grupo5.api_trabajo_practico.controllers;
 
 import com.uade.grupo5.api_trabajo_practico.dto.ItemDTO;
-import com.uade.grupo5.api_trabajo_practico.repositories.CartRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
-import com.uade.grupo5.api_trabajo_practico.repositories.entities.Item;
 import com.uade.grupo5.api_trabajo_practico.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
     @Autowired
     private CartService cartService;
-    @Autowired
-    private CartRepository cartRepository;
 
     // Obtener el carrito por ID
     @GetMapping("/{cartId}")
