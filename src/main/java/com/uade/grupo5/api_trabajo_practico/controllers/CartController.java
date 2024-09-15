@@ -1,5 +1,7 @@
 package com.uade.grupo5.api_trabajo_practico.controllers;
 
+import com.uade.grupo5.api_trabajo_practico.dto.ItemDTO;
+import com.uade.grupo5.api_trabajo_practico.repositories.CartRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Item;
 import com.uade.grupo5.api_trabajo_practico.services.CartService;
@@ -7,13 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @Controller
-@RequestMapping("/cart")
+@RequestMapping("/carts")
 public class CartController {
     @Autowired
     private CartService cartService;
+    @Autowired
+    private CartRepository cartRepository;
 
     // Obtener el carrito por ID
     @GetMapping("/{cartId}")
@@ -21,10 +24,16 @@ public class CartController {
         return cartService.getCartById(cartId);
     }
 
+    // Crear carrito (invocado al crear usuario - pasa ID por parametro)
+    @PostMapping("")
+    public Cart createCart(@RequestBody Long userID) {
+        return cartService.createCart(userID);
+    }
+
     // Agregar un ítem al carrito
     @PostMapping("/{cartId}/items")
-    public Cart addItemToCart(@PathVariable Long cartId, @RequestBody Item item) {
-        cartService.addItemToCart(cartId, item);
+    public Cart addItemToCart(@PathVariable Long cartId, @RequestBody ItemDTO itemDTO) {
+        cartService.addItemToCart(cartId, itemDTO);
         return cartService.getCartById(cartId);
     }
 
@@ -33,6 +42,11 @@ public class CartController {
     public Cart removeItemFromCart(@PathVariable Long cartId, @PathVariable Long productId) {
         cartService.removeItemFromCart(cartId, productId);
         return cartService.getCartById(cartId);
+    }
+    // Eliminar un ítem del carrito por el ID del producto
+    @DeleteMapping("/{cartId}")
+    public void removeCart(@PathVariable Long cartId) {
+        cartService.removeCart(cartId);
     }
 
 
