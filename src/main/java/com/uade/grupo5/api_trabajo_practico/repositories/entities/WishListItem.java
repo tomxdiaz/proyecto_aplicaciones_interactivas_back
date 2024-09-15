@@ -1,15 +1,13 @@
 package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
-import com.uade.grupo5.api_trabajo_practico.dto.BuyDTO;
+import com.uade.grupo5.api_trabajo_practico.dto.WishListItemDTO;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,29 +18,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Buy {
-  
+public class WishListItem {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  
-  private String buyDate;
-  
-  /* @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "cart_id")
-  private Cart cart; */
-  
+
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
 
-
-  public BuyDTO toDTO(){
-    return BuyDTO.builder()
-            /* .cart(this.cart.toDTO()) */
-            .buyDate(this.buyDate)
-            .user(this.user.toDTO())
-            .build();
+  @ManyToOne
+  @JoinColumn(name = "product_id")
+  private Product product;
+  
+  public WishListItemDTO toDTO(){
+    return WishListItemDTO.builder()
+                          .id(this.id)
+                          .user(this.user.toDTO())
+                          .product(this.product.toDTO())
+                          .build();
   }
-
 }

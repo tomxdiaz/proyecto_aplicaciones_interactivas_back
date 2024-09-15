@@ -30,6 +30,8 @@ public class Product {
     private String category;
     private boolean featured;
 
+    
+
     public ProductDTO toDTO() {
         return new ProductDTO(
                 this.id,

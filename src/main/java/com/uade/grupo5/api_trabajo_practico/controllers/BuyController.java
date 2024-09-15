@@ -23,7 +23,7 @@ public class BuyController {
     List<BuyDTO> buys = buyService.getBuys().stream()
         .map(buy -> BuyDTO.builder()
                     .id(buy.getId())
-                    .cartId(buy.getCartId())
+                    /* .cart(buy.getCart()) */
                     .buyDate(buy.getBuyDate())
                     .build())
         .toList();

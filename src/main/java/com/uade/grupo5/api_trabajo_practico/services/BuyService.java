@@ -15,7 +15,7 @@ public class BuyService {
   private BuyRepository buyRepository;
 
   public List<BuyDTO> getBuys() throws Exception{
-    List<Buy> buys = buyRepository.getBuys();
-    return buys.stream().map(buy -> buy.toDTO()).toList();
+    List<Buy> buys = buyRepository.findAll();
+    return buys.stream().map(Buy::toDTO).toList();
   }
 }
