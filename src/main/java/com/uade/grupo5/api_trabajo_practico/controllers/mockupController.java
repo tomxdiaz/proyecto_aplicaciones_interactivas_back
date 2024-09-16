@@ -19,8 +19,8 @@ public class mockupController {
   /* private CartService cartService; */
   private UserService userService;
 
-  public void initializeDB(){
-    /* productService.createProduct(new Product()) */
-  }
+  /* public void initializeDB(){
+    productService.createProduct(new Product())
+  } */
   
 }

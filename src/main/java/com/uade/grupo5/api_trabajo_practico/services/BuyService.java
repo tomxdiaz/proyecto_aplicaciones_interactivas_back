@@ -14,8 +14,7 @@ public class BuyService {
   @Autowired
   private BuyRepository buyRepository;
 
-  public List<BuyDTO> getBuys() throws Exception{
-    List<Buy> buys = buyRepository.findAll();
-    return buys.stream().map(Buy::toDTO).toList();
+  public List<Buy> getBuys() throws Exception{
+    return buyRepository.findAll();
   }
 }

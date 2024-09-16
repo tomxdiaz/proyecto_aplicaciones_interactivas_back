@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uade.grupo5.api_trabajo_practico.dto.BuyDTO;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
 import com.uade.grupo5.api_trabajo_practico.services.BuyService;
 
 @RestController
@@ -20,13 +21,7 @@ public class BuyController {
 
   @GetMapping("")
   public ResponseEntity<List<BuyDTO>> getBuys() throws Exception{
-    List<BuyDTO> buys = buyService.getBuys().stream()
-        .map(buy -> BuyDTO.builder()
-                    .id(buy.getId())
-                    /* .cart(buy.getCart()) */
-                    .buyDate(buy.getBuyDate())
-                    .build())
-        .toList();
+    List<BuyDTO> buys = buyService.getBuys().stream().map(Buy::toDTO).toList();
     
     return ResponseEntity.status(HttpStatus.OK).body(buys);
   }
