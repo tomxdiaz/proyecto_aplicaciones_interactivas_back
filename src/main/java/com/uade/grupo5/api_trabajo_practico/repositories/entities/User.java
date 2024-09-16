@@ -58,9 +58,9 @@ public class User {
                 this.password,
                 this.rol,
                 /* this.cart, */
-                this.orders.stream().map(Buy::toDTO).toList(),
-                this.wishList.stream().map(WishListItem::toDTO).toList(),
-                this.lastSearches.stream().map(Search::toDTO).toList()
+                this.orders.stream().map(buy -> buy.toDTO()).toList(),
+                this.wishList.stream().map(wish -> wish.toDTO()).toList(),
+                this.lastSearches.stream().map(search -> search.toDTO()).toList()
                 );
     }
 }

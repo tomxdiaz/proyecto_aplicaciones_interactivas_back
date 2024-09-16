@@ -1,5 +1,7 @@
 package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
+import java.util.Date;
+
 import com.uade.grupo5.api_trabajo_practico.dto.BuyDTO;
 
 import jakarta.persistence.CascadeType;
@@ -26,7 +28,7 @@ public class Buy {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   
-  private String buyDate;
+  private Date buyDate;
   
   /* @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "cart_id")
@@ -40,6 +42,7 @@ public class Buy {
   public BuyDTO toDTO(){
     return BuyDTO.builder()
             /* .cart(this.cart.toDTO()) */
+            .id(this.id)
             .buyDate(this.buyDate)
             .user(this.user.toDTO())
             .build();

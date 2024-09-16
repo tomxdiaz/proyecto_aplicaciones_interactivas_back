@@ -37,9 +37,9 @@ public class UserDTO {
                 this.password,
                 this.rol,
                 /* this.cart, */
-                this.orders.stream().map(BuyDTO::toEntity).toList(),
-                this.wishList.stream().map(WishListItemDTO::toEntity).toList(),
-                this.lastSearches.stream().map(SearchDTO::toEntity).toList()
+                this.orders.stream().map(buy -> buy.toEntity()).toList(),
+                this.wishList.stream().map(wish -> wish.toEntity()).toList(),
+                this.lastSearches.stream().map(search -> search.toEntity()).toList()
                 );
     }
 }

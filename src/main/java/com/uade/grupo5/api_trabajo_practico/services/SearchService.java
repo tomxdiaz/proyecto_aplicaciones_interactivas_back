@@ -13,7 +13,7 @@ public class SearchService {
   @Autowired
   private SearchRepository searchRepository;
   
-  public List<Search> getAllSearches(){
+  public List<Search> getAllSearches() throws Exception{
     return searchRepository.findAll();
   }
 }

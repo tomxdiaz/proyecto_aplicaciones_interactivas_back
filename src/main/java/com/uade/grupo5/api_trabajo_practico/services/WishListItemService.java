@@ -13,7 +13,7 @@ public class WishListItemService {
   @Autowired
   private WishListItemRepository wishListItemRepository;
 
-  public List<WishListItem> findAllWishList(){
+  public List<WishListItem> findAllWishList() throws Exception{
     return wishListItemRepository.findAll();
   }
 }
