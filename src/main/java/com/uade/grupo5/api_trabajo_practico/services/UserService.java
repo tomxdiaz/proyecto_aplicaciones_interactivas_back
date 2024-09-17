@@ -18,18 +18,18 @@ public class UserService {
 
     }
     public User createUser(
-                    User user) {
+                    User user) throws Exception{
             User createdUser = userRepository.save(user);
             return createdUser;
     }
 
     public User updateUser(
-                User user) {
+                User user) throws Exception{
             User updatedUser = userRepository.save(user);
             return updatedUser;
     }
 
-    public void deleteUser(Long id) {
+    public void deleteUser(Long id) throws Exception{
             userRepository.deleteById(id);
     }    
 

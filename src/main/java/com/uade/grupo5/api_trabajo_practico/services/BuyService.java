@@ -14,8 +14,20 @@ public class BuyService {
   @Autowired
   private BuyRepository buyRepository;
 
-  public List<BuyDTO> getBuys() throws Exception{
-    List<Buy> buys = buyRepository.getBuys();
-    return buys.stream().map(buy -> buy.toDTO()).toList();
+  public List<Buy> getBuys() throws Exception{
+    List<Buy> buys = buyRepository.findAll();
+    return buys;
   }
+
+  /* public List<Buy> getUserBuys(Long userId) throws Exception{
+    return buyRepository.findByUserId(userId);
+  } */
+
+  public void createBuy(Buy buy) throws Exception{
+    buyRepository.save(buy);
+  }
+
+  /* public void deleteBuy(Long id) throws Exception{
+
+  } */
 }

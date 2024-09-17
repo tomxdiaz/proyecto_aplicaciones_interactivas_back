@@ -27,8 +27,10 @@ public class Product {
     private List<String> images;
     private String additionalInfo;
     private int stock;
-    private String category;
+    /* private Category category; */
     private boolean featured;
+
+    
 
     public ProductDTO toDTO() {
         return new ProductDTO(
@@ -39,7 +41,7 @@ public class Product {
                 this.images,
                 this.additionalInfo,
                 this.stock,
-                this.category,
+                /* this.category, */
                 this.featured);
     }
 
