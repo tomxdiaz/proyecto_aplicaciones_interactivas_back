@@ -35,14 +35,14 @@ public class CategoryService {
             Category category) throws Exception {
 
         if (!categoryRepository.existsById(category.getId())) {
-            throw new IllegalArgumentException("The category whit the given 'id' does not exist.");
+            throw new IllegalArgumentException("The category with the given 'id' does not exist.");
         }
 
         Category updatedCategory = categoryRepository.save(category);
         return updatedCategory;
     }
 
-    public void deleteProduct(Long id) throws Exception {
+    public void deleteCategory(Long id) throws Exception {
         categoryRepository.deleteById(id);
     }
 

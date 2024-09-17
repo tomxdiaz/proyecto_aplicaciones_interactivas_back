@@ -35,7 +35,7 @@ public class ProductService {
                         Product product) throws Exception {
 
                 if (!productRepository.existsById(product.getId())) {
-                        throw new IllegalArgumentException("The product whit the given 'id' does not exist.");
+                        throw new IllegalArgumentException("The product with the given 'id' does not exist.");
                 }
 
                 Product updatedProduct = productRepository.save(product);
