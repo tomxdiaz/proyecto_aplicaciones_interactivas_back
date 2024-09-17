@@ -2,16 +2,15 @@ package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
 import java.util.List;
 
-import org.hibernate.annotations.CascadeType;
-
 import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,11 +30,11 @@ public class Product {
     private List<String> images;
     private String additionalInfo;
     private int stock;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id")
-    private Category category;
     private boolean featured;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public ProductDTO toDTO() {
         return new ProductDTO(
@@ -46,8 +45,8 @@ public class Product {
                 this.images,
                 this.additionalInfo,
                 this.stock,
-                this.category,
-                this.featured);
+                this.featured,
+                this.category);
     }
 
 }

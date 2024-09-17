@@ -2,6 +2,7 @@ package com.uade.grupo5.api_trabajo_practico.dto;
 
 import java.util.List;
 
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Category;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 
 import lombok.AllArgsConstructor;
@@ -17,8 +18,8 @@ public class ProductDTO {
     private List<String> images;
     private String additionalInfo;
     private int stock;
-    private String category;
     private boolean featured;
+    private Category category;
 
     public Product toEntity() {
         return new Product(
@@ -29,8 +30,8 @@ public class ProductDTO {
                 this.images,
                 this.additionalInfo,
                 this.stock,
-                this.category,
-                this.featured);
+                this.featured,
+                this.category);
     }
 
 }
