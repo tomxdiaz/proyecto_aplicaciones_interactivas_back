@@ -57,6 +57,12 @@ public class CartService {
         cartRepository.save(cart);
     }
 
+    public void emptyCart(Long cartId) {
+        Cart cart = getCartById(cartId);
+        cart.getItems().clear();
+        cartRepository.save(cart);
+    }
+
     public void removeCart(Long cartId) {
         cartRepository.deleteById(cartId);
     }

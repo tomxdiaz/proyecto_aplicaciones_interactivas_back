@@ -40,9 +40,9 @@ public class CartController {
         return cartService.getCartById(cartId);
     }
     // Eliminar un ítem del carrito por el ID del producto
-    @DeleteMapping("/{cartId}")
+    @PutMapping("/{cartId}")
     public void removeCart(@PathVariable Long cartId) {
-        cartService.removeCart(cartId);
+        cartService.emptyCart(cartId);
     }
 
 
