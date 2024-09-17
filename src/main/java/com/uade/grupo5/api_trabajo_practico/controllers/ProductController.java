@@ -24,6 +24,22 @@ public class ProductController {
         @Autowired
         private ProductService productService;
 
+        // ALTA: create a product
+        @PostMapping("")
+        public ResponseEntity<ProductDTO> createProduct(
+                        @RequestBody ProductDTO productDTO) throws Exception {
+
+                // The 'id' field must be null in order to create a new product
+                productDTO.setId(null);
+
+                Product product = productDTO.toEntity();
+
+                Product createdProduct = productService.createProduct(product);
+
+                ProductDTO createdProductDTO = createdProduct.toDTO();
+                return ResponseEntity.status(HttpStatus.CREATED).body(createdProductDTO);
+        }
+
         // CONSULTA: get all the list
         @GetMapping("")
         public ResponseEntity<List<ProductDTO>> getAllProducts() throws Exception {
@@ -47,20 +63,16 @@ public class ProductController {
                 return ResponseEntity.status(HttpStatus.OK).body(productDTO);
         }
 
-        // ALTA: create a product
-        @PostMapping("")
-        public ResponseEntity<ProductDTO> createProduct(
-                        @RequestBody ProductDTO productDTO) throws Exception {
+        @GetMapping("/category/{categoryId}")
+        public ResponseEntity<List<ProductDTO>> getAllProductsByCategory(
+                        @PathVariable Long categoryId) throws Exception {
+                List<Product> allProducts = productService.getAllProductsByCategoryId(categoryId);
 
-                // The 'id' field must be null in order to create a new product
-                productDTO.setId(null);
+                List<ProductDTO> allProductsDTO = allProducts.stream()
+                                .map(product -> product.toDTO())
+                                .toList();
 
-                Product product = productDTO.toEntity();
-
-                Product createdProduct = productService.createProduct(product);
-
-                ProductDTO createdProductDTO = createdProduct.toDTO();
-                return ResponseEntity.status(HttpStatus.CREATED).body(createdProductDTO);
+                return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
         }
 
         // MODIFY: update
