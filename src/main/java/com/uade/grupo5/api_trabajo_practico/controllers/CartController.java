@@ -27,14 +27,14 @@ public class CartController {
     }
 
     // Agregar un ítem al carrito
-    @PostMapping("/{cartId}/items")
+    @PostMapping("/{cartId}/item")
     public Cart addItemToCart(@PathVariable Long cartId, @RequestBody ItemDTO itemDTO) {
         cartService.addItemToCart(cartId, itemDTO);
         return cartService.getCartById(cartId);
     }
 
     // Eliminar un ítem del carrito por el ID del producto
-    @DeleteMapping("/{cartId}/items/{productId}")
+    @DeleteMapping("/{cartId}/item/{productId}")
     public Cart removeItemFromCart(@PathVariable Long cartId, @PathVariable Long productId) {
         cartService.removeItemFromCart(cartId, productId);
         return cartService.getCartById(cartId);
