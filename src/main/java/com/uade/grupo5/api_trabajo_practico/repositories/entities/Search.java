@@ -4,7 +4,6 @@ import java.sql.Date;
 
 import com.uade.grupo5.api_trabajo_practico.dto.SearchDTO;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,21 +24,21 @@ public class Search {
   private Long id;
 
   private Date date;
-  
+
   @ManyToOne
   @JoinColumn(name = "product_id")
   private Product product;
-  
+
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
-  
-  public SearchDTO toDTO(){
+
+  public SearchDTO toDTO() {
     return SearchDTO.builder()
-                 .id(this.id)
-                 .date(this.date)
-                 .product(this.product.toDTO())
-                 .user(this.user.toDTO())
-                 .build();
+        .id(this.id)
+        .date(this.date)
+        .product(this.product.toDTO())
+        .user(this.user.toDTO())
+        .build();
   }
 }
