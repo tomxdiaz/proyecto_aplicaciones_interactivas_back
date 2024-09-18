@@ -17,8 +17,8 @@ public class ProductDTO {
     private List<String> images;
     private String additionalInfo;
     private int stock;
-    /* private CategoryDTO category; */
     private boolean featured;
+    private CategoryDTO category;
 
     public Product toEntity() {
         return new Product(
@@ -29,8 +29,8 @@ public class ProductDTO {
                 this.images,
                 this.additionalInfo,
                 this.stock,
-                /* this.category, */
-                this.featured);
+                this.featured,
+                this.category.toEntity());
     }
 
 }
