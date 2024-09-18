@@ -19,32 +19,12 @@ import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 import com.uade.grupo5.api_trabajo_practico.services.ProductService;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/product")
 public class ProductController {
         @Autowired
         private ProductService productService;
-//CONSULTA:  get all the list
-        @GetMapping("")
-        public ResponseEntity<List<ProductDTO>> getAllProducts() throws Exception {
-                List<Product> allProducts = productService.getAllProducts();
 
-                List<ProductDTO> allProductsDTO = allProducts.stream()
-                                .map(product -> product.toDTO())
-                                .toList();
-
-                return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
-        }
-//CONSULTA: get a product by its id
-        @GetMapping("/{id}")
-        public ResponseEntity<ProductDTO> getProductById(
-                        @PathVariable Long id) throws Exception {
-
-                Product product = productService.getProductById(id);
-
-                ProductDTO productDTO = product.toDTO();
-                return ResponseEntity.status(HttpStatus.OK).body(productDTO);
-        }
-//ALTA: create a product
+        // ALTA: create a product
         @PostMapping("")
         public ResponseEntity<ProductDTO> createProduct(
                         @RequestBody ProductDTO productDTO) throws Exception {
@@ -59,7 +39,43 @@ public class ProductController {
                 ProductDTO createdProductDTO = createdProduct.toDTO();
                 return ResponseEntity.status(HttpStatus.CREATED).body(createdProductDTO);
         }
-//MODIFY: update
+
+        // CONSULTA: get all the list
+        @GetMapping("")
+        public ResponseEntity<List<ProductDTO>> getAllProducts() throws Exception {
+                List<Product> allProducts = productService.getAllProducts();
+
+                List<ProductDTO> allProductsDTO = allProducts.stream()
+                                .map(product -> product.toDTO())
+                                .toList();
+
+                return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
+        }
+
+        // CONSULTA: get a product by its id
+        @GetMapping("/{id}")
+        public ResponseEntity<ProductDTO> getProductById(
+                        @PathVariable Long id) throws Exception {
+
+                Product product = productService.getProductById(id);
+
+                ProductDTO productDTO = product.toDTO();
+                return ResponseEntity.status(HttpStatus.OK).body(productDTO);
+        }
+
+        @GetMapping("/category/{categoryId}")
+        public ResponseEntity<List<ProductDTO>> getAllProductsByCategory(
+                        @PathVariable Long categoryId) throws Exception {
+                List<Product> allProducts = productService.getAllProductsByCategoryId(categoryId);
+
+                List<ProductDTO> allProductsDTO = allProducts.stream()
+                                .map(product -> product.toDTO())
+                                .toList();
+
+                return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
+        }
+
+        // MODIFY: update
         @PutMapping("/{id}")
         public ResponseEntity<ProductDTO> updateProduct(
                         @RequestBody ProductDTO productDTO) throws Exception {
@@ -71,7 +87,8 @@ public class ProductController {
                 ProductDTO updatedProductDTO = updatedProduct.toDTO();
                 return ResponseEntity.status(HttpStatus.OK).body(updatedProductDTO);
         }
-   //BAJA: delete
+
+        // BAJA: delete
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> deleteProduct(
                         @PathVariable Long id) throws Exception {
