@@ -19,7 +19,7 @@ import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 import com.uade.grupo5.api_trabajo_practico.services.ProductService;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/product")
 public class ProductController {
         @Autowired
         private ProductService productService;

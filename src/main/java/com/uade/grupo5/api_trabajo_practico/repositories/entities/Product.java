@@ -3,8 +3,6 @@ package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 import java.util.List;
 
 import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +30,7 @@ public class Product {
     private int stock;
     private boolean featured;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -46,7 +44,7 @@ public class Product {
                 this.additionalInfo,
                 this.stock,
                 this.featured,
-                this.category);
+                this.category.toDTO());
     }
 
 }
