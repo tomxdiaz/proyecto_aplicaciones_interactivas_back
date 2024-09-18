@@ -20,7 +20,7 @@ import com.uade.grupo5.api_trabajo_practico.services.UserService;
 
 @RestController
 @RequestMapping("/mockup")
-public class MockupController {
+public class mockupController {
 
         @Autowired
         private BuyService buyService;
