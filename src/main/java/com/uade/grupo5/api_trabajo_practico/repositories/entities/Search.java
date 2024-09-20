@@ -2,6 +2,7 @@ package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.uade.grupo5.api_trabajo_practico.dto.SearchDTO;
 
 import jakarta.persistence.Entity;
@@ -31,14 +32,15 @@ public class Search {
 
   @ManyToOne
   @JoinColumn(name = "user_id")
+  @JsonBackReference
   private User user;
 
   public SearchDTO toDTO() {
     return SearchDTO.builder()
         .id(this.id)
         .date(this.date)
-        .product(this.product.toDTO())
-        .user(this.user.toDTO())
+        .product(this.product)
+        .user(user)
         .build();
   }
 }

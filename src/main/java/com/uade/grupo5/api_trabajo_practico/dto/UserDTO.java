@@ -1,9 +1,12 @@
 package com.uade.grupo5.api_trabajo_practico.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Search;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.WishListItem;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,13 +21,13 @@ public class UserDTO {
     private String name;
     private String surname;
     private String emailAddress;
-    private Date birthDate;
+    private LocalDate birthDate;
     private String password;
     private String rol;
     /* private Cart cart; */
-    private List<BuyDTO> orders;
-    private List<WishListItemDTO> wishList;
-    private List<SearchDTO> lastSearches;
+    private List<Buy> orders;
+    private List<WishListItem> wishList;
+    private List<Search> lastSearches;
 
     public User toEntity() {
         return new User(
@@ -37,9 +40,8 @@ public class UserDTO {
                 this.password,
                 this.rol,
                 /* this.cart, */
-                this.orders.stream().map(buy -> buy.toEntity()).toList(),
-                this.wishList.stream().map(wish -> wish.toEntity()).toList(),
-                this.lastSearches.stream().map(search -> search.toEntity()).toList()
-                );
+                this.orders,
+                this.wishList,
+                this.lastSearches);
     }
 }
