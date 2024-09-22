@@ -14,6 +14,13 @@ public class ProductService {
         @Autowired
         private ProductRepository productRepository;
 
+        public Product createProduct(
+                        Product product) throws Exception {
+
+                Product createdProduct = productRepository.save(product);
+                return createdProduct;
+        }
+
         public List<Product> getAllProducts() throws Exception {
                 List<Product> products = productRepository.findAll();
                 return products;
@@ -24,18 +31,16 @@ public class ProductService {
                 return product;
         }
 
-        public Product createProduct(
-                        Product product) throws Exception {
-
-                Product createdProduct = productRepository.save(product);
-                return createdProduct;
+        public List<Product> getAllProductsByCategoryId(Long categoryId) throws Exception {
+                List<Product> products = productRepository.findAllByCategoryId(categoryId);
+                return products;
         }
 
         public Product updateProduct(
                         Product product) throws Exception {
 
                 if (!productRepository.existsById(product.getId())) {
-                        throw new IllegalArgumentException("The product whit the given 'id' does not exist.");
+                        throw new IllegalArgumentException("The product with the given 'id' does not exist.");
                 }
 
                 Product updatedProduct = productRepository.save(product);

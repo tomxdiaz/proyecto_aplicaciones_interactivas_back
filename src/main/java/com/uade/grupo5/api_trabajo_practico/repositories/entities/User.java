@@ -3,17 +3,14 @@ package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.annotations.CascadeType;
-
 import com.uade.grupo5.api_trabajo_practico.dto.UserDTO;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,17 +30,21 @@ public class User {
     private Date birthDate;
     private String password;
     private String rol;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
 
-    @OneToMany(mappedBy = "buy", cascade = CascadeType.ALL, orphanRemoval = true)
+    /*
+     * @OneToOne(cascade = CascadeType.ALL)
+     * 
+     * @JoinColumn(name = "cart_id")
+     * private Cart cart;
+     */
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Buy> orders;
 
-    @OneToMany(mappedBy = "wish_list_item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WishListItem> wishList;
 
-    @OneToMany(mappedBy = "search", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Search> lastSearches;
 
     public UserDTO toDTO() {
@@ -56,9 +57,9 @@ public class User {
                 this.birthDate,
                 this.password,
                 this.rol,
-                this.wishList,
-                this.lastSearches,
-                this.orders,
-                this.cart);
+                /* this.cart, */
+                this.orders.stream().map(buy -> buy.toDTO()).toList(),
+                this.wishList.stream().map(wish -> wish.toDTO()).toList(),
+                this.lastSearches.stream().map(search -> search.toDTO()).toList());
     }
 }

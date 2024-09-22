@@ -19,15 +19,22 @@ public class BuyController {
   private BuyService buyService;
 
   @GetMapping("")
-  public ResponseEntity<List<BuyDTO>> getBuys() throws Exception{
-    List<BuyDTO> buys = buyService.getBuys().stream()
-        .map(buy -> BuyDTO.builder()
-                    .id(buy.getId())
-                    .cartId(buy.getCartId())
-                    .buyDate(buy.getBuyDate())
-                    .build())
-        .toList();
-    
+  public ResponseEntity<List<BuyDTO>> getBuys() throws Exception {
+    List<BuyDTO> buys = buyService.getBuys().stream().map(buy -> buy.toDTO()).toList();
+
     return ResponseEntity.status(HttpStatus.OK).body(buys);
   }
+
+  /*
+   * // @TODO: Este metodo aun no funciona
+   * 
+   * @GetMapping("/{id}")
+   * public ResponseEntity<List<BuyDTO>> getUserBuys(@PathVariable Long id) throws
+   * Exception{
+   * List<BuyDTO> buys =
+   * buyService.getUserBuys(id).stream().map(Buy::toDTO).toList();
+   * 
+   * return ResponseEntity.status(HttpStatus.OK).body(buys);
+   * }
+   */
 }
