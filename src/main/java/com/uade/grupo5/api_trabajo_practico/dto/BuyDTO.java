@@ -1,8 +1,9 @@
 package com.uade.grupo5.api_trabajo_practico.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,18 +14,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BuyDTO{
+public class BuyDTO {
   private long id;
   /* private Cart cart; */
-  private Date buyDate;
-  private UserDTO user;
+  private LocalDate buyDate;
+  private User user;
 
-  public Buy toEntity(){
+  public Buy toEntity() {
     return Buy.builder()
-              /* .cart(this.cartId.toDTO()) */
-              .buyDate(this.buyDate)
-              .user(this.user.toEntity())
-              .build();
+        /* .cart(this.cartId.toDTO()) */
+        .buyDate(this.buyDate)
+        .user(this.user)
+        .build();
 
   }
 }

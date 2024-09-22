@@ -13,7 +13,7 @@ public class BuyService {
   @Autowired
   private BuyRepository buyRepository;
 
-  public List<Buy> getBuys() throws Exception {
+  public List<Buy> getAllBuys() throws Exception {
     List<Buy> buys = buyRepository.findAll();
     return buys;
   }
@@ -24,8 +24,9 @@ public class BuyService {
    * }
    */
 
-  public void createBuy(Buy buy) throws Exception {
-    buyRepository.save(buy);
+  public Buy createBuy(Buy buy) throws Exception {
+    Buy createdBuy = buyRepository.save(buy);
+    return createdBuy;
   }
 
   /*

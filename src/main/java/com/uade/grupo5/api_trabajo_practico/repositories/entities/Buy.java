@@ -1,7 +1,8 @@
 package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.uade.grupo5.api_trabajo_practico.dto.BuyDTO;
 
 import jakarta.persistence.Entity;
@@ -26,7 +27,7 @@ public class Buy {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Date buyDate;
+  private LocalDate buyDate;
 
   /*
    * @OneToOne(cascade = CascadeType.ALL)
@@ -37,14 +38,14 @@ public class Buy {
 
   @ManyToOne
   @JoinColumn(name = "user_id")
+  @JsonBackReference
   private User user;
 
   public BuyDTO toDTO() {
     return BuyDTO.builder()
-        /* .cart(this.cart.toDTO()) */
         .id(this.id)
         .buyDate(this.buyDate)
-        .user(this.user.toDTO())
+        .user(user)
         .build();
   }
 
