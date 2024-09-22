@@ -25,7 +25,6 @@ public class Product {
     private String title;
     private String description;
     private double price;
-    @ElementCollection
     private List<String> images;
     private String additionalInfo;
     private int stock;
