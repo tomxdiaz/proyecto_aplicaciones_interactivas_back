@@ -36,8 +36,8 @@ public class CartController {
     @PostMapping("")
     public ResponseEntity<?> createCart(@RequestBody Long userID) {
       try{
-        Cart cart =  cartService.createCart(userID);
-        return ResponseEntity.status(HttpStatus.OK).body(cart.toDTO());
+        cartService.createCart(userID);
+        return ResponseEntity.status(HttpStatus.OK).body("Carrito creado correctamente!");
       }catch(Exception error){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
       }

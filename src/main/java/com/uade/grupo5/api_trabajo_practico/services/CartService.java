@@ -8,6 +8,7 @@ import com.uade.grupo5.api_trabajo_practico.repositories.entities.Item;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class CartService {
         // Guardar el carrito actualizado
         cartRepository.save(cart);
         return item;
+
     }
 
     public List<Item> getItemsByCart(Long cartId) throws Exception{
@@ -72,7 +74,7 @@ public class CartService {
         return total;
     }
 
-
+    @Transactional
 
 
     public void removeItemFromCart(Long cartId, Long productId) throws Exception{
