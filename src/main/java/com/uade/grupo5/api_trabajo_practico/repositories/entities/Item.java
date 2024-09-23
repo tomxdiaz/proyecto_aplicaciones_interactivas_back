@@ -1,5 +1,7 @@
 package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.uade.grupo5.api_trabajo_practico.dto.ItemDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +19,7 @@ public class Item {
 
     @ManyToOne
     @JoinColumn(name = "cart_id", nullable = false)
+    @JsonBackReference
     private Cart cart;
 
     private int quantity;
@@ -24,4 +27,8 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
+
+    public ItemDTO toDTO() {
+        return new ItemDTO(this.id ,this.product.getId(), this.quantity);
+    }
 }

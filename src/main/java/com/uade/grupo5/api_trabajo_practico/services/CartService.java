@@ -9,6 +9,8 @@ import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CartService {
     @Autowired
@@ -16,14 +18,14 @@ public class CartService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Cart createCart(Long userID) {
+    public void createCart(Long userID) {
         if (userID == null) {
             throw new IllegalArgumentException("userID cannot be null");
         }
 
         Cart newCart = new Cart();
         newCart.setUserID(userID);
-        return cartRepository.save(newCart);
+        cartRepository.save(newCart);
     }
 
     public Cart getCartById(Long cartId) {
@@ -31,7 +33,12 @@ public class CartService {
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
     }
 
-    public void addItemToCart(Long cartId, ItemDTO itemDTO) {
+    public List<Item> getItemsByCart(Long cartId) {
+        return cartRepository.findById(cartId).get().getItems();
+    }
+
+
+    public Item addItemToCart(Long cartId, ItemDTO itemDTO) {
         // Obtener el carrito por ID
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
         Product product = productRepository.findById(itemDTO.getProductId())
@@ -48,6 +55,21 @@ public class CartService {
 
         // Guardar el carrito actualizado
         cartRepository.save(cart);
+        return item;
+    }
+
+    public double getItemSubtotal(Long cartId, int itemId) {
+        Item item = cartRepository.findById(cartId).get().getItems().get(itemId);
+        return item.getQuantity() * item.getProduct().getPrice();
+    }
+
+    public double getTotal(Long cartId) {
+        List<Item> products = cartRepository.findById(cartId).get().getItems();
+        double total = 0;
+        for (Item item : products) {
+            total += item.getQuantity() * item.getProduct().getPrice();
+        }
+        return total;
     }
 
 

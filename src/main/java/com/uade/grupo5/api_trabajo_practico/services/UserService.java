@@ -11,6 +11,8 @@ import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CartService cartService;
 
     public User getUserById(Long id) throws Exception {
         User user= userRepository.getReferenceById(id);
@@ -20,6 +22,7 @@ public class UserService {
     public User createUser(
                     User user) throws Exception{
             User createdUser = userRepository.save(user);
+            cartService.createCart(user.getId());
             return createdUser;
     }
 

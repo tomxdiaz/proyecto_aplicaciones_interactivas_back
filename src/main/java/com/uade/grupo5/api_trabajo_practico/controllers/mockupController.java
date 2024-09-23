@@ -3,6 +3,7 @@ package com.uade.grupo5.api_trabajo_practico.controllers;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.uade.grupo5.api_trabajo_practico.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,8 @@ public class mockupController {
 
         @Autowired
         private UserService userService;
+    @Autowired
+    private CartService cartService;
 
         @GetMapping("/initialize")
         public ResponseEntity<Void> initializeDB() throws Exception {
@@ -77,6 +80,10 @@ public class mockupController {
                 User usuario = userService.getUserById(2L);
 
                 buyService.createBuy(new Buy(null, LocalDate.now(), usuario));
+
+//                cartService.addItemToCart(1L, new ItemDTO(null,1L , 5 ));
+//                cartService.addItemToCart(1L, new ItemDTO(null,2L , 2 ));
+//                cartService.addItemToCart(1L, new ItemDTO(null,3L , 3 ));
 
                 return ResponseEntity.status(HttpStatus.OK).body(null);
         }
