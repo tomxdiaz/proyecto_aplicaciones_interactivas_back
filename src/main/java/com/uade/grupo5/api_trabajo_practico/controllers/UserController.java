@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,43 +22,38 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) throws Exception{
-        User user = userService.getUserById(id);
-        UserDTO userDTO = user.toDTO();
-        return ResponseEntity.status( HttpStatus.OK).body(userDTO);
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        try{
+          User user = userService.getUserById(id);
+          UserDTO userDTO = user.toDTO();
+          return ResponseEntity.status( HttpStatus.OK).body(userDTO);
+        }catch(Exception error){
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+        }
     }
-//ALTA: create a user
-    @PostMapping("")
-    public ResponseEntity<UserDTO> createUser(
-                    @RequestBody UserDTO userDTO) throws Exception {
 
-            User user = userDTO.toEntity();
-
-            User createdUser = userService.createUser(user);
-
-            UserDTO createdUserDTO = createdUser.toDTO();
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdUserDTO);
-    }
-//MODIFY: update
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(
-                    @RequestBody UserDTO userDTO) throws Exception {
+    public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
+      try{
+        User user = userDTO.toEntity();
 
-            User user = userDTO.toEntity();
+        User updatedUser = userService.updateUser(user);
 
-            User updatedUser = userService.updateUser(user);
-
-            UserDTO updatedUserDTO = updatedUser.toDTO();
-            return ResponseEntity.status(HttpStatus.OK).body(updatedUserDTO);
+        UserDTO updatedUserDTO = updatedUser.toDTO();
+        return ResponseEntity.status(HttpStatus.OK).body(updatedUserDTO);
+      }catch(Exception error){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+      }
     }
-//BAJA: delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(
-                    @PathVariable Long id) throws Exception {
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+      try{
+        userService.deleteUser(id);
 
-            userService.deleteUser(id);
-
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+      }catch(Exception error){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+      }
 }
 
 }
