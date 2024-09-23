@@ -16,7 +16,7 @@ public class CartService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Cart createCart(Long userID) throws Exception{
+    public Cart createCart(Long userID) throws Exception {
         if (userID == null) {
             throw new IllegalArgumentException("userID cannot be null");
         }
@@ -26,12 +26,12 @@ public class CartService {
         return cartRepository.save(newCart);
     }
 
-    public Cart getCartById(Long cartId) throws Exception{
+    public Cart getCartById(Long cartId) throws Exception {
         return cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
     }
 
-    public void addItemToCart(Long cartId, ItemDTO itemDTO) throws Exception{
+    public void addItemToCart(Long cartId, ItemDTO itemDTO) throws Exception {
         // Obtener el carrito por ID
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
         Product product = productRepository.findById(itemDTO.getProductId())
@@ -50,16 +50,14 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-
-    public void removeItemFromCart(Long cartId, Long productId) throws Exception{
+    public void removeItemFromCart(Long cartId, Long productId) throws Exception {
         Cart cart = getCartById(cartId);
         cart.getItems().removeIf(item -> item.getProduct().getId().equals(productId));
         cartRepository.save(cart);
     }
 
-    public void removeCart(Long cartId) throws Exception{
+    public void removeCart(Long cartId) throws Exception {
         cartRepository.deleteById(cartId);
     }
-
 
 }

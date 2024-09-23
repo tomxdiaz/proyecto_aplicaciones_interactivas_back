@@ -11,7 +11,10 @@ import com.uade.grupo5.api_trabajo_practico.repositories.UserRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.AuthenticationRequest;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.AuthenticationResponse;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.RegisterRequest;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Role;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Service
@@ -27,9 +30,11 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public AuthenticationResponse register(RegisterRequest request) throws Exception {
-    User user = new User(null, request.getUserName(), request.getName(), request.getSurname(),
-        request.getEmailAddress(), request.getBirthDate(), passwordEncoder.encode(request.getPassword()),
-        request.getRol(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    User user = new User(null, request.getUsername(), request.getName(), request.getLastName(),
+        request.getEmailAddress(),
+        LocalDate.parse(request.getBirthDate()),
+        passwordEncoder.encode(request.getPassword()),
+        Role.USER, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
     userRepository.save(user);
     String jwtToken = jwtService.generateToken(user);
@@ -41,9 +46,9 @@ public class AuthenticationService {
   public AuthenticationResponse authenticate(AuthenticationRequest request) throws Exception {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
-            request.getUserName(),
+            request.getUsername(),
             request.getPassword()));
-    User user = userRepository.findByUserName(request.getUserName())
+    User user = userRepository.findByUsername(request.getUsername())
         .orElseThrow();
     String jwtToken = jwtService.generateToken(user);
     return AuthenticationResponse.builder()

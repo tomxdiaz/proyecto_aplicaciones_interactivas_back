@@ -152,7 +152,7 @@
 											"top": 557,
 											"width": 171.8662109375,
 											"height": 13,
-											"text": "+userName: String",
+											"text": "+username: String",
 											"horizontalAlignment": 0
 										},
 										{
@@ -5032,7 +5032,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGRz33Y4/cQZNQ="
 							},
-							"name": "userName",
+							"name": "username",
 							"type": "String"
 						},
 						{

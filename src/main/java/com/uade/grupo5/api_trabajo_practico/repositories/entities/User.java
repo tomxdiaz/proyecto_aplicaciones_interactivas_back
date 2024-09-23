@@ -19,6 +19,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,31 +32,48 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
-    private String userName;
+    @NotNull
+    @Column(nullable = false, unique = true)
+    private String username;
+    @NotNull
+    @Column(nullable = false)
     private String name;
+    @NotNull
+    @Column(nullable = false)
     private String lastName;
+    @NotNull
+    @Column(nullable = false)
     private String emailAddress;
+    @NotNull
+    @Column(nullable = false)
     private LocalDate birthDate;
+    @NotNull
+    @Column(nullable = false)
     private String password;
+    @NotNull
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role rol;
 
-    /*
-     * @OneToOne(cascade = CascadeType.ALL)
-     * 
-     * @JoinColumn(name = "cart_id")
-     * private Cart cart;
-     */
+    // @NotNull
+    // @OneToOne(cascade = CascadeType.ALL)
+    // @JoinColumn(nullable = false, name = "cart_id")
+    // private Cart cart;
 
+    @NotNull
+    @Column(nullable = false)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Buy> orders;
 
+    @NotNull
+    @Column(nullable = false)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<WishListItem> wishList;
 
+    @NotNull
+    @Column(nullable = false)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Search> lastSearches;
@@ -63,7 +81,7 @@ public class User implements UserDetails {
     public UserDTO toDTO() {
         return new UserDTO(
                 this.id,
-                this.userName,
+                this.username,
                 this.name,
                 this.lastName,
                 this.emailAddress,
@@ -81,8 +99,4 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority(rol.name()));
     }
 
-    @Override
-    public String getUsername() {
-        return this.userName;
-    }
 }

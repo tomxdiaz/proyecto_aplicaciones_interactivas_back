@@ -25,12 +25,12 @@ public class WishListItem {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "user_id")
+  @JoinColumn(nullable = false, name = "user_id")
   @JsonBackReference
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "product_id")
+  @JoinColumn(nullable = false, name = "product_id")
   private Product product;
 
   public WishListItemDTO toDTO() {
