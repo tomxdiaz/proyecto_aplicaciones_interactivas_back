@@ -36,16 +36,6 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.OK).body(allCategoriesDTO);
     }
 
-    // @GetMapping("/{id}")
-    // public ResponseEntity<CategoryDTO> getCategoryById(
-    // @PathVariable Long id) throws Exception {
-
-    // Category category = categoryService.getCategoryById(id);
-
-    // CategoryDTO categoryDTO = category.toDTO();
-    // return ResponseEntity.status(HttpStatus.OK).body(categoryDTO);
-    // }
-
     @PostMapping("")
     public ResponseEntity<CategoryDTO> createCategory(
             @RequestBody CategoryDTO categoryDTO) throws Exception {
