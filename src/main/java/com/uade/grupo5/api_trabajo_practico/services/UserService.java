@@ -13,20 +13,13 @@ public class UserService {
     private UserRepository userRepository;
 
     public User getUserById(Long id) throws Exception {
-        User user= userRepository.getReferenceById(id);
-        return user;
+        return userRepository.getReferenceById(id);
 
-    }
-    public User createUser(
-                    User user) throws Exception{
-            User createdUser = userRepository.save(user);
-            return createdUser;
     }
 
     public User updateUser(
                 User user) throws Exception{
-            User updatedUser = userRepository.save(user);
-            return updatedUser;
+            return userRepository.save(user);
     }
 
     public void deleteUser(Long id) throws Exception{

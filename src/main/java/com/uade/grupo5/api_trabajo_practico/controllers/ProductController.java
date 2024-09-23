@@ -26,76 +26,92 @@ public class ProductController {
 
         // ALTA: create a product
         @PostMapping("")
-        public ResponseEntity<ProductDTO> createProduct(
-                        @RequestBody ProductDTO productDTO) throws Exception {
+        public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO) {
+          try{
+            // The 'id' field must be null in order to create a new product
+            productDTO.setId(null);
 
-                // The 'id' field must be null in order to create a new product
-                productDTO.setId(null);
+            Product product = productDTO.toEntity();
 
-                Product product = productDTO.toEntity();
+            Product createdProduct = productService.createProduct(product);
 
-                Product createdProduct = productService.createProduct(product);
-
-                ProductDTO createdProductDTO = createdProduct.toDTO();
-                return ResponseEntity.status(HttpStatus.CREATED).body(createdProductDTO);
+            ProductDTO createdProductDTO = createdProduct.toDTO();
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdProductDTO);
+          }catch(Exception error){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+          }
         }
 
         // CONSULTA: get all the list
         @GetMapping("")
-        public ResponseEntity<List<ProductDTO>> getAllProducts() throws Exception {
-                List<Product> allProducts = productService.getAllProducts();
+        public ResponseEntity<?> getAllProducts() {
+          try{
+            // The 'id' field must be null in order to create a new product
+            List<Product> allProducts = productService.getAllProducts();
 
-                List<ProductDTO> allProductsDTO = allProducts.stream()
-                                .map(product -> product.toDTO())
-                                .toList();
+            List<ProductDTO> allProductsDTO = allProducts.stream()
+                            .map(product -> product.toDTO())
+                            .toList();
 
-                return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
+          }catch(Exception error){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+          }
         }
 
         // CONSULTA: get a product by its id
         @GetMapping("/{id}")
-        public ResponseEntity<ProductDTO> getProductById(
-                        @PathVariable Long id) throws Exception {
+        public ResponseEntity<?> getProductById(@PathVariable Long id) {
+          try{
+            Product product = productService.getProductById(id);
 
-                Product product = productService.getProductById(id);
-
-                ProductDTO productDTO = product.toDTO();
-                return ResponseEntity.status(HttpStatus.OK).body(productDTO);
+            ProductDTO productDTO = product.toDTO();
+            return ResponseEntity.status(HttpStatus.OK).body(productDTO);
+          }catch(Exception error){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+          }
         }
 
         @GetMapping("/category/{categoryId}")
-        public ResponseEntity<List<ProductDTO>> getAllProductsByCategory(
-                        @PathVariable Long categoryId) throws Exception {
-                List<Product> allProducts = productService.getAllProductsByCategoryId(categoryId);
+        public ResponseEntity<?> getAllProductsByCategory(@PathVariable Long categoryId) {
+          try{
+            List<Product> allProducts = productService.getAllProductsByCategoryId(categoryId);
 
-                List<ProductDTO> allProductsDTO = allProducts.stream()
-                                .map(product -> product.toDTO())
-                                .toList();
+            List<ProductDTO> allProductsDTO = allProducts.stream()
+                            .map(product -> product.toDTO())
+                            .toList();
 
-                return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
+          }catch(Exception error){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+          }
         }
 
         // MODIFY: update
         @PutMapping("/{id}")
-        public ResponseEntity<ProductDTO> updateProduct(
-                        @RequestBody ProductDTO productDTO) throws Exception {
+        public ResponseEntity<?> updateProduct(@RequestBody ProductDTO productDTO) {
+          try{
+            Product product = productDTO.toEntity();
 
-                Product product = productDTO.toEntity();
+            Product updatedProduct = productService.updateProduct(product);
 
-                Product updatedProduct = productService.updateProduct(product);
-
-                ProductDTO updatedProductDTO = updatedProduct.toDTO();
-                return ResponseEntity.status(HttpStatus.OK).body(updatedProductDTO);
+            ProductDTO updatedProductDTO = updatedProduct.toDTO();
+            return ResponseEntity.status(HttpStatus.OK).body(updatedProductDTO);
+          }catch(Exception error){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+          }
         }
 
         // BAJA: delete
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteProduct(
-                        @PathVariable Long id) throws Exception {
+        public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+          try{
+            productService.deleteProduct(id);
 
-                productService.deleteProduct(id);
-
-                return ResponseEntity.status(HttpStatus.OK).body(null);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+          }catch(Exception error){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+          }
         }
 
 }

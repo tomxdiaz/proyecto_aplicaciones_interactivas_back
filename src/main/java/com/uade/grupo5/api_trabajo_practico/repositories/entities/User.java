@@ -1,12 +1,20 @@
 package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uade.grupo5.api_trabajo_practico.dto.UserDTO;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,17 +27,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String userName;
     private String name;
-    private String surname;
+    private String lastName;
     private String emailAddress;
     private LocalDate birthDate;
     private String password;
-    private String rol;
+    @Enumerated(EnumType.STRING)
+    private Role rol;
 
     /*
      * @OneToOne(cascade = CascadeType.ALL)
@@ -55,7 +65,7 @@ public class User {
                 this.id,
                 this.userName,
                 this.name,
-                this.surname,
+                this.lastName,
                 this.emailAddress,
                 this.birthDate,
                 this.password,
@@ -64,5 +74,15 @@ public class User {
                 this.orders,
                 this.wishList,
                 this.lastSearches);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(rol.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return this.userName;
     }
 }
