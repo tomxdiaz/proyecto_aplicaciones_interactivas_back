@@ -20,9 +20,9 @@ public class BuyController {
 
   @GetMapping("")
   public ResponseEntity<List<BuyDTO>> getBuys() throws Exception {
-    List<BuyDTO> buys = buyService.getBuys().stream().map(buy -> buy.toDTO()).toList();
+    List<BuyDTO> allBuysDTO = buyService.getAllBuys().stream().map(buy -> buy.toDTO()).toList();
 
-    return ResponseEntity.status(HttpStatus.OK).body(buys);
+    return ResponseEntity.status(HttpStatus.OK).body(allBuysDTO);
   }
 
   /*

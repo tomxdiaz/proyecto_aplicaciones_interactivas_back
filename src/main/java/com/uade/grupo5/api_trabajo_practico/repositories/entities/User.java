@@ -1,10 +1,10 @@
 package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uade.grupo5.api_trabajo_practico.dto.UserDTO;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +27,7 @@ public class User {
     private String name;
     private String surname;
     private String emailAddress;
-    private Date birthDate;
+    private LocalDate birthDate;
     private String password;
     private String rol;
 
@@ -38,13 +38,16 @@ public class User {
      * private Cart cart;
      */
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Buy> orders;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<WishListItem> wishList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Search> lastSearches;
 
     public UserDTO toDTO() {
@@ -58,8 +61,8 @@ public class User {
                 this.password,
                 this.rol,
                 /* this.cart, */
-                this.orders.stream().map(buy -> buy.toDTO()).toList(),
-                this.wishList.stream().map(wish -> wish.toDTO()).toList(),
-                this.lastSearches.stream().map(search -> search.toDTO()).toList());
+                this.orders,
+                this.wishList,
+                this.lastSearches);
     }
 }

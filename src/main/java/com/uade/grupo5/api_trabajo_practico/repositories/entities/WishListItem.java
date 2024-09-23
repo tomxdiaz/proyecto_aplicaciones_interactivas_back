@@ -1,5 +1,6 @@
 package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.uade.grupo5.api_trabajo_practico.dto.WishListItemDTO;
 
 import jakarta.persistence.Entity;
@@ -25,17 +26,19 @@ public class WishListItem {
 
   @ManyToOne
   @JoinColumn(name = "user_id")
+  @JsonBackReference
   private User user;
 
   @ManyToOne
   @JoinColumn(name = "product_id")
   private Product product;
-  
-  public WishListItemDTO toDTO(){
+
+  public WishListItemDTO toDTO() {
     return WishListItemDTO.builder()
-                          .id(this.id)
-                          .user(this.user.toDTO())
-                          .product(this.product.toDTO())
-                          .build();
+        .id(this.id)
+        .user(user)
+        .product(this.product)
+        .build();
+
   }
 }

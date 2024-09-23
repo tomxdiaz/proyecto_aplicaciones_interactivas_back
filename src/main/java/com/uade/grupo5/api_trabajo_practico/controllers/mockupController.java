@@ -1,6 +1,5 @@
 package com.uade.grupo5.api_trabajo_practico.controllers;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -17,6 +16,7 @@ import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 import com.uade.grupo5.api_trabajo_practico.services.BuyService;
 import com.uade.grupo5.api_trabajo_practico.services.ProductService;
 import com.uade.grupo5.api_trabajo_practico.services.UserService;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/mockup")
@@ -59,23 +59,24 @@ public class mockupController {
                                 "", 15, false, null));
 
                 userService.createUser(new User(null, "Ivan", "Ivan", "Natucce", "anatucce@uade.edu.ar",
-                                new SimpleDateFormat("dd/MM/yyyy").parse("04/06/1999"), "1234", "Admin",
+                                LocalDate.of(2020, 1, 8), "1234", "Admin",
                                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
                 userService.createUser(new User(null, "Joanna", "Joanna", "Lazarte", "jlazartelagos@uade.edu.ar",
-                                new SimpleDateFormat("dd/MM/yyyy").parse("04/06/1999"), "1234", "Admin",
+                                LocalDate.of(2020, 1, 8), "1234", "Admin",
                                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
                 userService.createUser(new User(null, "Patricio", "Patricio", "Plem", "pplem@uade.edu.ar",
-                                new SimpleDateFormat("dd/MM/yyyy").parse("04/06/1999"), "1234", "Admin",
+                                LocalDate.of(2020, 1, 8), "1234", "Admin",
                                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
                 userService.createUser(new User(null, "Santiago", "Santiago", "Lopez", "santiagonlopez@uade.edu.ar",
-                                new SimpleDateFormat("dd/MM/yyyy").parse("04/06/1999"), "1234", "Admin",
+                                LocalDate.of(2020, 1, 8), "1234", "Admin",
                                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
                 userService.createUser(new User(null, "Tomas", "Tomas", "Diaz", "todiaz@uade.edu.ar",
-                                new SimpleDateFormat("dd/MM/yyyy").parse("04/06/1999"), "1234", "Admin",
+                                LocalDate.of(2020, 1, 8), "1234", "Admin",
                                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
 
-                buyService.createBuy(new Buy(null, new SimpleDateFormat("dd/MM/yyyy").parse("15/09/2024"),
-                                userService.getUserById(2L)));
+                User usuario = userService.getUserById(2L);
+
+                buyService.createBuy(new Buy(null, LocalDate.now(), usuario));
 
                 return ResponseEntity.status(HttpStatus.OK).body(null);
         }
