@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Role;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Search;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.WishListItem;
@@ -19,11 +20,11 @@ public class UserDTO {
     private Long id;
     private String userName;
     private String name;
-    private String surname;
+    private String lastName;
     private String emailAddress;
     private LocalDate birthDate;
     private String password;
-    private String rol;
+    private Role rol;
     /* private Cart cart; */
     private List<Buy> orders;
     private List<WishListItem> wishList;
@@ -34,7 +35,7 @@ public class UserDTO {
                 this.id,
                 this.userName,
                 this.name,
-                this.surname,
+                this.lastName,
                 this.emailAddress,
                 this.birthDate,
                 this.password,

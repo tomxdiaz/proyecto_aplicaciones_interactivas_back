@@ -28,17 +28,13 @@ public class CartService {
         cartRepository.save(newCart);
     }
 
-    public Cart getCartById(Long cartId) {
+    public Cart getCartById(Long cartId) throws Exception{
         return cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
     }
 
-    public List<Item> getItemsByCart(Long cartId) {
-        return cartRepository.findById(cartId).get().getItems();
-    }
 
-
-    public Item addItemToCart(Long cartId, ItemDTO itemDTO) {
+    public Item addItemToCart(Long cartId, ItemDTO itemDTO) throws Exception{
         // Obtener el carrito por ID
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
         Product product = productRepository.findById(itemDTO.getProductId())
@@ -58,6 +54,10 @@ public class CartService {
         return item;
     }
 
+    public List<Item> getItemsByCart(Long cartId) throws Exception{
+        return cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found")).getItems();
+
+    }
     public double getItemSubtotal(Long cartId, int itemId) {
         Item item = cartRepository.findById(cartId).get().getItems().get(itemId);
         return item.getQuantity() * item.getProduct().getPrice();
@@ -73,7 +73,9 @@ public class CartService {
     }
 
 
-    public void removeItemFromCart(Long cartId, Long productId) {
+
+
+    public void removeItemFromCart(Long cartId, Long productId) throws Exception{
         Cart cart = getCartById(cartId);
         cart.getItems().removeIf(item -> item.getProduct().getId().equals(productId));
         cartRepository.save(cart);
@@ -85,7 +87,7 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public void removeCart(Long cartId) {
+    public void removeCart(Long cartId) throws Exception{
         cartRepository.deleteById(cartId);
     }
 

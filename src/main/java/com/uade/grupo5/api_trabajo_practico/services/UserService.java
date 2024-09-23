@@ -15,8 +15,7 @@ public class UserService {
     private CartService cartService;
 
     public User getUserById(Long id) throws Exception {
-        User user= userRepository.getReferenceById(id);
-        return user;
+        return userRepository.getReferenceById(id);
 
     }
     public User createUser(
@@ -28,8 +27,7 @@ public class UserService {
 
     public User updateUser(
                 User user) throws Exception{
-            User updatedUser = userRepository.save(user);
-            return updatedUser;
+            return userRepository.save(user);
     }
 
     public void deleteUser(Long id) throws Exception{

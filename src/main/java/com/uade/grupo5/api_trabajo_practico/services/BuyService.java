@@ -18,20 +18,19 @@ public class BuyService {
     return buys;
   }
 
-  /*
-   * public List<Buy> getUserBuys(Long userId) throws Exception{
-   * return buyRepository.findByUserId(userId);
-   * }
-   */
+  
+  public List<Buy> getUserBuys(Long userId) throws Exception{
+    return buyRepository.findByUserId(userId);
+  }
+   
 
   public Buy createBuy(Buy buy) throws Exception {
     Buy createdBuy = buyRepository.save(buy);
     return createdBuy;
   }
 
-  /*
-   * public void deleteBuy(Long id) throws Exception{
-   * 
-   * }
-   */
+  public void deleteBuy(Long id) throws Exception{
+    buyRepository.deleteById(id);
+  }
+  
 }
