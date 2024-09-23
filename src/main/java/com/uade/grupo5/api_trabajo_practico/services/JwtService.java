@@ -21,8 +21,7 @@ public class JwtService {
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
 
-    public String generateToken(
-            UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails) {
         return Jwts
                 .builder()
                 .subject(userDetails.getUsername())

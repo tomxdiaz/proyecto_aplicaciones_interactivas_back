@@ -34,7 +34,7 @@ public class BuyController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<?> getUserBuys(@PathVariable Long id) throws Exception{
+  public ResponseEntity<?> getUserBuys(@PathVariable Long id){
     try{
       List<BuyDTO> buys = buyService.getUserBuys(id).stream().map(Buy::toDTO).toList();
     

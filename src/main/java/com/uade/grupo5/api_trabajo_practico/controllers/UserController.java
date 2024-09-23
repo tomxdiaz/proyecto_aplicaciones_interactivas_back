@@ -22,30 +22,38 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Long id) throws Exception{
-        User user = userService.getUserById(id);
-        UserDTO userDTO = user.toDTO();
-        return ResponseEntity.status( HttpStatus.OK).body(userDTO);
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        try{
+          User user = userService.getUserById(id);
+          UserDTO userDTO = user.toDTO();
+          return ResponseEntity.status( HttpStatus.OK).body(userDTO);
+        }catch(Exception error){
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(
-                    @RequestBody UserDTO userDTO) throws Exception {
-            
-      User user = userDTO.toEntity();
+    public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
+      try{
+        User user = userDTO.toEntity();
 
-      User updatedUser = userService.updateUser(user);
+        User updatedUser = userService.updateUser(user);
 
-      UserDTO updatedUserDTO = updatedUser.toDTO();
-      return ResponseEntity.status(HttpStatus.OK).body(updatedUserDTO);
+        UserDTO updatedUserDTO = updatedUser.toDTO();
+        return ResponseEntity.status(HttpStatus.OK).body(updatedUserDTO);
+      }catch(Exception error){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+      }
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(
-                    @PathVariable Long id) throws Exception {
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+      try{
+        userService.deleteUser(id);
 
-      userService.deleteUser(id);
-
-      return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+      }catch(Exception error){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+      }
 }
 
 }
