@@ -32,7 +32,7 @@ public class UserDTO {
     private LocalDate birthDate;
     @NotNull
     private String password;
-    private Role rol;
+    private Role role;
     private Cart cart;
     private List<Buy> orders;
     private List<WishListItem> wishList;
@@ -47,7 +47,7 @@ public class UserDTO {
                 this.emailAddress,
                 this.birthDate,
                 this.password,
-                this.rol,
+                this.role,
                 this.cart,
                 this.orders,
                 this.wishList,

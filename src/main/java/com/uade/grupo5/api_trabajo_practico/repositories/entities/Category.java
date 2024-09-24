@@ -20,8 +20,6 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
-    @Column(nullable = false)
     private Long id;
     @NotNull
     @Column(nullable = false)

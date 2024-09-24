@@ -44,7 +44,7 @@ public class User implements UserDetails {
     private LocalDate birthDate;
     private String password;
     @Enumerated(EnumType.STRING)
-    private Role rol;
+    private Role role;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
@@ -75,7 +75,7 @@ public class User implements UserDetails {
                 this.emailAddress,
                 this.birthDate,
                 this.password,
-                this.rol,
+                this.role,
                 this.cart,
                 this.orders,
                 this.wishList,
@@ -84,6 +84,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rol.name()));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 }

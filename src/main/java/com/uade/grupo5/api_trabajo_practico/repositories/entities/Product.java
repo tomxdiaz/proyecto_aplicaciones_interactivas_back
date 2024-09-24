@@ -62,7 +62,7 @@ public class Product {
                 this.additionalInfo,
                 this.stock,
                 this.featured,
-                this.category.toDTO());
+                this.category);
     }
 
 }
