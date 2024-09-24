@@ -27,6 +27,10 @@ public class ItemDTO {
         return this.product.getId();
     }
 
+    public Long getCartId() {
+        return this.cart.getId();
+    }
+
     public Item toEntity() {
         return Item.builder()
                 .id(this.id)

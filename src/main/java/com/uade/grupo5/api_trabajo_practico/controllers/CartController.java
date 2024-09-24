@@ -31,9 +31,9 @@ public class CartController {
 
   // Agregar un ítem al carrito
   @PostMapping("/{cartId}/item")
-  public ResponseEntity<?> addItemToCart(@PathVariable Long cartId, @RequestBody ItemDTO itemDTO) {
+  public ResponseEntity<?> addItemToCart(@RequestBody ItemDTO itemDTO) {
     try {
-      Item addedItem = cartService.addItemToCart(cartId, itemDTO);
+      Item addedItem = cartService.addItemToCart(itemDTO);
       ItemDTO addedItemDTO = addedItem.toDTO();
       return ResponseEntity.status(HttpStatus.OK).body(addedItemDTO);
     } catch (Exception error) {
