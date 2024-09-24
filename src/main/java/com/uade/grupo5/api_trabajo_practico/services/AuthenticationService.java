@@ -10,12 +10,8 @@ import org.springframework.stereotype.Service;
 import com.uade.grupo5.api_trabajo_practico.repositories.UserRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.AuthenticationRequest;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.AuthenticationResponse;
-import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.RegisterRequest;
-import com.uade.grupo5.api_trabajo_practico.repositories.entities.Role;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Service
@@ -24,18 +20,18 @@ public class AuthenticationService {
   @Autowired
   private final UserRepository userRepository;
   @Autowired
-  private final CartService cartService;
-  @Autowired
   private final PasswordEncoder passwordEncoder;
   @Autowired
   private final JwtService jwtService;
   @Autowired
   private final AuthenticationManager authenticationManager;
+  @Autowired
+  private CartService cartService;
 
   public AuthenticationResponse register(RegisterRequest request) throws Exception {
     User user = new User(null, request.getUsername(), request.getName(), request.getLastName(),
         request.getEmailAddress(), request.getBirthDate(), passwordEncoder.encode(request.getPassword()),
-        Role.USER, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        request.getRol(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
     userRepository.save(user);
     cartService.createCart(user.getId());
