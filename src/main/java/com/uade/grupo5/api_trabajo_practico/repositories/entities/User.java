@@ -18,7 +18,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,10 +57,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role rol;
 
-    // @NotNull
-    // @OneToOne(cascade = CascadeType.ALL)
-    // @JoinColumn(nullable = false, name = "cart_id")
-    // private Cart cart;
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false, name = "cart_id")
+    private Cart cart;
 
     @NotNull
     @Column(nullable = false)

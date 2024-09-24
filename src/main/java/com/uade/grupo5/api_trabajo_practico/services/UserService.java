@@ -11,10 +11,13 @@ import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-
     public User getUserById(Long id) throws Exception {
         return userRepository.getReferenceById(id);
 
+    }
+    public User createUser(
+                    User user) throws Exception{
+        return userRepository.save(user);
     }
 
     public User updateUser(
