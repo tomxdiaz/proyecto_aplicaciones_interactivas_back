@@ -33,6 +33,8 @@ public class UserService {
                 passwordEncoder.encode(request.getPassword()),
                 Role.USER, cart, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
+        user.assignCart(cart);
+
         return userRepository.save(user);
 
     }

@@ -72,7 +72,7 @@ public class CartController {
 
   // Obtener todos los items de un carrito
   @GetMapping("/{cartId}/items")
-  public ResponseEntity<List<Item>> getItemsByCart(@PathVariable Long cartId) throws Exception {
+  public ResponseEntity<List<Item>> getItemsByCartId(@PathVariable Long cartId) throws Exception {
     List<Item> items = cartService.getCartById(cartId).getItems();
     return ResponseEntity.ok(items);
   }
