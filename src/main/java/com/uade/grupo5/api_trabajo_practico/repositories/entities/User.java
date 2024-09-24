@@ -56,24 +56,20 @@ public class User implements UserDetails {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role rol;
-
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(nullable = false, name = "cart_id")
     private Cart cart;
-
     @NotNull
     @Column(nullable = false)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Buy> orders;
-
     @NotNull
     @Column(nullable = false)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<WishListItem> wishList;
-
     @NotNull
     @Column(nullable = false)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -90,7 +86,7 @@ public class User implements UserDetails {
                 this.birthDate,
                 this.password,
                 this.rol,
-                /* this.cart, */
+                this.cart,
                 this.orders,
                 this.wishList,
                 this.lastSearches);
