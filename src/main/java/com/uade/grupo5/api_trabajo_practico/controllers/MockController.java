@@ -15,7 +15,7 @@ import com.uade.grupo5.api_trabajo_practico.services.UserService;
 
 @RestController
 @RequestMapping("/mockup")
-public class mockupController {
+public class MockController {
 
         @Autowired
         private ProductService productService;
