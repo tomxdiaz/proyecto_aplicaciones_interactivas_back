@@ -31,9 +31,9 @@ public class CartService {
     }
 
     @Transactional
-    public Item addItemToCart(Long cartId, ItemDTO itemDTO) throws Exception {
+    public Item addItemToCart(ItemDTO itemDTO) throws Exception {
         // Obtener el carrito por ID
-        Cart cart = cartRepository.findById(cartId)
+        Cart cart = cartRepository.findById(itemDTO.getCartId())
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
 
         // Obtener el producto por ID
