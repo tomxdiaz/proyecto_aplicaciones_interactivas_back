@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uade.grupo5.api_trabajo_practico.dto.CartDTO;
 import com.uade.grupo5.api_trabajo_practico.dto.ItemDTO;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,14 +20,7 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false, name = "user_id")
-    private User user;
-
-    @NotNull
-    @Column(nullable = false)
+    private Long userID;
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Item> items;
@@ -39,7 +31,7 @@ public class Cart {
 
         // Asignar los valores básicos
         cartDTO.setId(this.getId());
-        cartDTO.setUserID(this.getUser().getId());
+        cartDTO.setUserID(this.getUserID());
 
         // Convertir la lista de items de Cart a una lista de ItemDTO
         List<ItemDTO> itemDTOs = this.getItems().stream()

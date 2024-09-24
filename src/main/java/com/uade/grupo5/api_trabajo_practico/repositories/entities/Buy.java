@@ -35,8 +35,10 @@ public class Buy {
   @Column(nullable = false)
   private LocalDate buyDate;
 
+  @NotNull
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(nullable = false, name = "cart_id")
+  @JsonBackReference
   private Cart cart;
 
   @NotNull
