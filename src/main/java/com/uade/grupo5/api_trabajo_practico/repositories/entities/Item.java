@@ -42,4 +42,8 @@ public class Item {
                 .cart(this.cart)
                 .build();
     }
+
+    public double getSubTotal() {
+        return this.product.getPrice() * this.quantity;
+    }
 }

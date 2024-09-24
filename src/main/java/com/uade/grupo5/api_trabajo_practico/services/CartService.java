@@ -19,16 +19,6 @@ public class CartService {
     @Autowired
     private ProductRepository productRepository;
 
-    public void createCart(Long userID) {
-        if (userID == null) {
-            throw new IllegalArgumentException("userID cannot be null");
-        }
-
-        Cart newCart = new Cart();
-        newCart.setUserID(userID);
-        cartRepository.save(newCart);
-    }
-
     public Cart getCartById(Long cartId) throws Exception {
         return cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
@@ -84,14 +74,13 @@ public class CartService {
         } else {
             double total = 0;
             for (Item item : products) {
-                total += item.getQuantity() * item.getProduct().getPrice();
+                total += item.getSubTotal();
             }
             return total;
         }
     }
 
     @Transactional
-
     public void removeItemFromCart(Long cartId, Long productId) throws Exception {
         Cart cart = getCartById(cartId);
         cart.getItems().removeIf(item -> item.getProduct().getId().equals(productId));
