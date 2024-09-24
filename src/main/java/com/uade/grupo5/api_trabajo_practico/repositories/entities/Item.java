@@ -29,6 +29,6 @@ public class Item {
     private Product product;
 
     public ItemDTO toDTO() {
-        return new ItemDTO(this.id ,this.product.getId(), this.quantity);
+        return new ItemDTO(this.id ,this.product, this.quantity);
     }
 }

@@ -76,17 +76,27 @@ public class CartController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
       }
     }
+    // vaciar el carrito
+    @PutMapping("/{cartId}/empty")
+    public ResponseEntity<?> emptyCart(@PathVariable Long cartId) {
+        try{
+            cartService.emptyCart(cartId);
+            return ResponseEntity.status(HttpStatus.OK).body("Carrito vaciado correctamente!");
+        }catch(Exception error){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+        }
+
+    }
 
     // -devuelve precio total del carrito
     @GetMapping("/{cartId}/total")
     public ResponseEntity<Double> getTotalCart(@PathVariable Long cartId) {
         return ResponseEntity.ok(cartService.getTotal(cartId));
     }
-
-}
-// Obtener todos los items de un carrito
-@GetMapping("/{cartId}/items")
-public ResponseEntity<List<Item>> getItemsByCart(@PathVariable Long cartId) {
-    List<Item> items = cartService.getCartById(cartId).getItems();
-    return ResponseEntity.ok(items);
+    // Obtener todos los items de un carrito
+    @GetMapping("/{cartId}/items")
+    public ResponseEntity<List<Item>> getItemsByCart(@PathVariable Long cartId) throws Exception {
+        List<Item> items = cartService.getCartById(cartId).getItems();
+        return ResponseEntity.ok(items);
+    }
 }

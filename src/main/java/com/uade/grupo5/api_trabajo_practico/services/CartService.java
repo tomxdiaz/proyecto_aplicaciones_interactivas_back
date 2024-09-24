@@ -35,35 +35,50 @@ public class CartService {
     }
 
 
-    public Item addItemToCart(Long cartId, ItemDTO itemDTO) throws Exception{
+    @Transactional
+    public Item addItemToCart(Long cartId, ItemDTO itemDTO) throws Exception {
         // Obtener el carrito por ID
-        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
-        Product product = productRepository.findById(itemDTO.getProductId())
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
+
+        // Obtener el producto por ID
+        Product product = productRepository.findById(itemDTO.getProduct().getId())
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        // Crear el nuevo ítem
-        Item item = new Item();
-        item.setProduct(product);
-        item.setQuantity(itemDTO.getQuantity());
-        item.setCart(cart);
+        // Buscar el ítem en la lista de ítems del carrito
+        Item existingItem = cart.getItems().stream()
+                .filter(item -> item.getProduct().getId().equals(product.getId()))
+                .findFirst()
+                .orElse(null);
 
-        // Agregar el ítem al carrito
-        cart.getItems().add(item);
+        Item item;
+        if (existingItem != null) {
+            // Si ya existe, actualizamos la cantidad
+            item = existingItem;
+            item.setQuantity(item.getQuantity() + itemDTO.getQuantity());
+        } else {
+            // Si no existe, creamos un nuevo ítem
+            item = new Item();
+            item.setProduct(product);
+            item.setQuantity(itemDTO.getQuantity());
+            item.setCart(cart);
+
+            // Agregamos el nuevo ítem al carrito
+            cart.getItems().add(item);
+        }
 
         // Guardar el carrito actualizado
         cartRepository.save(cart);
+
         return item;
-
     }
 
-    public List<Item> getItemsByCart(Long cartId) throws Exception{
-        return cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found")).getItems();
 
-    }
-    public double getItemSubtotal(Long cartId, int itemId) {
-        Item item = cartRepository.findById(cartId).get().getItems().get(itemId);
-        return item.getQuantity() * item.getProduct().getPrice();
-    }
+
+//    public double getItemSubtotal(Long cartId, int itemId) {
+//        Item item = cartRepository.findById(cartId).get().getItems().get(itemId);
+//        return item.getQuantity() * item.getProduct().getPrice();
+//    }
 
     public double getTotal(Long cartId) {
         List<Item> products = cartRepository.findById(cartId).get().getItems();
@@ -83,7 +98,7 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public void emptyCart(Long cartId) {
+    public void emptyCart(Long cartId) throws Exception {
         Cart cart = getCartById(cartId);
         cart.getItems().clear();
         cartRepository.save(cart);
