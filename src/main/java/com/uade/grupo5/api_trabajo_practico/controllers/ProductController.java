@@ -26,92 +26,104 @@ public class ProductController {
 
         // ALTA: create a product
         @PostMapping("")
-        public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO) {
-          try{
-            // The 'id' field must be null in order to create a new product
-            productDTO.setId(null);
+        public ResponseEntity<?> createProduct(
+                        @RequestBody ProductDTO productDTO) {
+                try {
+                        // The 'id' field must be null in order to create a new product
+                        productDTO.setId(null);
 
-            Product product = productDTO.toEntity();
+                        Product product = productDTO.toEntity();
 
-            Product createdProduct = productService.createProduct(product);
+                        Product createdProduct = productService.createProduct(product);
 
-            ProductDTO createdProductDTO = createdProduct.toDTO();
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdProductDTO);
-          }catch(Exception error){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-          }
+                        ProductDTO createdProductDTO = createdProduct.toDTO();
+
+                        return ResponseEntity.status(HttpStatus.CREATED).body(createdProductDTO);
+                } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+                }
+
         }
 
         // CONSULTA: get all the list
         @GetMapping("")
         public ResponseEntity<?> getAllProducts() {
-          try{
-            // The 'id' field must be null in order to create a new product
-            List<Product> allProducts = productService.getAllProducts();
+                try {
+                        List<Product> allProducts = productService.getAllProducts();
 
-            List<ProductDTO> allProductsDTO = allProducts.stream()
-                            .map(product -> product.toDTO())
-                            .toList();
+                        List<ProductDTO> allProductsDTO = allProducts.stream()
+                                        .map(product -> product.toDTO())
+                                        .toList();
 
-            return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
-          }catch(Exception error){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-          }
+                        return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
+                } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+                }
+
         }
 
         // CONSULTA: get a product by its id
         @GetMapping("/{id}")
-        public ResponseEntity<?> getProductById(@PathVariable Long id) {
-          try{
-            Product product = productService.getProductById(id);
+        public ResponseEntity<?> getProductById(
+                        @PathVariable Long id) throws Exception {
+                try {
+                        Product product = productService.getProductById(id);
 
-            ProductDTO productDTO = product.toDTO();
-            return ResponseEntity.status(HttpStatus.OK).body(productDTO);
-          }catch(Exception error){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-          }
+                        ProductDTO productDTO = product.toDTO();
+
+                        return ResponseEntity.status(HttpStatus.OK).body(productDTO);
+                } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+                }
+
         }
 
         @GetMapping("/category/{categoryId}")
-        public ResponseEntity<?> getAllProductsByCategory(@PathVariable Long categoryId) {
-          try{
-            List<Product> allProducts = productService.getAllProductsByCategoryId(categoryId);
+        public ResponseEntity<?> getAllProductsByCategory(
+                        @PathVariable Long categoryId) {
+                try {
+                        List<Product> allProducts = productService.getAllProductsByCategoryId(categoryId);
 
-            List<ProductDTO> allProductsDTO = allProducts.stream()
-                            .map(product -> product.toDTO())
-                            .toList();
+                        List<ProductDTO> allProductsDTO = allProducts.stream()
+                                        .map(product -> product.toDTO())
+                                        .toList();
 
-            return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
-          }catch(Exception error){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-          }
+                        return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
+                } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+                }
+
         }
 
         // MODIFY: update
         @PutMapping("/{id}")
-        public ResponseEntity<?> updateProduct(@RequestBody ProductDTO productDTO) {
-          try{
-            Product product = productDTO.toEntity();
+        public ResponseEntity<?> updateProduct(
+                        @RequestBody ProductDTO productDTO) throws Exception {
+                try {
+                        Product product = productDTO.toEntity();
 
-            Product updatedProduct = productService.updateProduct(product);
+                        Product updatedProduct = productService.updateProduct(product);
 
-            ProductDTO updatedProductDTO = updatedProduct.toDTO();
-            return ResponseEntity.status(HttpStatus.OK).body(updatedProductDTO);
-          }catch(Exception error){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-          }
+                        ProductDTO updatedProductDTO = updatedProduct.toDTO();
+
+                        return ResponseEntity.status(HttpStatus.OK).body(updatedProductDTO);
+                } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+                }
+
         }
 
         // BAJA: delete
         @DeleteMapping("/{id}")
-        public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-          try{
-            productService.deleteProduct(id);
+        public ResponseEntity<?> deleteProduct(
+                        @PathVariable Long id) throws Exception {
+                try {
+                        productService.deleteProduct(id);
 
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-          }catch(Exception error){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-          }
+                        return ResponseEntity.status(HttpStatus.OK).body(null);
+                } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+                }
         }
 
 }
