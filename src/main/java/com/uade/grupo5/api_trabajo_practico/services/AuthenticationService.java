@@ -25,6 +25,8 @@ public class AuthenticationService {
   private final JwtService jwtService;
   @Autowired
   private final AuthenticationManager authenticationManager;
+  @Autowired
+  private CartService cartService;
 
   public AuthenticationResponse register(RegisterRequest request) throws Exception {
     User user = new User(null, request.getUserName(), request.getName(), request.getSurname(),
@@ -32,6 +34,7 @@ public class AuthenticationService {
         request.getRol(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
     userRepository.save(user);
+    cartService.createCart(user.getId());
     String jwtToken = jwtService.generateToken(user);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
