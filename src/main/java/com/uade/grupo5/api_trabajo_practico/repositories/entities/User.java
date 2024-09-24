@@ -18,8 +18,12 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,35 +31,37 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    private String userName;
+    private String username;
     private String name;
     private String lastName;
     private String emailAddress;
     private LocalDate birthDate;
     private String password;
     @Enumerated(EnumType.STRING)
-    private Role rol;
+    private Role role;
 
-    /*
-     * @OneToOne(cascade = CascadeType.ALL)
-     * 
-     * @JoinColumn(name = "cart_id")
-     * private Cart cart;
-     */
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id")
+    @JsonManagedReference
+    private Cart cart;
 
+    @NotNull
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Buy> orders;
 
+    @NotNull
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<WishListItem> wishList;
 
+    @NotNull
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Search> lastSearches;
@@ -63,14 +69,14 @@ public class User implements UserDetails {
     public UserDTO toDTO() {
         return new UserDTO(
                 this.id,
-                this.userName,
+                this.username,
                 this.name,
                 this.lastName,
                 this.emailAddress,
                 this.birthDate,
                 this.password,
-                this.rol,
-                /* this.cart, */
+                this.role,
+                this.cart,
                 this.orders,
                 this.wishList,
                 this.lastSearches);
@@ -78,11 +84,11 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rol.name()));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-    @Override
-    public String getUsername() {
-        return this.userName;
+    public void assignCart(Cart cart) {
+        this.cart.setUser(this);
     }
+
 }

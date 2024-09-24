@@ -1,5 +1,8 @@
 package com.uade.grupo5.api_trabajo_practico.controllers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,42 +21,54 @@ import com.uade.grupo5.api_trabajo_practico.services.UserService;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        try{
-          User user = userService.getUserById(id);
-          UserDTO userDTO = user.toDTO();
-          return ResponseEntity.status( HttpStatus.OK).body(userDTO);
-        }catch(Exception error){
-          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-        }
+  @GetMapping("")
+  public ResponseEntity<?> getAllUsers() {
+    try {
+      List<User> users = userService.getAllUsers();
+      List<UserDTO> usersDTO = users.stream().map(user -> user.toDTO()).collect(Collectors.toList());
+      return ResponseEntity.status(HttpStatus.OK).body(usersDTO);
+    } catch (Exception error) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
-      try{
-        User user = userDTO.toEntity();
-
-        User updatedUser = userService.updateUser(user);
-
-        UserDTO updatedUserDTO = updatedUser.toDTO();
-        return ResponseEntity.status(HttpStatus.OK).body(updatedUserDTO);
-      }catch(Exception error){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-      }
+  @GetMapping("/{id}")
+  public ResponseEntity<?> getUserById(@PathVariable Long id) {
+    try {
+      User user = userService.getUserById(id);
+      UserDTO userDTO = user.toDTO();
+      return ResponseEntity.status(HttpStatus.OK).body(userDTO);
+    } catch (Exception error) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-      try{
-        userService.deleteUser(id);
+  }
 
-        return ResponseEntity.status(HttpStatus.OK).body(null);
-      }catch(Exception error){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-      }
-}
+  @PutMapping("/{id}")
+  public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
+    try {
+      User user = userDTO.toEntity();
+
+      User updatedUser = userService.updateUser(user);
+
+      UserDTO updatedUserDTO = updatedUser.toDTO();
+      return ResponseEntity.status(HttpStatus.OK).body(updatedUserDTO);
+    } catch (Exception error) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+    }
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    try {
+      userService.deleteUser(id);
+
+      return ResponseEntity.status(HttpStatus.OK).body(null);
+    } catch (Exception error) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+    }
+  }
 
 }

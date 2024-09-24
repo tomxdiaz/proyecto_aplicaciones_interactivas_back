@@ -21,29 +21,28 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-				@Autowired
-        private final JwtAuthenticationFilter jwtAuthFilter;
-				@Autowired
-        private final AuthenticationProvider authenticationProvider;
+	@Autowired
+	private final JwtAuthenticationFilter jwtAuthFilter;
+	@Autowired
+	private final AuthenticationProvider authenticationProvider;
 
-        @Bean
-        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-					http.csrf(AbstractHttpConfigurer::disable)
-						.authorizeHttpRequests(req -> req.requestMatchers("/auth/**").permitAll()
-							.requestMatchers("/mockup/**").hasAnyAuthority(Role.ADMIN.name())
-							.requestMatchers(HttpMethod.DELETE, "/users/**").hasAnyAuthority(Role.ADMIN.name())
-							.requestMatchers(HttpMethod.DELETE,"/buy/**").hasAnyAuthority(Role.ADMIN.name())
-							.requestMatchers(HttpMethod.DELETE,"/product/**").hasAnyAuthority(Role.ADMIN.name())
-							.requestMatchers(HttpMethod.PUT,"/product/**").hasAnyAuthority(Role.ADMIN.name())
-							.requestMatchers(HttpMethod.POST,"/product/**").hasAnyAuthority(Role.ADMIN.name())
-							.requestMatchers("/category/**").hasAnyAuthority(Role.ADMIN.name())
-							.anyRequest()
-							.authenticated())
-						.sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-						.authenticationProvider(authenticationProvider)
-						.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.csrf(AbstractHttpConfigurer::disable)
+				.authorizeHttpRequests(req -> req.requestMatchers("/auth/**").permitAll()
+						.requestMatchers(HttpMethod.DELETE, "/users/**").hasAnyAuthority(Role.ADMIN.name())
+						.requestMatchers(HttpMethod.DELETE, "/buy/**").hasAnyAuthority(Role.ADMIN.name())
+						.requestMatchers(HttpMethod.DELETE, "/product/**").hasAnyAuthority(Role.ADMIN.name())
+						.requestMatchers(HttpMethod.PUT, "/product/**").hasAnyAuthority(Role.ADMIN.name())
+						.requestMatchers(HttpMethod.POST, "/product/**").hasAnyAuthority(Role.ADMIN.name())
+						.requestMatchers("/category/**").hasAnyAuthority(Role.ADMIN.name())
+						.anyRequest()
+						.authenticated())
+				.sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+				.authenticationProvider(authenticationProvider)
+				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-					return http.build();
-        }
+		return http.build();
+	}
 
 }

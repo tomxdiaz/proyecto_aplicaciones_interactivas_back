@@ -23,8 +23,6 @@ public class ItemDTO {
     @NotNull
     private Cart cart;
 
-    // get product id
-
     public Long getProductId() {
         return this.product.getId();
     }

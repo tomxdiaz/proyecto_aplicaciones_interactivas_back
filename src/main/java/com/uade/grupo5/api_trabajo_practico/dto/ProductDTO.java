@@ -2,6 +2,7 @@ package com.uade.grupo5.api_trabajo_practico.dto;
 
 import java.util.List;
 
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Category;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 
 import jakarta.validation.constraints.NotEmpty;
@@ -27,7 +28,7 @@ public class ProductDTO {
     private int stock;
     @NotNull
     private boolean featured;
-    private CategoryDTO category;
+    private Category category;
 
     public Product toEntity() {
         return new Product(
@@ -39,7 +40,7 @@ public class ProductDTO {
                 this.additionalInfo,
                 this.stock,
                 this.featured,
-                this.category.toEntity());
+                this.category);
     }
 
 }
