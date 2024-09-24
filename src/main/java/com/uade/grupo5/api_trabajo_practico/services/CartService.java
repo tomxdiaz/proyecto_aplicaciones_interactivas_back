@@ -80,13 +80,18 @@ public class CartService {
 //        return item.getQuantity() * item.getProduct().getPrice();
 //    }
 
-    public double getTotal(Long cartId) {
+    public double getTotal(Long cartId) throws Exception {
         List<Item> products = cartRepository.findById(cartId).get().getItems();
-        double total = 0;
-        for (Item item : products) {
-            total += item.getQuantity() * item.getProduct().getPrice();
+        if (products.isEmpty()) {
+            throw new IllegalArgumentException("Empty Cart or doesnt exist");
         }
-        return total;
+        else {
+            double total = 0;
+            for (Item item : products) {
+                total += item.getQuantity() * item.getProduct().getPrice();
+            }
+            return total;
+        }
     }
 
     @Transactional
