@@ -5,12 +5,16 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.uade.grupo5.api_trabajo_practico.dto.BuyDTO;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,17 +31,19 @@ public class Buy {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @NotNull
+  @Column(nullable = false)
   private LocalDate buyDate;
 
-  /*
-   * @OneToOne(cascade = CascadeType.ALL)
-   * 
-   * @JoinColumn(name = "cart_id")
-   * private Cart cart;
-   */
+  @NotNull
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(nullable = false, name = "cart_id")
+  @JsonBackReference
+  private Cart cart;
 
+  @NotNull
   @ManyToOne
-  @JoinColumn(name = "user_id")
+  @JoinColumn(nullable = false, name = "user_id")
   @JsonBackReference
   private User user;
 

@@ -29,11 +29,10 @@ public class CartService {
         cartRepository.save(newCart);
     }
 
-    public Cart getCartById(Long cartId) throws Exception{
+    public Cart getCartById(Long cartId) throws Exception {
         return cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
     }
-
 
     @Transactional
     public Item addItemToCart(Long cartId, ItemDTO itemDTO) throws Exception {
@@ -73,19 +72,16 @@ public class CartService {
         return item;
     }
 
-
-
-//    public double getItemSubtotal(Long cartId, int itemId) {
-//        Item item = cartRepository.findById(cartId).get().getItems().get(itemId);
-//        return item.getQuantity() * item.getProduct().getPrice();
-//    }
+    // public double getItemSubtotal(Long cartId, int itemId) {
+    // Item item = cartRepository.findById(cartId).get().getItems().get(itemId);
+    // return item.getQuantity() * item.getProduct().getPrice();
+    // }
 
     public double getTotal(Long cartId) throws Exception {
         List<Item> products = cartRepository.findById(cartId).get().getItems();
         if (products.isEmpty()) {
             throw new IllegalArgumentException("Empty Cart or doesnt exist");
-        }
-        else {
+        } else {
             double total = 0;
             for (Item item : products) {
                 total += item.getQuantity() * item.getProduct().getPrice();
@@ -95,9 +91,7 @@ public class CartService {
     }
 
     @Transactional
-
-
-    public void removeItemFromCart(Long cartId, Long productId) throws Exception{
+    public void removeItemFromCart(Long cartId, Long productId) throws Exception {
         Cart cart = getCartById(cartId);
         cart.getItems().removeIf(item -> item.getProduct().getId().equals(productId));
         cartRepository.save(cart);
@@ -109,9 +103,8 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public void removeCart(Long cartId) throws Exception{
+    public void removeCart(Long cartId) throws Exception {
         cartRepository.deleteById(cartId);
     }
-
 
 }

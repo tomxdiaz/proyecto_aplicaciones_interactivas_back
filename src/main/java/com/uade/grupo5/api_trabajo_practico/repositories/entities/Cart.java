@@ -35,7 +35,7 @@ public class Cart {
 
         // Convertir la lista de items de Cart a una lista de ItemDTO
         List<ItemDTO> itemDTOs = this.getItems().stream()
-                .map(item -> new ItemDTO(item.getId(), item.getProduct(), item.getQuantity()))
+                .map(item -> item.toDTO())
                 .collect(Collectors.toList());
 
         // Asignar la lista de ItemDTO al CartDTO

@@ -29,7 +29,7 @@ public class AuthenticationService {
   private CartService cartService;
 
   public AuthenticationResponse register(RegisterRequest request) throws Exception {
-    User user = new User(null, request.getUserName(), request.getName(), request.getSurname(),
+    User user = new User(null, request.getUsername(), request.getName(), request.getLastName(),
         request.getEmailAddress(), request.getBirthDate(), passwordEncoder.encode(request.getPassword()),
         request.getRol(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
@@ -44,9 +44,9 @@ public class AuthenticationService {
   public AuthenticationResponse authenticate(AuthenticationRequest request) throws Exception {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
-            request.getUserName(),
+            request.getUsername(),
             request.getPassword()));
-    User user = userRepository.findByUserName(request.getUserName())
+    User user = userRepository.findByUsername(request.getUsername())
         .orElseThrow();
     String jwtToken = jwtService.generateToken(user);
     return AuthenticationResponse.builder()

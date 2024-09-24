@@ -1,6 +1,6 @@
 package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
-import java.time.LocalDate;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,11 +11,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
-    private String userName;
+    @NotNull
+    private String username;
+    @NotNull
     private String name;
-    private String surname;
+    @NotNull
+    private String lastName;
+    @NotNull
     private String emailAddress;
-    private LocalDate birthDate;
+    @NotNull
+    private String birthDate;
+    @NotNull
     private String password;
-    private Role rol;
 }
