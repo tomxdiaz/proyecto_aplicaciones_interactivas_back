@@ -6,6 +6,7 @@ import com.uade.grupo5.api_trabajo_practico.repositories.ProductRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Item;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,14 +20,9 @@ public class CartService {
     @Autowired
     private ProductRepository productRepository;
 
-    public void createCart(Long userID) {
-        if (userID == null) {
-            throw new IllegalArgumentException("userID cannot be null");
-        }
-
-        Cart newCart = new Cart();
-        newCart.setUserID(userID);
-        cartRepository.save(newCart);
+    public Cart createCart() {
+        Cart cart = new Cart();
+        return cart;
     }
 
     public Cart getCartById(Long cartId) throws Exception {

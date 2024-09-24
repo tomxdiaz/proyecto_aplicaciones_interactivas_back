@@ -1,5 +1,6 @@
 package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uade.grupo5.api_trabajo_practico.dto.CartDTO;
 import com.uade.grupo5.api_trabajo_practico.dto.ItemDTO;
@@ -15,13 +16,17 @@ import java.util.stream.Collectors;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long userID;
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Item> items;
 
@@ -31,7 +36,7 @@ public class Cart {
 
         // Asignar los valores básicos
         cartDTO.setId(this.getId());
-        cartDTO.setUserID(this.getUserID());
+        cartDTO.setUser(this.getUser());
 
         // Convertir la lista de items de Cart a una lista de ItemDTO
         List<ItemDTO> itemDTOs = this.getItems().stream()

@@ -1,5 +1,6 @@
 package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.uade.grupo5.api_trabajo_practico.dto.ItemDTO;
 
 import jakarta.persistence.*;
@@ -32,6 +33,7 @@ public class Item {
     @NotNull
     @ManyToOne
     @JoinColumn(nullable = false, name = "cart_id")
+    @JsonBackReference
     private Cart cart;
 
     public ItemDTO toDTO() {
