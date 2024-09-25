@@ -3,15 +3,18 @@ package com.uade.grupo5.api_trabajo_practico.services;
 import com.uade.grupo5.api_trabajo_practico.dto.ItemDTO;
 import com.uade.grupo5.api_trabajo_practico.repositories.CartRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.ProductRepository;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Item;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.time.LocalDate;
 
 @Service
 public class CartService {
@@ -19,6 +22,8 @@ public class CartService {
     private CartRepository cartRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private BuyService buyService;
 
     public Cart createCart() {
         Cart cart = new Cart();
@@ -31,9 +36,9 @@ public class CartService {
     }
 
     @Transactional
-    public Item addItemToCart(ItemDTO itemDTO) throws Exception {
+    public Item addItemToCart(ItemDTO itemDTO, Long cartId) throws Exception {
         // Obtener el carrito por ID
-        Cart cart = cartRepository.findById(itemDTO.getCartId())
+        Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
 
         // Obtener el producto por ID
@@ -68,11 +73,6 @@ public class CartService {
         return item;
     }
 
-    // public double getItemSubtotal(Long cartId, int itemId) {
-    // Item item = cartRepository.findById(cartId).get().getItems().get(itemId);
-    // return item.getQuantity() * item.getProduct().getPrice();
-    // }
-
     public double getTotal(Long cartId) throws Exception {
         List<Item> products = cartRepository.findById(cartId).get().getItems();
         if (products.isEmpty()) {
@@ -103,4 +103,10 @@ public class CartService {
         cartRepository.deleteById(cartId);
     }
 
+    public Buy checkout(Long cartId) throws Exception {
+        Cart cart = getCartById(cartId);
+        Buy buy = buyService.createBuy(cart.toBuy());
+        emptyCart(cartId);
+        return buy;
+    }
 }

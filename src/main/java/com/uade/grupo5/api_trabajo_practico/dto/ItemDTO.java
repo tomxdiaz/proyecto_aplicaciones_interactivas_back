@@ -1,5 +1,6 @@
 package com.uade.grupo5.api_trabajo_practico.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Item;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
@@ -20,6 +21,7 @@ public class ItemDTO {
     private Product product;
     @NotNull
     private int quantity;
+    @JsonIgnore
     @NotNull
     private Cart cart;
 

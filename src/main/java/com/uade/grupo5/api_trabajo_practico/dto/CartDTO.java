@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +17,7 @@ import jakarta.validation.constraints.NotNull;
 public class CartDTO {
     private Long id;
     @NotNull
+    @JsonBackReference
     private User user;
     @NotNull
     private List<ItemDTO> items;
