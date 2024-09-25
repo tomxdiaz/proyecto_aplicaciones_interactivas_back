@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 @Entity
@@ -26,7 +27,7 @@ public class Cart {
     @JsonBackReference
     private User user;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Item> items;
 
@@ -47,6 +48,17 @@ public class Cart {
         cartDTO.setItems(itemDTOs);
 
         return cartDTO; // Devolver el CartDTO convertido
+    }
+
+    public Buy toBuy(){
+        Buy buy = Buy.builder()
+                  .buyDate(LocalDate.now())
+                  .user(this.user)
+                  .build();
+        List<BuyItem> buyItems = this.items.stream().map(item -> buy.toBuyItem(item)).toList();
+        
+        buy.setItems(buyItems);
+        return buy;
     }
 
 }

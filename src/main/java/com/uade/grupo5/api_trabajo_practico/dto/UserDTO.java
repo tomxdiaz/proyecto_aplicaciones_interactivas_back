@@ -3,6 +3,7 @@ package com.uade.grupo5.api_trabajo_practico.dto;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Role;
@@ -33,6 +34,7 @@ public class UserDTO {
     @NotNull
     private String password;
     private Role role;
+    @JsonManagedReference
     private Cart cart;
     private List<Buy> orders;
     private List<WishListItem> wishList;

@@ -3,6 +3,7 @@ package com.uade.grupo5.api_trabajo_practico.dto;
 import java.time.LocalDate;
 
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 
 import jakarta.validation.constraints.NotNull;
@@ -16,10 +17,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class BuyDTO {
-
   private long id;
-  // @NotNull
-  /* private Cart cart; */
+  @NotNull
+  private Cart cart;
   @NotNull
   private LocalDate buyDate;
   @NotNull
@@ -27,7 +27,7 @@ public class BuyDTO {
 
   public Buy toEntity() {
     return Buy.builder()
-        /* .cart(this.cartId.toDTO()) */
+        .cart(this.cart)
         .buyDate(this.buyDate)
         .user(this.user)
         .build();
