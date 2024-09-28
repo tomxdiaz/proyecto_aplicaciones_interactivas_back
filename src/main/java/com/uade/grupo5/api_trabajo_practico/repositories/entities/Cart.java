@@ -7,6 +7,7 @@ import com.uade.grupo5.api_trabajo_practico.dto.ItemDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"user"})
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,15 +52,5 @@ public class Cart {
         return cartDTO; // Devolver el CartDTO convertido
     }
 
-    public Buy toBuy(){
-        Buy buy = Buy.builder()
-                  .buyDate(LocalDate.now())
-                  .user(this.user)
-                  .build();
-        List<BuyItem> buyItems = this.items.stream().map(item -> buy.toBuyItem(item)).toList();
-        
-        buy.setItems(buyItems);
-        return buy;
-    }
 
 }

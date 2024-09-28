@@ -58,14 +58,6 @@ public class Buy {
         .build();
   }
 
-  public BuyItem toBuyItem(Item item) {
-    return BuyItem.builder()
-                  .title(item.getProduct().getTitle())
-                  .description(item.getProduct().getDescription())
-                  .price(item.getProduct().getPrice())
-                  .images(item.getProduct().getImages())
-                  .buy(this)
-                  .build();
-  }
+
 
 }
