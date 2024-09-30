@@ -2,6 +2,7 @@ package com.uade.grupo5.api_trabajo_practico.controllers;
 
 import java.util.List;
 
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -94,8 +95,11 @@ public class CartController {
 
   @PutMapping("/{cartId}/confirm")
   public ResponseEntity<?> confirmCart(@PathVariable Long cartId){
+    System.out.println("Cart controller OK");
     try {
-      return ResponseEntity.status(HttpStatus.OK).body(cartService.checkout(cartId));
+      Buy buy = cartService.checkout(cartId);
+      System.out.println("vuelvo hasta la controladora e intento dar respuesta");
+      return ResponseEntity.status(HttpStatus.OK).body(buy);
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }    

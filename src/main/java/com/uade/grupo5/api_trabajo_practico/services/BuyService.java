@@ -1,7 +1,12 @@
 package com.uade.grupo5.api_trabajo_practico.services;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.BuyItem;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +29,21 @@ public class BuyService {
   }
    
 
-  public Buy createBuy(Buy buy) throws Exception {
+  public Buy createBuy(Cart cart) throws Exception {
+    Buy buy = Buy.builder()
+            .buyDate(LocalDate.now())
+            .user(cart.getUser())
+            .build();
+    List<BuyItem> buyItems = new ArrayList<>();
+    cart.getItems().forEach(item -> {
+      BuyItem buyItem = item.toBuyItem();
+      buyItem.setBuy(buy);
+      buyItems.add(buyItem);
+    });
+    buy.setItems(buyItems);
+    System.out.println("LLEGO A BUYSERVICE");
     Buy createdBuy = buyRepository.save(buy);
+    System.out.println("BUY GUARDADO EN DB");
     return createdBuy;
   }
 

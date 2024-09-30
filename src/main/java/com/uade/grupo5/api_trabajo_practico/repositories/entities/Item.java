@@ -45,6 +45,16 @@ public class Item {
                 .build();
     }
 
+    public BuyItem toBuyItem() {
+        // devuelve un BuyItem sin Buy ni Id
+        return  BuyItem.builder()
+                .title(this.getProduct().getTitle())
+                .description(this.getProduct().getDescription())
+                .price(this.getProduct().getPrice())
+                .images(this.getProduct().getImages())
+                .build();
+
+    }
     public double getSubTotal() {
         return this.product.getPrice() * this.quantity;
     }
