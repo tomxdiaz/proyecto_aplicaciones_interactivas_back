@@ -23,17 +23,15 @@ public class BuyService {
     return buys;
   }
 
-  
-  public List<Buy> getUserBuys(Long userId) throws Exception{
+  public List<Buy> getUserBuys(Long userId) throws Exception {
     return buyRepository.findByUserId(userId);
   }
-   
 
   public Buy createBuy(Cart cart) throws Exception {
     Buy buy = Buy.builder()
-            .buyDate(LocalDate.now())
-            .user(cart.getUser())
-            .build();
+        .buyDate(LocalDate.now())
+        .user(cart.getUser())
+        .build();
     List<BuyItem> buyItems = new ArrayList<>();
     cart.getItems().forEach(item -> {
       BuyItem buyItem = item.toBuyItem();
@@ -41,14 +39,12 @@ public class BuyService {
       buyItems.add(buyItem);
     });
     buy.setItems(buyItems);
-    System.out.println("LLEGO A BUYSERVICE");
     Buy createdBuy = buyRepository.save(buy);
-    System.out.println("BUY GUARDADO EN DB");
     return createdBuy;
   }
 
-  public void deleteBuy(Long id) throws Exception{
+  public void deleteBuy(Long id) throws Exception {
     buyRepository.deleteById(id);
   }
-  
+
 }

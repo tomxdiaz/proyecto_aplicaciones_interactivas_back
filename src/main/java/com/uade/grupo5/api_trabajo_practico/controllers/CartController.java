@@ -25,7 +25,7 @@ import com.uade.grupo5.api_trabajo_practico.services.CartService;
 public class CartController {
   @Autowired
   private CartService cartService;
-  
+
   // Obtener el carrito por ID
   @GetMapping("/{cartId}")
   public ResponseEntity<?> getCartById(@PathVariable Long cartId) {
@@ -74,7 +74,7 @@ public class CartController {
 
   // -devuelve precio total del carrito
   @GetMapping("/{cartId}/total")
-  public ResponseEntity<?> getTotalCart(@PathVariable Long cartId){
+  public ResponseEntity<?> getTotalCart(@PathVariable Long cartId) {
     try {
       return ResponseEntity.ok(cartService.getTotal(cartId));
     } catch (Exception error) {
@@ -84,7 +84,7 @@ public class CartController {
 
   // Obtener todos los items de un carrito
   @GetMapping("/{cartId}/items")
-  public ResponseEntity<?> getItemsByCartId(@PathVariable Long cartId){
+  public ResponseEntity<?> getItemsByCartId(@PathVariable Long cartId) {
     try {
       List<Item> items = cartService.getCartById(cartId).getItems();
       return ResponseEntity.ok(items);
@@ -94,14 +94,12 @@ public class CartController {
   }
 
   @PutMapping("/{cartId}/confirm")
-  public ResponseEntity<?> confirmCart(@PathVariable Long cartId){
-    System.out.println("Cart controller OK");
+  public ResponseEntity<?> confirmCart(@PathVariable Long cartId) {
     try {
       Buy buy = cartService.checkout(cartId);
-      System.out.println("vuelvo hasta la controladora e intento dar respuesta");
       return ResponseEntity.status(HttpStatus.OK).body(buy);
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-    }    
+    }
   }
 }

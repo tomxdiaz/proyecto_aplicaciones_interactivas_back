@@ -94,13 +94,9 @@ public class CartService {
     }
 
     public void emptyCart(Long cartId) throws Exception {
-        System.out.println("Vuelvo hasta el puto cart");
         Cart cart = getCartById(cartId);
-        System.out.println("encuentro el puto cart");
         cart.getItems().clear();
-        System.out.println("borro los items del condeando cart");
         cartRepository.save(cart);
-        System.out.println("Meto un loop epiquisimo");
     }
 
     public void removeCart(Long cartId) throws Exception {
@@ -110,9 +106,7 @@ public class CartService {
     public Buy checkout(Long cartId) throws Exception {
         Cart cart = getCartById(cartId);
         Buy buy = buyService.createBuy(cart);
-        System.out.println("Vuelvo hasta cart e intento vaciar");
         emptyCart(cartId);
-        System.out.println("Logro vaciar y quiero devolver mi compra");
         return buy;
     }
 }
