@@ -52,6 +52,9 @@ public class CartService {
             // Si ya existe, actualizamos la cantidad
             item = existingItem;
             item.setQuantity(item.getQuantity() + itemDTO.getQuantity());
+            if (item.getQuantity() == 0) {
+                cart.getItems().remove(item);
+            }
         } else {
             // Si no existe, creamos un nuevo ítem
             item = new Item();
@@ -61,6 +64,10 @@ public class CartService {
 
             // Agregamos el nuevo ítem al carrito
             cart.getItems().add(item);
+        }
+
+        if (item.getQuantity() < 0) {
+            throw new RuntimeException("La cantidad de un item no puede ser negativa");
         }
 
         // Guardar el carrito actualizado
