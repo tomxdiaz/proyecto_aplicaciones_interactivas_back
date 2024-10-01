@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.BuyItem;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
-import com.uade.grupo5.api_trabajo_practico.repositories.entities.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +26,11 @@ public class BuyService {
     return buyRepository.findByUserId(userId);
   }
 
-  public Buy createBuy(Cart cart) throws Exception {
+  public Buy createBuy(Cart cart, double total) throws Exception {
     Buy buy = Buy.builder()
         .buyDate(LocalDate.now())
         .user(cart.getUser())
+        .totalPrice(total)
         .build();
     List<BuyItem> buyItems = new ArrayList<>();
     cart.getItems().forEach(item -> {
@@ -39,8 +39,7 @@ public class BuyService {
       buyItems.add(buyItem);
     });
     buy.setItems(buyItems);
-    Buy createdBuy = buyRepository.save(buy);
-    return createdBuy;
+    return buyRepository.save(buy);
   }
 
   public void deleteBuy(Long id) throws Exception {

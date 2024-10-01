@@ -103,9 +103,10 @@ public class CartService {
         cartRepository.deleteById(cartId);
     }
 
+    @Transactional
     public Buy checkout(Long cartId) throws Exception {
         Cart cart = getCartById(cartId);
-        Buy buy = buyService.createBuy(cart);
+        Buy buy = buyService.createBuy(cart , getTotal(cartId));
         emptyCart(cartId);
         return buy;
     }

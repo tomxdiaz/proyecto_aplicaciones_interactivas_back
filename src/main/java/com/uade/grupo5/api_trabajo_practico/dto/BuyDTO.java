@@ -26,12 +26,15 @@ public class BuyDTO {
   private LocalDate buyDate;
   @NotNull
   private User user;
+  @NotNull
+  private double totalPrice;
 
   public Buy toEntity() {
     return Buy.builder()
         .buyDate(this.buyDate)
         .user(this.user)
         .items(this.items)
+        .totalPrice(this.totalPrice)
         .build();
 
   }

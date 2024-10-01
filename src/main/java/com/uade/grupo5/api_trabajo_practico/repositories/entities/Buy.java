@@ -50,11 +50,14 @@ public class Buy {
   @JsonBackReference
   private User user;
 
+  private double totalPrice;
+
   public BuyDTO toDTO() {
     return BuyDTO.builder()
         .id(this.id)
         .buyDate(this.buyDate)
         .user(user)
+        .totalPrice(this.totalPrice)
         .build();
   }
 
