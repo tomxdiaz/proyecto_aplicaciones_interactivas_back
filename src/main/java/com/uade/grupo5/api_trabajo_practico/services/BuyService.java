@@ -31,7 +31,7 @@ public class BuyService {
         .user(cart.getUser())
         .build();
 
-    List<BuyItem> buyItems = cart.getBuyItems();
+    List<BuyItem> buyItems = cart.generateBuyItems();
 
     buy.setItems(buyItems);
 

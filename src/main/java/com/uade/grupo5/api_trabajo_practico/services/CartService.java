@@ -71,7 +71,7 @@ public class CartService {
 
     public double getTotalPrice(Long cartId) throws Exception {
         Cart cart = getCartById(cartId);
-        return cart.getTotalPrice();
+        return cart.calculateTotalPrice();
     }
 
     @Transactional

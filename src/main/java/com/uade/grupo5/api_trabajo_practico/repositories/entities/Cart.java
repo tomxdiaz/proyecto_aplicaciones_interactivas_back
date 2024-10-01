@@ -33,7 +33,7 @@ public class Cart {
     @JsonManagedReference
     private List<Item> items;
 
-    public double getTotalPrice() {
+    public double calculateTotalPrice() {
         double total = 0;
 
         for (Item item : this.getItems()) {
@@ -43,7 +43,7 @@ public class Cart {
         return total;
     }
 
-    public List<BuyItem> getBuyItems() {
+    public List<BuyItem> generateBuyItems() {
         List<BuyItem> buyItems = new ArrayList<>();
         this.getItems().forEach(item -> {
             BuyItem buyItem = item.toBuyItem();
@@ -67,7 +67,7 @@ public class Cart {
 
         // Asignar la lista de ItemDTO al CartDTO
         cartDTO.setItems(itemDTOs);
-        cartDTO.setTotalPrice(this.getTotalPrice());
+        cartDTO.setTotalPrice(this.calculateTotalPrice());
 
         return cartDTO; // Devolver el CartDTO convertido
     }
