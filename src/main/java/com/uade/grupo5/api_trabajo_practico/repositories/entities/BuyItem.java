@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BuyItem{
+public class BuyItem {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -36,6 +36,9 @@ public class BuyItem{
   @NotNull
   @Column(nullable = false)
   private double price;
+  @NotNull
+  @Column(nullable = false)
+  private int quantity;
   @NotEmpty
   @Column(nullable = false)
   private List<String> images;
@@ -44,5 +47,9 @@ public class BuyItem{
   @JoinColumn(nullable = false, name = "buy_id")
   @JsonBackReference
   private Buy buy;
+
+  public double getSubTotal() {
+    return this.price * this.quantity;
+  }
 
 }

@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"user"})
+@EqualsAndHashCode(exclude = { "user" })
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +32,25 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Item> items;
+
+    public double getTotalPrice() {
+        double total = 0;
+
+        for (Item item : this.getItems()) {
+            total += item.getSubTotal();
+        }
+
+        return total;
+    }
+
+    public List<BuyItem> getBuyItems() {
+        List<BuyItem> buyItems = new ArrayList<>();
+        this.getItems().forEach(item -> {
+            BuyItem buyItem = item.toBuyItem();
+            buyItems.add(buyItem);
+        });
+        return buyItems;
+    }
 
     public CartDTO toDTO() {
         // Crear un nuevo objeto CartDTO
@@ -46,9 +67,9 @@ public class Cart {
 
         // Asignar la lista de ItemDTO al CartDTO
         cartDTO.setItems(itemDTOs);
+        cartDTO.setTotalPrice(this.getTotalPrice());
 
         return cartDTO; // Devolver el CartDTO convertido
     }
-
 
 }

@@ -1,7 +1,6 @@
 package com.uade.grupo5.api_trabajo_practico.services;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.BuyItem;
@@ -26,19 +25,16 @@ public class BuyService {
     return buyRepository.findByUserId(userId);
   }
 
-  public Buy createBuy(Cart cart, double total) throws Exception {
+  public Buy createBuy(Cart cart) throws Exception {
     Buy buy = Buy.builder()
         .buyDate(LocalDate.now())
         .user(cart.getUser())
-        .totalPrice(total)
         .build();
-    List<BuyItem> buyItems = new ArrayList<>();
-    cart.getItems().forEach(item -> {
-      BuyItem buyItem = item.toBuyItem();
-      buyItem.setBuy(buy);
-      buyItems.add(buyItem);
-    });
+
+    List<BuyItem> buyItems = cart.getBuyItems();
+
     buy.setItems(buyItems);
+
     return buyRepository.save(buy);
   }
 

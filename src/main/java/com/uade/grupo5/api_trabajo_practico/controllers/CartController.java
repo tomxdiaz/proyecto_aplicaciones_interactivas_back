@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +36,19 @@ public class CartController {
     }
   }
 
+  // Obtener todos los items de un carrito
+  @GetMapping("/{cartId}/items")
+  public ResponseEntity<?> getItemsByCartId(@PathVariable Long cartId) {
+    try {
+      List<Item> items = cartService.getCartById(cartId).getItems();
+      return ResponseEntity.ok(items);
+    } catch (Exception error) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+    }
+  }
+
   // Agregar un ítem al carrito
-  @PostMapping("/{cartId}/item")
+  @PutMapping("/{cartId}/item")
   public ResponseEntity<?> addItemToCart(@PathVariable Long cartId, @RequestBody ItemDTO itemDTO) {
     try {
       Item addedItem = cartService.addItemToCart(itemDTO, cartId);
@@ -72,22 +82,11 @@ public class CartController {
     }
   }
 
-  // -devuelve precio total del carrito
+  // Devuelve precio total del carrito
   @GetMapping("/{cartId}/total")
   public ResponseEntity<?> getTotalCart(@PathVariable Long cartId) {
     try {
-      return ResponseEntity.ok(cartService.getTotal(cartId));
-    } catch (Exception error) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-    }
-  }
-
-  // Obtener todos los items de un carrito
-  @GetMapping("/{cartId}/items")
-  public ResponseEntity<?> getItemsByCartId(@PathVariable Long cartId) {
-    try {
-      List<Item> items = cartService.getCartById(cartId).getItems();
-      return ResponseEntity.ok(items);
+      return ResponseEntity.ok(cartService.getTotalPrice(cartId));
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }

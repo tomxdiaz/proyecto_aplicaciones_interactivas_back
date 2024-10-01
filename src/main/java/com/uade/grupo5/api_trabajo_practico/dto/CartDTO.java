@@ -21,4 +21,6 @@ public class CartDTO {
     private User user;
     @NotNull
     private List<ItemDTO> items;
+    @NotNull
+    private double totalPrice;
 }

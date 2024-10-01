@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.BuyItem;
-import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 
 import jakarta.validation.constraints.NotNull;
@@ -34,8 +33,6 @@ public class BuyDTO {
         .buyDate(this.buyDate)
         .user(this.user)
         .items(this.items)
-        .totalPrice(this.totalPrice)
         .build();
-
   }
 }
