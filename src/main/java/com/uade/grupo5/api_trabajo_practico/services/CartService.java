@@ -7,14 +7,10 @@ import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Item;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
-import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.time.LocalDate;
 
 @Service
 public class CartService {
@@ -73,17 +69,9 @@ public class CartService {
         return item;
     }
 
-    public double getTotal(Long cartId) throws Exception {
-        List<Item> products = cartRepository.findById(cartId).get().getItems();
-        if (products.isEmpty()) {
-            throw new IllegalArgumentException("Empty Cart or doesnt exist");
-        } else {
-            double total = 0;
-            for (Item item : products) {
-                total += item.getQuantity() * item.getProduct().getPrice();
-            }
-            return total;
-        }
+    public double getTotalPrice(Long cartId) throws Exception {
+        Cart cart = getCartById(cartId);
+        return cart.getTotalPrice();
     }
 
     @Transactional

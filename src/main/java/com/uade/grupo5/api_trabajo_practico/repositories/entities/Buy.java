@@ -16,7 +16,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -50,14 +49,27 @@ public class Buy {
   @JsonBackReference
   private User user;
 
+  public double getTotalPrice() {
+    double totalPrice = 0;
+    for (BuyItem item : items) {
+      totalPrice += item.getSubTotal();
+    }
+    return totalPrice;
+
+  }
+
+  public void setItems(List<BuyItem> buyItems) {
+    buyItems.forEach(buyItem -> buyItem.setBuy(this));
+    this.items = buyItems;
+  }
+
   public BuyDTO toDTO() {
     return BuyDTO.builder()
         .id(this.id)
         .buyDate(this.buyDate)
         .user(user)
+        .totalPrice(this.getTotalPrice())
         .build();
   }
-
-
 
 }

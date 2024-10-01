@@ -36,6 +36,10 @@ public class Item {
     @JsonBackReference
     private Cart cart;
 
+    public double getSubTotal() {
+        return this.product.getPrice() * this.quantity;
+    }
+
     public ItemDTO toDTO() {
         return ItemDTO.builder()
                 .id(this.id)
@@ -46,17 +50,14 @@ public class Item {
     }
 
     public BuyItem toBuyItem() {
-        // devuelve un BuyItem sin Buy ni Id
-        return  BuyItem.builder()
+        return BuyItem.builder()
                 .title(this.getProduct().getTitle())
                 .description(this.getProduct().getDescription())
                 .price(this.getProduct().getPrice())
+                .quantity(this.getQuantity())
                 .images(this.getProduct().getImages())
                 .build();
 
-    }
-    public double getSubTotal() {
-        return this.product.getPrice() * this.quantity;
     }
 
 }
