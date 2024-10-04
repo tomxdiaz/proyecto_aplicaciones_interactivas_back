@@ -24,7 +24,6 @@ public class ItemDTO {
     @JsonIgnore
     @NotNull
     private Cart cart;
-    private boolean stockSuficiente = true;
 
     public Long getProductId() {
         return this.product.getId();
