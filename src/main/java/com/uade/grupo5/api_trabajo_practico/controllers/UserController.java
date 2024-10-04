@@ -1,12 +1,8 @@
 package com.uade.grupo5.api_trabajo_practico.controllers;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,22 +15,13 @@ import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 import com.uade.grupo5.api_trabajo_practico.services.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
   @Autowired
   private UserService userService;
 
-  @GetMapping("")
-  public ResponseEntity<?> getAllUsers() {
-    try {
-      List<User> users = userService.getAllUsers();
-      List<UserDTO> usersDTO = users.stream().map(user -> user.toDTO()).collect(Collectors.toList());
-      return ResponseEntity.status(HttpStatus.OK).body(usersDTO);
-    } catch (Exception error) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-    }
-  }
-
+  // SIRVE
+  // TODO -> INFO DEL TOKEN
   @GetMapping("/{id}")
   public ResponseEntity<?> getUserById(@PathVariable Long id) {
     try {
@@ -46,7 +33,8 @@ public class UserController {
     }
   }
 
-  @PutMapping("/{id}")
+  // SIRVE
+  @PutMapping("")
   public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
     try {
       User user = userDTO.toEntity();
@@ -60,15 +48,31 @@ public class UserController {
     }
   }
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-    try {
-      userService.deleteUser(id);
+  // TODO
+  // @DeleteMapping("/{id}")
+  // public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+  // try {
+  // userService.deleteUser(id);
 
-      return ResponseEntity.status(HttpStatus.OK).body(null);
-    } catch (Exception error) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-    }
-  }
+  // return ResponseEntity.status(HttpStatus.OK).body(null);
+  // } catch (Exception error) {
+  // return
+  // ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+  // }
+  // }
+
+  // TODO
+  // @GetMapping("")
+  // public ResponseEntity<?> getAllUsers() {
+  // try {
+  // List<User> users = userService.getAllUsers();
+  // List<UserDTO> usersDTO = users.stream().map(user ->
+  // user.toDTO()).collect(Collectors.toList());
+  // return ResponseEntity.status(HttpStatus.OK).body(usersDTO);
+  // } catch (Exception error) {
+  // return
+  // ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+  // }
+  // }
 
 }

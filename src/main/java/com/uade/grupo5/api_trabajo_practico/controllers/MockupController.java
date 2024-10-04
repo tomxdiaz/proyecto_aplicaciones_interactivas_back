@@ -23,6 +23,7 @@ public class MockupController {
         @Autowired
         private UserService userService;
 
+        // TODO -> INFO DEL TOKEN
         @PostMapping("/initialize")
         public ResponseEntity<String> initializeDB() {
                 try {
