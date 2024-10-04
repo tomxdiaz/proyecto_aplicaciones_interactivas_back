@@ -24,7 +24,7 @@ public class ProductController {
         @Autowired
         private ProductService productService;
 
-        // ALTA: create a product
+        // SIRVE
         @PostMapping("")
         public ResponseEntity<?> createProduct(
                         @RequestBody ProductDTO productDTO) {
@@ -45,58 +45,8 @@ public class ProductController {
 
         }
 
-        // CONSULTA: get all the list
-        @GetMapping("")
-        public ResponseEntity<?> getAllProducts() {
-                try {
-                        List<Product> allProducts = productService.getAllProducts();
-
-                        List<ProductDTO> allProductsDTO = allProducts.stream()
-                                        .map(product -> product.toDTO())
-                                        .toList();
-
-                        return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
-                } catch (Exception e) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-                }
-
-        }
-
-        // CONSULTA: get a product by its id
-        @GetMapping("/{id}")
-        public ResponseEntity<?> getProductById(
-                        @PathVariable Long id) throws Exception {
-                try {
-                        Product product = productService.getProductById(id);
-
-                        ProductDTO productDTO = product.toDTO();
-
-                        return ResponseEntity.status(HttpStatus.OK).body(productDTO);
-                } catch (Exception e) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-                }
-
-        }
-
-        @GetMapping("/category/{categoryId}")
-        public ResponseEntity<?> getAllProductsByCategory(
-                        @PathVariable Long categoryId) {
-                try {
-                        List<Product> allProducts = productService.getAllProductsByCategoryId(categoryId);
-
-                        List<ProductDTO> allProductsDTO = allProducts.stream()
-                                        .map(product -> product.toDTO())
-                                        .toList();
-
-                        return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
-                } catch (Exception e) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-                }
-
-        }
-
-        // MODIFY: update
-        @PutMapping("/{id}")
+        // SIRVE
+        @PutMapping("")
         public ResponseEntity<?> updateProduct(
                         @RequestBody ProductDTO productDTO) throws Exception {
                 try {
@@ -113,7 +63,7 @@ public class ProductController {
 
         }
 
-        // BAJA: delete
+        // SIRVE
         @DeleteMapping("/{id}")
         public ResponseEntity<?> deleteProduct(
                         @PathVariable Long id) throws Exception {
@@ -125,5 +75,56 @@ public class ProductController {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
                 }
         }
+
+        // SIRVE
+        @GetMapping("")
+        public ResponseEntity<?> getAllProducts() {
+                try {
+                        List<Product> allProducts = productService.getAllProducts();
+
+                        List<ProductDTO> allProductsDTO = allProducts.stream()
+                                        .map(product -> product.toDTO())
+                                        .toList();
+
+                        return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
+                } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+                }
+
+        }
+
+        // SIRVE
+        @GetMapping("/{id}")
+        public ResponseEntity<?> getProductById(
+                        @PathVariable Long id) throws Exception {
+                try {
+                        Product product = productService.getProductById(id);
+
+                        ProductDTO productDTO = product.toDTO();
+
+                        return ResponseEntity.status(HttpStatus.OK).body(productDTO);
+                } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+                }
+
+        }
+
+        // TODO
+        // @GetMapping("/category/{categoryId}")
+        // public ResponseEntity<?> getAllProductsByCategory(
+        // @PathVariable Long categoryId) {
+        // try {
+        // List<Product> allProducts =
+        // productService.getAllProductsByCategoryId(categoryId);
+
+        // List<ProductDTO> allProductsDTO = allProducts.stream()
+        // .map(product -> product.toDTO())
+        // .toList();
+
+        // return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
+        // } catch (Exception e) {
+        // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        // }
+        // }
 
 }
