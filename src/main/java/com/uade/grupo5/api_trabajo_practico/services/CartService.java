@@ -33,28 +33,31 @@ public class CartService {
 
     @Transactional
     public Item addItemToCart(ItemDTO itemDTO, Long cartId) throws Exception {
+        if (itemDTO.getQuantity() < 0) { // Deberia siempre ser filtrado por el front
+            throw new RuntimeException("Quantity less than 0");
+        }
+        // Obtener el producto por ID
+        Product product = productRepository.findById(itemDTO.getProduct().getId())
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        if (product.getStock() < itemDTO.getQuantity()) {
+            throw new RuntimeException("No hay stock suficiente del producto elegido");
+        }
+
         // Obtener el carrito por ID
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
 
-        // Obtener el producto por ID
-        Product product = productRepository.findById(itemDTO.getProduct().getId())
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
         // Buscar el ítem en la lista de ítems del carrito
-        Item existingItem = cart.getItems().stream()
-                .filter(item -> item.getProduct().getId().equals(product.getId()))
+        Item item = cart.getItems().stream()
+                .filter(cartItem -> cartItem.getProduct().getId().equals(product.getId()))
                 .findFirst()
                 .orElse(null);
 
-        Item item;
-        if (existingItem != null) {
+        if (item != null) {
             // Si ya existe, actualizamos la cantidad
-            item = existingItem;
-            item.setQuantity(item.getQuantity() + itemDTO.getQuantity());
-            if (item.getQuantity() == 0) {
-                cart.getItems().remove(item);
-            }
+            item.setQuantity(itemDTO.getQuantity());
+
         } else {
             // Si no existe, creamos un nuevo ítem
             item = new Item();
@@ -66,9 +69,6 @@ public class CartService {
             cart.getItems().add(item);
         }
 
-        if (item.getQuantity() < 0) {
-            throw new RuntimeException("La cantidad de un item no puede ser negativa");
-        }
 
         // Guardar el carrito actualizado
         cartRepository.save(cart);

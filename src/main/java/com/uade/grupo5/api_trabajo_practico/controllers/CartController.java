@@ -59,18 +59,6 @@ public class CartController {
     }
   }
 
-  // Eliminar un ítem del carrito por el ID del producto
-  @DeleteMapping("/{cartId}/item/{productId}")
-  public ResponseEntity<?> removeItemFromCart(@PathVariable Long cartId, @PathVariable Long productId) {
-    try {
-      cartService.removeItemFromCart(cartId, productId);
-      Cart cart = cartService.getCartById(cartId);
-      return ResponseEntity.status(HttpStatus.OK).body(cart.toDTO());
-    } catch (Exception error) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-    }
-  }
-
   // Vaciar el carrito
   @PutMapping("/{cartId}/empty")
   public ResponseEntity<?> emptyCart(@PathVariable Long cartId) {

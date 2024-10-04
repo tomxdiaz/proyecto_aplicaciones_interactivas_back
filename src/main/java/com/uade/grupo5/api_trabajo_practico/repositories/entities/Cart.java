@@ -46,9 +46,13 @@ public class Cart {
     public List<BuyItem> generateBuyItems() {
         List<BuyItem> buyItems = new ArrayList<>();
         this.getItems().forEach(item -> {
+            if (item.getQuantity() > item.getProduct().getStock()) {
+                throw new RuntimeException("Not enough stock of product: " + item.getProduct().getTitle());
+            }
             BuyItem buyItem = item.toBuyItem();
             buyItems.add(buyItem);
         });
+
         return buyItems;
     }
 

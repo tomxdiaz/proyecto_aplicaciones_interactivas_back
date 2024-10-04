@@ -46,6 +46,7 @@ public class Item {
                 .product(this.product)
                 .quantity(this.quantity)
                 .cart(this.cart)
+                .stockSuficiente(true)
                 .build();
     }
 
