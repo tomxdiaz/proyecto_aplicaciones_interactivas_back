@@ -36,6 +36,10 @@ public class Item {
     @JsonBackReference
     private Cart cart;
 
+    public Long getProductId() {
+        return this.product.getId();
+    }
+
     public double getSubTotal() {
         return this.product.getPrice() * this.quantity;
     }

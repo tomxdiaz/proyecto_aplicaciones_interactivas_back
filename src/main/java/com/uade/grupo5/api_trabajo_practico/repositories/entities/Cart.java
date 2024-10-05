@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -66,8 +65,8 @@ public class Cart {
 
         // Convertir la lista de items de Cart a una lista de ItemDTO
         List<ItemDTO> itemDTOs = this.getItems().stream()
-                .map(item -> item.toDTO())
-                .collect(Collectors.toList());
+                .map(Item::toDTO)
+                .toList();
 
         // Asignar la lista de ItemDTO al CartDTO
         cartDTO.setItems(itemDTOs);

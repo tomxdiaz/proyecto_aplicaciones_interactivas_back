@@ -47,10 +47,9 @@ public class CartService {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
 
-
         // Buscar el ítem en la lista de ítems del carrito
         Item item = cart.getItems().stream()
-                .filter(cartItem -> cartItem.getProduct().getId().equals(product.getId()))
+                .filter(cartItem -> cartItem.getProductId().equals(product.getId()))
                 .findFirst()
                 .orElse(null);
 
@@ -68,7 +67,6 @@ public class CartService {
             // Agregamos el nuevo ítem al carrito
             cart.getItems().add(item);
         }
-
 
         // Guardar el carrito actualizado
         cartRepository.save(cart);

@@ -25,8 +25,8 @@ public class UserController {
   @GetMapping("")
   public ResponseEntity<?> getUserData(@AuthenticationPrincipal UserDetails userDetails) {
     try {
-      User user = userService.getUserByUsername(userDetails.getUsername());
-      UserDTO userDTO = user.toDTO();
+      User authUser = userService.getUserByUsername(userDetails.getUsername());
+      UserDTO userDTO = authUser.toDTO();
       return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
@@ -35,9 +35,14 @@ public class UserController {
 
   // SIRVE
   @PutMapping("")
-  public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
+  public ResponseEntity<?> updateUser(@AuthenticationPrincipal UserDetails userDetails, @RequestBody UserDTO userDTO) {
     try {
+      User authUser = userService.getUserByUsername(userDetails.getUsername());
+
       User user = userDTO.toEntity();
+
+      // Obliga a que el usuario que se actualice sea el autenticado
+      user.setId(authUser.getId());
 
       User updatedUser = userService.updateUser(user);
 

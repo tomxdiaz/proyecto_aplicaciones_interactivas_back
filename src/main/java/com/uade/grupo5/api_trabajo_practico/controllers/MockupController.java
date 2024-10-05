@@ -4,6 +4,8 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,10 +25,15 @@ public class MockupController {
         @Autowired
         private UserService userService;
 
-        // TODO -> INFO DEL TOKEN
+        // SIRVE -> AGREGAR DATOS
         @PostMapping("/initialize")
-        public ResponseEntity<String> initializeDB() {
+        public ResponseEntity<String> initializeDB(@AuthenticationPrincipal UserDetails userDetails) {
+
                 try {
+                        User authUser = userService.getUserByUsername(userDetails.getUsername());
+
+                        System.out.println(authUser);
+
                         productService.createProduct(new Product(null, "Royal Canin adulto 3KG",
                                         "Royal Canin adulto mordida chica 3KG", 15.00,
                                         Arrays.asList("https://http2.mlstatic.com/D_NQ_NP_835947-MLA54584711620_032023-O.webp"),
@@ -55,7 +62,7 @@ public class MockupController {
                 }
         }
 
-        @PostMapping("/makeAllUserAdmin")
+        @PostMapping("/makeAllUsersAdmin")
         public ResponseEntity<String> makeAllUserAdmin() {
                 try {
                         for (User user : userService.getAllUsers()) {

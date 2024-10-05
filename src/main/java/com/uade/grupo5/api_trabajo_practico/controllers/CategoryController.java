@@ -26,7 +26,7 @@ public class CategoryController {
       List<Category> allCategories = categoryService.getAllCategories();
 
       List<CategoryDTO> allCategoriesDTO = allCategories.stream()
-          .map(category -> category.toDTO())
+          .map(Category::toDTO)
           .toList();
 
       return ResponseEntity.status(HttpStatus.OK).body(allCategoriesDTO);
@@ -35,7 +35,7 @@ public class CategoryController {
     }
   }
 
-  // TODO -> MOVER A MOCKUP
+  // TODO -> MOVER A MOCKUP -> QUE NO SEA UN ENDPOINT EN CATEGORY CONTROLLER
   // @PostMapping("")
   // public ResponseEntity<?> createCategory(
   // @RequestBody CategoryDTO categoryDTO) {

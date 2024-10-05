@@ -83,7 +83,7 @@ public class ProductController {
                         List<Product> allProducts = productService.getAllProducts();
 
                         List<ProductDTO> allProductsDTO = allProducts.stream()
-                                        .map(product -> product.toDTO())
+                                        .map(Product::toDTO)
                                         .toList();
 
                         return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
