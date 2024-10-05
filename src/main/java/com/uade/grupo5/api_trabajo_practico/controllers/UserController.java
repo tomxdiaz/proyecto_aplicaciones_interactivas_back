@@ -3,8 +3,9 @@ package com.uade.grupo5.api_trabajo_practico.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +22,10 @@ public class UserController {
   private UserService userService;
 
   // SIRVE
-  // TODO -> INFO DEL TOKEN
-  @GetMapping("/{id}")
-  public ResponseEntity<?> getUserById(@PathVariable Long id) {
+  @GetMapping("")
+  public ResponseEntity<?> getUserData(@AuthenticationPrincipal UserDetails userDetails) {
     try {
-      User user = userService.getUserById(id);
+      User user = userService.getUserByUsername(userDetails.getUsername());
       UserDTO userDTO = user.toDTO();
       return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     } catch (Exception error) {

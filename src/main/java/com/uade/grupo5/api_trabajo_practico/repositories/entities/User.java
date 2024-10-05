@@ -40,6 +40,7 @@ public class User implements UserDetails {
     private String username;
     private String name;
     private String lastName;
+    @Column(unique = true)
     private String emailAddress;
     private LocalDate birthDate;
     private String password;

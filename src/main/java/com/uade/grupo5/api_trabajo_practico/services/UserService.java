@@ -48,7 +48,7 @@ public class UserService {
     }
 
     public User getUserById(Long id) throws Exception {
-        return userRepository.getReferenceById(id);
+        return userRepository.findById(id).orElseThrow(() -> new Exception("User not found"));
     }
 
     public User getUserByUsername(String username) throws Exception {
