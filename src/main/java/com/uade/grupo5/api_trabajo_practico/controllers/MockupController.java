@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Role;
@@ -35,7 +36,7 @@ public class MockupController {
                 }
         }
 
-        @PostMapping("/makeAllUsersAdmin")
+        @PutMapping("/makeAllUsersAdmin")
         public ResponseEntity<String> makeAllUsersAdmin() {
                 try {
                         for (User user : userService.getAllUsers()) {
