@@ -27,45 +27,19 @@ public class BuyController {
   @Autowired
   private UserService userService;
 
-  // TODO -> INFO DEL TOKEN
+  // ** TOKEN FUNCIONANDO **
   @GetMapping("")
   public ResponseEntity<?> getUserBuys(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
     try {
       User authUser = userService.getUserByUsername(userDetails.getUsername());
+
       List<BuyDTO> buys = buyService.getUserBuys(authUser.getId()).stream().map(Buy::toDTO).toList();
 
       return ResponseEntity.status(HttpStatus.OK).body(buys);
+
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }
   }
-
-  // TODO
-  // @GetMapping("")
-  // public ResponseEntity<?> getBuys() {
-  // try {
-  // List<BuyDTO> allBuysDTO = buyService.getAllBuys().stream().map(buy ->
-  // buy.toDTO()).toList();
-
-  // return ResponseEntity.status(HttpStatus.OK).body(allBuysDTO);
-  // } catch (Exception error) {
-  // return
-  // ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-  // }
-
-  // }
-
-  // TODO
-  // @DeleteMapping("/{id}")
-  // public ResponseEntity<?> deleteBuy(@PathVariable Long id) {
-  // try {
-  // buyService.deleteBuy(id);
-  // return ResponseEntity.status(HttpStatus.OK).body("Compra borrada
-  // correctamente!");
-  // } catch (Exception error) {
-  // return
-  // ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-  // }
-  // }
 
 }

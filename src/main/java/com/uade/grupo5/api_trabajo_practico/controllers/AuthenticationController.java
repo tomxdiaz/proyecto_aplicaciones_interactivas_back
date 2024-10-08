@@ -24,7 +24,9 @@ public class AuthenticationController {
   public ResponseEntity<?> register(
       @RequestBody RegisterRequest request) {
     try {
+
       return ResponseEntity.status(HttpStatus.OK).body(authService.register(request));
+
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }
@@ -35,7 +37,9 @@ public class AuthenticationController {
   public ResponseEntity<?> authenticate(
       @RequestBody AuthenticationRequest request) {
     try {
+
       return ResponseEntity.status(HttpStatus.OK).body(authService.authenticate(request));
+
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }

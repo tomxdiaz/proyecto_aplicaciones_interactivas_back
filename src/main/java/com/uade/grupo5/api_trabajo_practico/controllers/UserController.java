@@ -21,19 +21,22 @@ public class UserController {
   @Autowired
   private UserService userService;
 
-  // SIRVE
+  // ** SIRVE **
   @GetMapping("")
   public ResponseEntity<?> getUserData(@AuthenticationPrincipal UserDetails userDetails) {
     try {
       User authUser = userService.getUserByUsername(userDetails.getUsername());
+
       UserDTO userDTO = authUser.toDTO();
+
       return ResponseEntity.status(HttpStatus.OK).body(userDTO);
+
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }
   }
 
-  // SIRVE
+  // ** SIRVE **
   @PutMapping("")
   public ResponseEntity<?> updateUser(@AuthenticationPrincipal UserDetails userDetails, @RequestBody UserDTO userDTO) {
     try {
@@ -41,43 +44,17 @@ public class UserController {
 
       User user = userDTO.toEntity();
 
-      // Obliga a que el usuario que se actualice sea el autenticado
       user.setId(authUser.getId());
 
       User updatedUser = userService.updateUser(user);
 
       UserDTO updatedUserDTO = updatedUser.toDTO();
+
       return ResponseEntity.status(HttpStatus.OK).body(updatedUserDTO);
+
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }
   }
-
-  // TODO
-  // @DeleteMapping("/{id}")
-  // public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-  // try {
-  // userService.deleteUser(id);
-
-  // return ResponseEntity.status(HttpStatus.OK).body(null);
-  // } catch (Exception error) {
-  // return
-  // ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-  // }
-  // }
-
-  // TODO
-  // @GetMapping("")
-  // public ResponseEntity<?> getAllUsers() {
-  // try {
-  // List<User> users = userService.getAllUsers();
-  // List<UserDTO> usersDTO = users.stream().map(user ->
-  // user.toDTO()).collect(Collectors.toList());
-  // return ResponseEntity.status(HttpStatus.OK).body(usersDTO);
-  // } catch (Exception error) {
-  // return
-  // ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-  // }
-  // }
 
 }

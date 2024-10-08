@@ -24,12 +24,11 @@ public class ProductController {
         @Autowired
         private ProductService productService;
 
-        // SIRVE
+        // ** SIRVE **
         @PostMapping("")
         public ResponseEntity<?> createProduct(
                         @RequestBody ProductDTO productDTO) {
                 try {
-                        // The 'id' field must be null in order to create a new product
                         productDTO.setId(null);
 
                         Product product = productDTO.toEntity();
@@ -39,13 +38,14 @@ public class ProductController {
                         ProductDTO createdProductDTO = createdProduct.toDTO();
 
                         return ResponseEntity.status(HttpStatus.CREATED).body(createdProductDTO);
+
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
                 }
 
         }
 
-        // SIRVE
+        // ** SIRVE **
         @PutMapping("")
         public ResponseEntity<?> updateProduct(
                         @RequestBody ProductDTO productDTO) throws Exception {
@@ -57,13 +57,14 @@ public class ProductController {
                         ProductDTO updatedProductDTO = updatedProduct.toDTO();
 
                         return ResponseEntity.status(HttpStatus.OK).body(updatedProductDTO);
+
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
                 }
 
         }
 
-        // SIRVE
+        // ** SIRVE **
         @DeleteMapping("/{id}")
         public ResponseEntity<?> deleteProduct(
                         @PathVariable Long id) throws Exception {
@@ -71,12 +72,13 @@ public class ProductController {
                         productService.deleteProduct(id);
 
                         return ResponseEntity.status(HttpStatus.OK).body(null);
+
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
                 }
         }
 
-        // SIRVE
+        // ** SIRVE **
         @GetMapping("")
         public ResponseEntity<?> getAllProducts() {
                 try {
@@ -87,13 +89,14 @@ public class ProductController {
                                         .toList();
 
                         return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
+
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
                 }
 
         }
 
-        // SIRVE
+        // ** SIRVE **
         @GetMapping("/{id}")
         public ResponseEntity<?> getProductById(
                         @PathVariable Long id) throws Exception {
@@ -103,28 +106,11 @@ public class ProductController {
                         ProductDTO productDTO = product.toDTO();
 
                         return ResponseEntity.status(HttpStatus.OK).body(productDTO);
+
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
                 }
 
         }
-
-        // TODO
-        // @GetMapping("/category/{categoryId}")
-        // public ResponseEntity<?> getAllProductsByCategory(
-        // @PathVariable Long categoryId) {
-        // try {
-        // List<Product> allProducts =
-        // productService.getAllProductsByCategoryId(categoryId);
-
-        // List<ProductDTO> allProductsDTO = allProducts.stream()
-        // .map(product -> product.toDTO())
-        // .toList();
-
-        // return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
-        // } catch (Exception e) {
-        // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        // }
-        // }
 
 }

@@ -29,85 +29,91 @@ public class CartController {
   @Autowired
   private UserService userService;
 
-  // SIRVE
+  // ** TOKEN FUNCIONANDO **
   @GetMapping("")
   public ResponseEntity<?> getUserCart(@AuthenticationPrincipal UserDetails userDetails) {
     try {
       User authUser = userService.getUserByUsername(userDetails.getUsername());
+
       Cart cart = authUser.getCart();
 
       return ResponseEntity.status(HttpStatus.OK).body(cart.toDTO());
+
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }
   }
 
-  // SIRVE
+  // ** TOKEN FUNCIONANDO **
   @PutMapping("/item")
   public ResponseEntity<?> addItemToCart(@AuthenticationPrincipal UserDetails userDetails,
       @RequestBody ItemDTO itemDTO) {
     try {
       User authUser = userService.getUserByUsername(userDetails.getUsername());
+
       Cart cart = authUser.getCart();
+
       Item addedItem = cartService.addItemToCart(itemDTO, cart.getId());
+
       ItemDTO addedItemDTO = addedItem.toDTO();
 
       return ResponseEntity.status(HttpStatus.OK).body(addedItemDTO);
+
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }
   }
 
-  // SIRVE
+  // ** TOKEN FUNCIONANDO **
   @PutMapping("/item/{productId}")
   public ResponseEntity<?> removeItemFromCart(@AuthenticationPrincipal UserDetails userDetails,
       @PathVariable Long productId) {
     try {
       User authUser = userService.getUserByUsername(userDetails.getUsername());
+
       Cart cart = authUser.getCart();
+
       cartService.removeItemFromCart(cart.getId(), productId);
 
       return ResponseEntity.status(HttpStatus.OK).body(cart.toDTO());
+
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }
   }
 
-  // SIRVE
+  // ** TOKEN FUNCIONANDO **
   @PutMapping("/empty")
   public ResponseEntity<?> emptyCart(@AuthenticationPrincipal UserDetails userDetails) {
     try {
       User authUser = userService.getUserByUsername(userDetails.getUsername());
+
       Cart cart = authUser.getCart();
+
       cartService.emptyCart(cart.getId());
+
       return ResponseEntity.status(HttpStatus.OK).body("Carrito vaciado correctamente!");
+
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }
   }
 
-  // SIRVE
+  // ** TOKEN FUNCIONANDO **
   @PutMapping("/confirm")
   public ResponseEntity<?> confirmCart(@AuthenticationPrincipal UserDetails userDetails) {
     try {
       User authUser = userService.getUserByUsername(userDetails.getUsername());
+
       Cart cart = authUser.getCart();
+
       Buy buy = cartService.checkout(cart.getId());
+
       return ResponseEntity.status(HttpStatus.OK).body(buy);
+
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }
   }
-
-  // TODO -> EN PRINCIPIO VUELA, EL TOTAL YA VIENE EN EL DTO
-  // @GetMapping("/{cartId}/total")
-  // public ResponseEntity<?> getTotalCart(@PathVariable Long cartId) {
-  // try {
-  // return ResponseEntity.ok(cartService.getTotalPrice(cartId));
-  // } catch (Exception error) {
-  // return
-  // ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-  // }
-  // }
 
 }
