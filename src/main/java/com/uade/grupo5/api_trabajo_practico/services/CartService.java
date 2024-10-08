@@ -21,16 +21,19 @@ public class CartService {
     @Autowired
     private BuyService buyService;
 
+    // ** SIRVE **
     public Cart createCart() {
         Cart cart = new Cart();
         return cart;
     }
 
+    // ** SIRVE **
     public Cart getCartById(Long cartId) throws Exception {
         return cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
     }
 
+    // ** SIRVE **
     @Transactional
     public Item addItemToCart(ItemDTO itemDTO, Long cartId) throws Exception {
         if (itemDTO.getQuantity() < 0) { // Deberia siempre ser filtrado por el front
@@ -70,15 +73,10 @@ public class CartService {
 
         // Guardar el carrito actualizado
         cartRepository.save(cart);
-
         return item;
     }
 
-    public double getTotalPrice(Long cartId) throws Exception {
-        Cart cart = getCartById(cartId);
-        return cart.calculateTotalPrice();
-    }
-
+    // ** SIRVE **
     @Transactional
     public void removeItemFromCart(Long cartId, Long productId) throws Exception {
         Cart cart = getCartById(cartId);
@@ -86,16 +84,14 @@ public class CartService {
         cartRepository.save(cart);
     }
 
+    // ** SIRVE **
     public void emptyCart(Long cartId) throws Exception {
         Cart cart = getCartById(cartId);
         cart.getItems().clear();
         cartRepository.save(cart);
     }
 
-    public void removeCart(Long cartId) throws Exception {
-        cartRepository.deleteById(cartId);
-    }
-
+    // ** SIRVE **
     public Buy checkout(Long cartId) throws Exception {
         Cart cart = getCartById(cartId);
         Buy buy = buyService.createBuy(cart);

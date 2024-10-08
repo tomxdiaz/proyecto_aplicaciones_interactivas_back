@@ -21,6 +21,7 @@ public class JwtService {
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
 
+    // ** SIRVE **
     public String generateToken(UserDetails userDetails) {
         return Jwts
                 .builder()
@@ -31,19 +32,23 @@ public class JwtService {
                 .compact();
     }
 
+    // ** SIRVE **
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractClaim(token, Claims::getSubject);
         return (username.equals(userDetails.getUsername()));
     }
 
+    // ** SIRVE **
     public boolean isTokenExpired(String token) {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }
 
+    // ** SIRVE **
     public String extractUsername(String token) {
         return extractClaim(token, (n) -> n.getSubject());
     }
 
+    // ** SIRVE **
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = Jwts
                 .parser()
@@ -54,6 +59,7 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
+    // ** SIRVE **
     private SecretKey getSecretKey() {
         return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }

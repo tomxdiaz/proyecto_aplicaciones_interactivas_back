@@ -16,15 +16,12 @@ public class BuyService {
   @Autowired
   private BuyRepository buyRepository;
 
-  public List<Buy> getAllBuys() throws Exception {
-    List<Buy> buys = buyRepository.findAll();
-    return buys;
-  }
-
+  // ** SIRVE **
   public List<Buy> getUserBuys(Long userId) throws Exception {
     return buyRepository.findByUserId(userId);
   }
 
+  // ** SIRVE **
   public Buy createBuy(Cart cart) throws Exception {
     Buy buy = Buy.builder()
         .buyDate(LocalDate.now())
@@ -36,10 +33,6 @@ public class BuyService {
     buy.setItems(buyItems);
 
     return buyRepository.save(buy);
-  }
-
-  public void deleteBuy(Long id) throws Exception {
-    buyRepository.deleteById(id);
   }
 
 }

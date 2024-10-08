@@ -24,6 +24,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // ** SIRVE **
     public User createUser(
             RegisterRequest request) throws Exception {
         Cart cart = cartService.createCart();
@@ -39,6 +40,7 @@ public class UserService {
 
     }
 
+    // ** SIRVE **
     public void updateRole(User user,
             Role role) throws Exception {
 
@@ -47,25 +49,20 @@ public class UserService {
 
     }
 
-    public User getUserById(Long id) throws Exception {
-        return userRepository.findById(id).orElseThrow(() -> new Exception("User not found"));
-    }
-
+    // ** SIRVE **
     public User getUserByUsername(String username) throws Exception {
         return userRepository.findByUsername(username).orElseThrow(() -> new Exception("User not found"));
     }
 
+    // ** SIRVE **
     public List<User> getAllUsers() throws Exception {
         return userRepository.findAll();
     }
 
+    // ** SIRVE **
     public User updateUser(
             User user) throws Exception {
         return userRepository.save(user);
-    }
-
-    public void deleteUser(Long id) throws Exception {
-        userRepository.deleteById(id);
     }
 
 }

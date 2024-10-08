@@ -12,8 +12,8 @@ import com.uade.grupo5.api_trabajo_practico.repositories.entities.Search;
 public class SearchService {
   @Autowired
   private SearchRepository searchRepository;
-  
-  public List<Search> getAllSearches() throws Exception{
-    return searchRepository.findAll();
+
+  public List<Search> getAllSearchesByUserId(Long userId) throws Exception {
+    return searchRepository.findAllByUserId(userId);
   }
 }
