@@ -1,0 +1,10 @@
+updateUser: manejar casos donde se envie username, email, password (no deberian enviarse para modificar teoricamente)
+
+Crear metodos HTTP de prueba para todos los controllers
+
+Auth: OK
+Mockup: OK
+Product: OK
+User: OK
+
+	
