@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class BuyDTO {
-  private long id;
+  private Long id;
   @NotNull
   private List<BuyItem> items;
   @NotNull

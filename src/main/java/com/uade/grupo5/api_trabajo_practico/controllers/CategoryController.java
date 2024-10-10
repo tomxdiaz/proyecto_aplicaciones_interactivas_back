@@ -19,71 +19,21 @@ public class CategoryController {
   @Autowired
   private CategoryService categoryService;
 
-  // SIRVE
+  // ** TOKEN FUNCIONANDO **
   @GetMapping("")
   public ResponseEntity<?> getAllCategories() {
     try {
       List<Category> allCategories = categoryService.getAllCategories();
 
       List<CategoryDTO> allCategoriesDTO = allCategories.stream()
-          .map(category -> category.toDTO())
+          .map(Category::toDTO)
           .toList();
 
       return ResponseEntity.status(HttpStatus.OK).body(allCategoriesDTO);
+
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }
   }
-
-  // TODO -> MOVER A MOCKUP
-  // @PostMapping("")
-  // public ResponseEntity<?> createCategory(
-  // @RequestBody CategoryDTO categoryDTO) {
-  // try {
-  // // The 'id' field must be null in order to create a new category
-  // categoryDTO.setId(null);
-
-  // Category category = categoryDTO.toEntity();
-
-  // Category createdCategory = categoryService.createCategory(category);
-
-  // CategoryDTO createdCategoryDTO = createdCategory.toDTO();
-  // return ResponseEntity.status(HttpStatus.CREATED).body(createdCategoryDTO);
-  // } catch (Exception error) {
-  // return
-  // ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-  // }
-  // }
-
-  // TODO
-  // @PutMapping("/{id}")
-  // public ResponseEntity<?> updateCategory(
-  // @RequestBody CategoryDTO categoryDTO) {
-  // try {
-  // Category category = categoryDTO.toEntity();
-
-  // Category updatedCategory = categoryService.updateCategory(category);
-
-  // CategoryDTO updatedCategoryDTO = updatedCategory.toDTO();
-  // return ResponseEntity.status(HttpStatus.OK).body(updatedCategoryDTO);
-  // } catch (Exception error) {
-  // return
-  // ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-  // }
-  // }
-
-  // TODO
-  // @DeleteMapping("/{id}")
-  // public ResponseEntity<?> deleteCategory(
-  // @PathVariable Long id) {
-  // try {
-  // categoryService.deleteCategory(id);
-
-  // return ResponseEntity.status(HttpStatus.OK).body(null);
-  // } catch (Exception error) {
-  // return
-  // ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
-  // }
-  // }
 
 }

@@ -14,6 +14,7 @@ public class ProductService {
         @Autowired
         private ProductRepository productRepository;
 
+        // ** SIRVE **
         public Product createProduct(
                         Product product) throws Exception {
 
@@ -21,21 +22,19 @@ public class ProductService {
                 return createdProduct;
         }
 
+        // ** SIRVE **
         public List<Product> getAllProducts() throws Exception {
                 List<Product> products = productRepository.findAll();
                 return products;
         }
 
+        // ** SIRVE **
         public Product getProductById(Long id) throws Exception {
                 Product product = productRepository.getReferenceById(id);
                 return product;
         }
 
-        public List<Product> getAllProductsByCategoryId(Long categoryId) throws Exception {
-                List<Product> products = productRepository.findAllByCategoryId(categoryId);
-                return products;
-        }
-
+        // ** SIRVE **
         public Product updateProduct(
                         Product product) throws Exception {
 
@@ -47,6 +46,7 @@ public class ProductService {
                 return updatedProduct;
         }
 
+        // ** SIRVE **
         public void deleteProduct(Long id) throws Exception {
                 productRepository.deleteById(id);
         }

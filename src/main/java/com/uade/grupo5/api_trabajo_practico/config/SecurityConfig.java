@@ -29,15 +29,24 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests(req -> req.requestMatchers("/auth/**").permitAll()
-						.requestMatchers("/category/**").hasAnyAuthority(Role.ADMIN.name())
-						.requestMatchers(HttpMethod.POST, "/product/**").hasAnyAuthority(Role.ADMIN.name())
-						.requestMatchers(HttpMethod.PUT, "/product/**").hasAnyAuthority(Role.ADMIN.name())
-						.requestMatchers(HttpMethod.DELETE, "/product/**").hasAnyAuthority(Role.ADMIN.name())
-						.requestMatchers(HttpMethod.DELETE, "/buy/**").hasAnyAuthority(Role.ADMIN.name())
-						.requestMatchers(HttpMethod.DELETE, "/users/**").hasAnyAuthority(Role.ADMIN.name())
-						.anyRequest()
-						.authenticated())
+				.authorizeHttpRequests(req -> req
+						// El orden es importante -> se verifican en orden de definicion
+						// Auth
+						.requestMatchers("/auth/**").permitAll()
+						// Mockup
+						.requestMatchers("/mockup/**").authenticated()
+						// User
+						.requestMatchers("/user/**").authenticated()
+						// Product
+						.requestMatchers(HttpMethod.GET, "/product/**").permitAll()
+						.requestMatchers("/product/**").hasAuthority(Role.ADMIN.name())
+						// Category
+						.requestMatchers("/category/**").permitAll()
+
+						// El resto de rutas aca
+
+						// Default
+						.anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
 				.authenticationProvider(authenticationProvider)
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

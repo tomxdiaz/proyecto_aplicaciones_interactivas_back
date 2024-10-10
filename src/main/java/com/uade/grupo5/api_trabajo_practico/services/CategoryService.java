@@ -14,36 +14,18 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    // ** SIRVE **
     public List<Category> getAllCategories() throws Exception {
         List<Category> categories = categoryRepository.findAll();
         return categories;
     }
 
-    public Category getCategoryById(Long id) throws Exception {
-        Category category = categoryRepository.getReferenceById(id);
-        return category;
-    }
-
+    // ** SIRVE **
     public Category createCategory(
             Category category) throws Exception {
 
         Category createdCategory = categoryRepository.save(category);
         return createdCategory;
-    }
-
-    public Category updateCategory(
-            Category category) throws Exception {
-
-        if (!categoryRepository.existsById(category.getId())) {
-            throw new IllegalArgumentException("The category with the given 'id' does not exist.");
-        }
-
-        Category updatedCategory = categoryRepository.save(category);
-        return updatedCategory;
-    }
-
-    public void deleteCategory(Long id) throws Exception {
-        categoryRepository.deleteById(id);
     }
 
 }

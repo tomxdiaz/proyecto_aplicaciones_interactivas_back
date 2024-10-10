@@ -25,24 +25,30 @@ public class AuthenticationService {
   @Autowired
   private UserService userService;
 
+  // ** SIRVE **
   public AuthenticationResponse register(RegisterRequest request) throws Exception {
 
     User user = userService.createUser(request);
 
     String jwtToken = jwtService.generateToken(user);
+
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
         .build();
   }
 
+  // ** SIRVE **
   public AuthenticationResponse authenticate(AuthenticationRequest request) throws Exception {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
             request.getUsername(),
             request.getPassword()));
+
     User user = userRepository.findByUsername(request.getUsername())
         .orElseThrow();
+
     String jwtToken = jwtService.generateToken(user);
+
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
         .build();
