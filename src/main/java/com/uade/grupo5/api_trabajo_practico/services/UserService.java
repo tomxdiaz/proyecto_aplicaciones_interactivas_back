@@ -47,46 +47,48 @@ public class UserService {
 				user.assignCart(cart);
 
 				return userRepository.save(user);
-			}catch(UserException error){
+			} catch (UserException error) {
         throw new UserException(error.getMessage());
-      }catch(Exception error){
+      } catch (Exception error) {
 				throw new Exception("[UserService.createUser] -> " + error.getMessage());
 			}
     }
 
     // ** SIRVE **
     public void updateRole(User user,Role role) throws Exception {
-      try{
+      try {
         user.setRole(role);
         this.updateUser(user);
-      }catch(Exception error){
+      } catch (Exception error) {
         throw new Exception("[UserService.updateRole] -> " + error.getMessage());
       }
     }
 
     // ** SIRVE **
     public User getUserByUsername(String username) throws Exception {
-      try{
-        return userRepository.findByUsername(username).orElseThrow(() -> new Exception("User not found"));
-      }catch(Exception error){
+      try {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UserException("Usuario no encontrado"));
+      } catch (UserException error) {
+        throw new UserException(error.getMessage());
+      } catch (Exception error) {
         throw new Exception("[UserService.getUserByUsername] -> " + error.getMessage());
       }
     }
 
     // ** SIRVE **
     public List<User> getAllUsers() throws Exception {
-      try{
+      try {
         return userRepository.findAll();
-      }catch(Exception error){
+      } catch (Exception error) {
         throw new Exception("[UserService.getAllUsers] -> " + error.getMessage());
       }
     }
 
     // ** SIRVE **
     public User updateUser(User user) throws Exception {
-      try{
+      try {
         return userRepository.save(user);
-      }catch(Exception error){
+      } catch (Exception error) {
         throw new Exception("[UserService.updateUser] -> " + error.getMessage());
       }
     }

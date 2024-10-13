@@ -23,7 +23,7 @@ public class JwtService {
 
     // ** SIRVE **
     public String generateToken(UserDetails userDetails) throws Exception {
-      try{
+      try {
         return Jwts
           .builder()
           .subject(userDetails.getUsername())
@@ -31,42 +31,42 @@ public class JwtService {
           .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
           .signWith(getSecretKey())
           .compact();
-      }catch(Exception error){
+      } catch (Exception error) {
         throw new Exception("[JwtService.generateToken] -> " + error.getMessage());
       }
     }
 
     // ** SIRVE **
     public boolean isTokenValid(String token, UserDetails userDetails) throws Exception{
-      try{
+      try {
         final String username = extractClaim(token, Claims::getSubject);
         return (username.equals(userDetails.getUsername()));
-      }catch(Exception error){
+      } catch (Exception error) {
         throw new Exception("[JwtService.isTokenValid] -> " + error.getMessage());
       }
     }
 
     // ** SIRVE **
     public boolean isTokenExpired(String token) throws Exception{
-      try{
+      try {
         return extractClaim(token, Claims::getExpiration).before(new Date());
-      }catch(Exception error){
+      } catch (Exception error) {
         throw new Exception("[JwtService.isTokenValid] -> " + error.getMessage());
       }
     }
 
     // ** SIRVE **
     public String extractUsername(String token) throws Exception{
-      try{
+      try {
         return extractClaim(token, (n) -> n.getSubject());
-      }catch(Exception error){
+      } catch (Exception error) {
         throw new Exception("[JwtService.extractUsername] -> " + error.getMessage());
       }
     }
 
     // ** SIRVE **
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) throws Exception{
-      try{
+      try {
         final Claims claims = Jwts
                 .parser()
                 .verifyWith(getSecretKey())
@@ -74,16 +74,16 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload();
         return claimsResolver.apply(claims);
-      }catch(Exception error){
+      } catch (Exception error) {
         throw new Exception("[JwtService.extractClaim] -> " + error.getMessage());
       }
     }
 
     // ** SIRVE **
     private SecretKey getSecretKey() throws Exception{
-      try{
+      try {
         return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-      }catch(Exception error){
+      } catch (Exception error) {
         throw new Exception("[JwtService.getSecretKey] -> " + error.getMessage());
       }
     }

@@ -1,6 +1,8 @@
 package com.uade.grupo5.api_trabajo_practico.services;
 
 import com.uade.grupo5.api_trabajo_practico.dto.ItemDTO;
+import com.uade.grupo5.api_trabajo_practico.exceptions.CartException;
+import com.uade.grupo5.api_trabajo_practico.exceptions.ProductException;
 import com.uade.grupo5.api_trabajo_practico.repositories.CartRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.ProductRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
@@ -33,10 +35,12 @@ public class CartService {
 
     // ** SIRVE **
     public Cart getCartById(Long cartId) throws Exception {
-      try{
+      try {
         return cartRepository.findById(cartId)
-              .orElseThrow(() -> new RuntimeException("Cart not found"));
-      }catch(Exception error){
+              .orElseThrow(() -> new CartException("No se encontro el carro."));
+      } catch (CartException error) {
+        throw new CartException(error.getMessage());
+      } catch (Exception error) {
         throw new Exception("[CartService.getCartById] -> " + error.getMessage());
       } 
     }
@@ -45,19 +49,17 @@ public class CartService {
     @Transactional
     public Item addItemToCart(ItemDTO itemDTO, Long cartId) throws Exception {
       try{
-        if (itemDTO.getQuantity() < 0) { // Deberia siempre ser filtrado por el front
-          throw new RuntimeException("Quantity less than 0");
-        }
+        if (itemDTO.getQuantity() < 0)  // Deberia siempre ser filtrado por el front
+          throw new CartException("La cantidad no puede ser negativa");
+        
         // Obtener el producto por ID
         Product product = productRepository.findById(itemDTO.getProduct().getId())
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                .orElseThrow(() -> new ProductException("Producto no encontrado"));
         if (product.getStock() < itemDTO.getQuantity()) {
-            throw new RuntimeException("No hay stock suficiente del producto elegido");
+            throw new ProductException("No hay stock suficiente del producto elegido");
         }
 
-        // Obtener el carrito por ID
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
+        Cart cart = getCartById(cartId);
 
         // Buscar el ítem en la lista de ítems del carrito
         Item item = cart.getItems().stream()
@@ -83,7 +85,11 @@ public class CartService {
         // Guardar el carrito actualizado
         cartRepository.save(cart);
         return item;
-      }catch(Exception error){
+      } catch (CartException error) {
+        throw new CartException(error.getMessage());
+      } catch (ProductException error) {
+        throw new ProductException(error.getMessage());
+      } catch (Exception error) {
         throw new Exception("[CartService.addItemToCart] -> " + error.getMessage());
       }
     }
@@ -95,7 +101,9 @@ public class CartService {
         Cart cart = getCartById(cartId);
         cart.getItems().removeIf(item -> item.getProduct().getId().equals(productId));
         cartRepository.save(cart);
-      }catch(Exception error){
+      } catch (CartException error) {
+        throw new CartException(error.getMessage());
+      } catch (Exception error) {
         throw new Exception("[CartService.removeItemFromCart] -> " + error.getMessage());
       }
     }
@@ -106,7 +114,9 @@ public class CartService {
         Cart cart = getCartById(cartId);
         cart.getItems().clear();
         cartRepository.save(cart);
-      }catch(Exception error){
+      } catch (CartException error) {
+        throw new CartException(error.getMessage());
+      } catch (Exception error) {
         throw new Exception("[CartService.emptyCart] -> " + error.getMessage());
       }
     }
@@ -118,7 +128,9 @@ public class CartService {
         Buy buy = buyService.createBuy(cart);
         emptyCart(cartId);
         return buy;
-      }catch(Exception error){
+      } catch (CartException error) {
+        throw new CartException(error.getMessage());
+      } catch (Exception error) {
         throw new Exception("[CartService.checkout] -> " + error.getMessage());
       }
     }
