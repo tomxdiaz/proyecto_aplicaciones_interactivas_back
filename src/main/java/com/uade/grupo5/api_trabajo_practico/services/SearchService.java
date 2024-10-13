@@ -14,6 +14,10 @@ public class SearchService {
   private SearchRepository searchRepository;
 
   public List<Search> getAllSearchesByUserId(Long userId) throws Exception {
-    return searchRepository.findAllByUserId(userId);
+    try{
+      return searchRepository.findAllByUserId(userId);
+    }catch(Exception error){
+      throw new Exception("[SearchService.getAllSearchesByUserId] -> " + error.getMessage());
+    }
   }
 }

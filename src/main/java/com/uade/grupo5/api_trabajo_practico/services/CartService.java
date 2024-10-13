@@ -22,22 +22,31 @@ public class CartService {
     private BuyService buyService;
 
     // ** SIRVE **
-    public Cart createCart() {
-        Cart cart = new Cart();
+    public Cart createCart() throws Exception{
+      try{
+          Cart cart = new Cart();
         return cart;
+      }catch(Exception error){
+        throw new Exception("[CartService.createCart] -> " + error.getMessage());
+      }
     }
 
     // ** SIRVE **
     public Cart getCartById(Long cartId) throws Exception {
+      try{
         return cartRepository.findById(cartId)
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
+              .orElseThrow(() -> new RuntimeException("Cart not found"));
+      }catch(Exception error){
+        throw new Exception("[CartService.getCartById] -> " + error.getMessage());
+      } 
     }
 
     // ** SIRVE **
     @Transactional
     public Item addItemToCart(ItemDTO itemDTO, Long cartId) throws Exception {
+      try{
         if (itemDTO.getQuantity() < 0) { // Deberia siempre ser filtrado por el front
-            throw new RuntimeException("Quantity less than 0");
+          throw new RuntimeException("Quantity less than 0");
         }
         // Obtener el producto por ID
         Product product = productRepository.findById(itemDTO.getProduct().getId())
@@ -74,28 +83,43 @@ public class CartService {
         // Guardar el carrito actualizado
         cartRepository.save(cart);
         return item;
+      }catch(Exception error){
+        throw new Exception("[CartService.addItemToCart] -> " + error.getMessage());
+      }
     }
 
     // ** SIRVE **
     @Transactional
     public void removeItemFromCart(Long cartId, Long productId) throws Exception {
+      try{
         Cart cart = getCartById(cartId);
         cart.getItems().removeIf(item -> item.getProduct().getId().equals(productId));
         cartRepository.save(cart);
+      }catch(Exception error){
+        throw new Exception("[CartService.removeItemFromCart] -> " + error.getMessage());
+      }
     }
 
     // ** SIRVE **
     public void emptyCart(Long cartId) throws Exception {
+      try{
         Cart cart = getCartById(cartId);
         cart.getItems().clear();
         cartRepository.save(cart);
+      }catch(Exception error){
+        throw new Exception("[CartService.emptyCart] -> " + error.getMessage());
+      }
     }
 
     // ** SIRVE **
     public Buy checkout(Long cartId) throws Exception {
+      try{
         Cart cart = getCartById(cartId);
         Buy buy = buyService.createBuy(cart);
         emptyCart(cartId);
         return buy;
+      }catch(Exception error){
+        throw new Exception("[CartService.checkout] -> " + error.getMessage());
+      }
     }
 }

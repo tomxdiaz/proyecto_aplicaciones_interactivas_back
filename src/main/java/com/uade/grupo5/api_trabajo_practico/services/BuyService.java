@@ -18,21 +18,29 @@ public class BuyService {
 
   // ** SIRVE **
   public List<Buy> getUserBuys(Long userId) throws Exception {
-    return buyRepository.findByUserId(userId);
+    try{
+      return buyRepository.findByUserId(userId);
+    }catch(Exception error) {
+      throw new Exception("[BuyService.getUserBuys] -> " + error.getMessage());
+    }
   }
 
   // ** SIRVE **
   public Buy createBuy(Cart cart) throws Exception {
-    Buy buy = Buy.builder()
+    try{
+      Buy buy = Buy.builder()
         .buyDate(LocalDate.now())
         .user(cart.getUser())
         .build();
 
-    List<BuyItem> buyItems = cart.generateBuyItems();
+      List<BuyItem> buyItems = cart.generateBuyItems();
 
-    buy.setItems(buyItems);
+      buy.setItems(buyItems);
 
-    return buyRepository.save(buy);
+      return buyRepository.save(buy);
+    }catch(Exception error){
+      throw new Exception("[BuyService.createBuy] -> " + error.getMessage());
+    }
   }
 
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.uade.grupo5.api_trabajo_practico.repositories.CategoryRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Category;
 
+import jakarta.el.ELException;
+
 @Service
 public class CategoryService {
 
@@ -16,16 +18,22 @@ public class CategoryService {
 
     // ** SIRVE **
     public List<Category> getAllCategories() throws Exception {
+      try{
         List<Category> categories = categoryRepository.findAll();
         return categories;
+      }catch(Exception error){
+        throw new Exception("[CategoryService.getAllCategories] -> " + error.getMessage());
+      }
     }
 
     // ** SIRVE **
-    public Category createCategory(
-            Category category) throws Exception {
-
+    public Category createCategory(Category category) throws Exception {
+      try{
         Category createdCategory = categoryRepository.save(category);
         return createdCategory;
+      }catch(Exception error){
+        throw new Exception("[CategoryService.createCategory] -> " + error.getMessage());
+      }
     }
 
 }

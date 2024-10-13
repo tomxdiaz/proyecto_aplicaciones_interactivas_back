@@ -15,40 +15,56 @@ public class ProductService {
         private ProductRepository productRepository;
 
         // ** SIRVE **
-        public Product createProduct(
-                        Product product) throws Exception {
-
-                Product createdProduct = productRepository.save(product);
-                return createdProduct;
+        public Product createProduct(Product product) throws Exception {
+          try{
+            Product createdProduct = productRepository.save(product);
+            return createdProduct;
+          }catch(Exception error){
+            throw new Exception("[ProductService.createProduct] -> " + error.getMessage());
+          }
         }
 
         // ** SIRVE **
         public List<Product> getAllProducts() throws Exception {
-                List<Product> products = productRepository.findAll();
-                return products;
+          try{
+            List<Product> products = productRepository.findAll();
+            return products;
+          }catch(Exception error){
+            throw new Exception("[ProductService.getAllProducts] -> " + error.getMessage());
+          }
         }
 
         // ** SIRVE **
         public Product getProductById(Long id) throws Exception {
-                Product product = productRepository.getReferenceById(id);
-                return product;
+          try{
+            Product product = productRepository.getReferenceById(id);
+            return product;
+          }catch(Exception error){
+            throw new Exception("[ProductService.getProductById] -> " + error.getMessage());
+          }
         }
 
         // ** SIRVE **
-        public Product updateProduct(
-                        Product product) throws Exception {
+        public Product updateProduct(Product product) throws Exception {
+          try{
+            if (!productRepository.existsById(product.getId())) {
+              throw new IllegalArgumentException("The product with the given 'id' does not exist.");
+            }
 
-                if (!productRepository.existsById(product.getId())) {
-                        throw new IllegalArgumentException("The product with the given 'id' does not exist.");
-                }
-
-                Product updatedProduct = productRepository.save(product);
-                return updatedProduct;
+            Product updatedProduct = productRepository.save(product);
+            return updatedProduct;
+          }catch(Exception error){
+            throw new Exception("[ProductService.updateProduct] -> " + error.getMessage());
+          }
         }
 
         // ** SIRVE **
         public void deleteProduct(Long id) throws Exception {
-                productRepository.deleteById(id);
+          try{
+            productRepository.deleteById(id);
+          }catch(Exception error){
+            throw new Exception("[ProductService.deleteProduct] -> " + error.getMessage());
+          }
         }
 
 }
