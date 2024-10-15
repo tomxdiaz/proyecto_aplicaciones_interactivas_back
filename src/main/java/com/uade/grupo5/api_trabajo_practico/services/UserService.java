@@ -1,16 +1,14 @@
 package com.uade.grupo5.api_trabajo_practico.services;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import com.uade.grupo5.api_trabajo_practico.exceptions.CartException;
 import com.uade.grupo5.api_trabajo_practico.exceptions.UserException;
 import com.uade.grupo5.api_trabajo_practico.repositories.UserRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
@@ -33,7 +31,7 @@ public class UserService {
 		@Transactional
     public User createUser(RegisterRequest request) throws Exception {
 			try {
-				Boolean userExist = userRepository.existsByUsername(request.getUsername());
+				boolean userExist = userRepository.existsByUsername(request.getUsername());
         
 				if(userExist) throw new UserException("El usuario " + request.getUsername() + " ya existe");
 

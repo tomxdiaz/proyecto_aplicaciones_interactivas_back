@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uade.grupo5.api_trabajo_practico.dto.UserDTO;
+import com.uade.grupo5.api_trabajo_practico.exceptions.UserException;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.ResponseData;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 import com.uade.grupo5.api_trabajo_practico.services.UserService;
 
@@ -23,22 +25,25 @@ public class UserController {
 
   // ** SIRVE **
   @GetMapping("")
-  public ResponseEntity<?> getUserData(@AuthenticationPrincipal UserDetails userDetails) {
+  public ResponseEntity<ResponseData<?>> getUserData(@AuthenticationPrincipal UserDetails userDetails) {
     try {
       User authUser = userService.getUserByUsername(userDetails.getUsername());
 
       UserDTO userDTO = authUser.toDTO();
 
-      return ResponseEntity.status(HttpStatus.OK).body(userDTO);
+      return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(userDTO));
 
+    } catch (UserException error) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
     } catch (Exception error) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+      System.out.printf("[UserController.getUserData] -> %s", error.getMessage() );
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo encontrar el usuario"));
     }
   }
 
   // ** SIRVE **
   @PutMapping("")
-  public ResponseEntity<?> updateUser(@AuthenticationPrincipal UserDetails userDetails, @RequestBody UserDTO userDTO) {
+  public ResponseEntity<ResponseData<?>> updateUser(@AuthenticationPrincipal UserDetails userDetails, @RequestBody UserDTO userDTO) {
     try {
       User authUser = userService.getUserByUsername(userDetails.getUsername());
 
@@ -50,10 +55,14 @@ public class UserController {
 
       UserDTO updatedUserDTO = updatedUser.toDTO();
 
-      return ResponseEntity.status(HttpStatus.OK).body(updatedUserDTO);
+      return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(updatedUserDTO));
 
+    } catch (UserException error) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
+      
     } catch (Exception error) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+      System.out.printf("[UserController.updateUser] -> %s", error.getMessage() );
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo actualizar el usuario"));
     }
   }
 

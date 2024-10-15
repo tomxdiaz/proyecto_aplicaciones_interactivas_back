@@ -15,102 +15,103 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
+import com.uade.grupo5.api_trabajo_practico.exceptions.ProductException;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.ResponseData;
 import com.uade.grupo5.api_trabajo_practico.services.ProductService;
 
 @RestController
 @RequestMapping("/product")
 public class ProductController {
-        @Autowired
-        private ProductService productService;
+  @Autowired
+  private ProductService productService;
 
-        // ** SIRVE **
-        @PostMapping("")
-        public ResponseEntity<?> createProduct(
-                        @RequestBody ProductDTO productDTO) {
-                try {
-                        productDTO.setId(null);
+  // ** SIRVE **
+  @PostMapping("")
+  public ResponseEntity<ResponseData<?>> createProduct(@RequestBody ProductDTO productDTO) {
+    try {
+      productDTO.setId(null);
 
-                        Product product = productDTO.toEntity();
+      Product product = productDTO.toEntity();
 
-                        Product createdProduct = productService.createProduct(product);
+      Product createdProduct = productService.createProduct(product);
 
-                        ProductDTO createdProductDTO = createdProduct.toDTO();
+      ProductDTO createdProductDTO = createdProduct.toDTO();
 
-                        return ResponseEntity.status(HttpStatus.CREATED).body(createdProductDTO);
+      return ResponseEntity.status(HttpStatus.CREATED).body(ResponseData.success(createdProductDTO));
 
-                } catch (Exception e) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-                }
+    } catch (Exception error) {
+      System.out.printf("[ProductController.createProduct] -> %s", error.getMessage() );
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo crear el producto"));
+    }
+  }
 
-        }
+  // ** SIRVE **
+  @PutMapping("")
+  public ResponseEntity<ResponseData<?>> updateProduct(@RequestBody ProductDTO productDTO) {
+    try {
+      Product product = productDTO.toEntity();
 
-        // ** SIRVE **
-        @PutMapping("")
-        public ResponseEntity<?> updateProduct(
-                        @RequestBody ProductDTO productDTO) throws Exception {
-                try {
-                        Product product = productDTO.toEntity();
+      Product updatedProduct = productService.updateProduct(product);
 
-                        Product updatedProduct = productService.updateProduct(product);
+      ProductDTO updatedProductDTO = updatedProduct.toDTO();
 
-                        ProductDTO updatedProductDTO = updatedProduct.toDTO();
+      return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(updatedProductDTO));
 
-                        return ResponseEntity.status(HttpStatus.OK).body(updatedProductDTO);
+    }catch (ProductException error) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
 
-                } catch (Exception e) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-                }
+    } catch (Exception error) {
+      System.out.printf("[ProductController.updateProduct] -> %s", error.getMessage() );
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo actualizar el producto"));
+    }
+  }
 
-        }
+  // ** SIRVE **
+  @DeleteMapping("/{id}")
+  public ResponseEntity<ResponseData<?>> deleteProduct(@PathVariable Long id) {
+    try {
+      productService.deleteProduct(id);
 
-        // ** SIRVE **
-        @DeleteMapping("/{id}")
-        public ResponseEntity<?> deleteProduct(
-                        @PathVariable Long id) throws Exception {
-                try {
-                        productService.deleteProduct(id);
+      return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(null));
 
-                        return ResponseEntity.status(HttpStatus.OK).body(null);
+    } catch (Exception error) {
+      System.out.printf("[ProductController.deleteProduct] -> %s", error.getMessage() );
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo eliminar el producto"));
+    }
+  }
 
-                } catch (Exception e) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-                }
-        }
+  // ** SIRVE **
+  @GetMapping("")
+  public ResponseEntity<ResponseData<?>> getAllProducts() {
+    try {
+      List<Product> allProducts = productService.getAllProducts();
 
-        // ** SIRVE **
-        @GetMapping("")
-        public ResponseEntity<?> getAllProducts() {
-                try {
-                        List<Product> allProducts = productService.getAllProducts();
+      List<ProductDTO> allProductsDTO = allProducts.stream()
+                      .map(Product::toDTO)
+                      .toList();
 
-                        List<ProductDTO> allProductsDTO = allProducts.stream()
-                                        .map(Product::toDTO)
-                                        .toList();
+      return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(allProductsDTO));
 
-                        return ResponseEntity.status(HttpStatus.OK).body(allProductsDTO);
+    } catch (Exception error) {
+      System.out.printf("[ProductController.getAllProducts] -> %s", error.getMessage() );
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudieron recuperar los productos"));
+    }
+  }
 
-                } catch (Exception e) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-                }
+  // ** SIRVE **
+  @GetMapping("/{id}")
+  public ResponseEntity<ResponseData<?>> getProductById(@PathVariable Long id) {
+    try {
+      Product product = productService.getProductById(id);
 
-        }
+      ProductDTO productDTO = product.toDTO();
 
-        // ** SIRVE **
-        @GetMapping("/{id}")
-        public ResponseEntity<?> getProductById(
-                        @PathVariable Long id) throws Exception {
-                try {
-                        Product product = productService.getProductById(id);
+      return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(productDTO));
 
-                        ProductDTO productDTO = product.toDTO();
-
-                        return ResponseEntity.status(HttpStatus.OK).body(productDTO);
-
-                } catch (Exception e) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-                }
-
-        }
-
+    } catch (Exception error) {
+      System.out.printf("[ProductController.getProductById] -> %s", error.getMessage() );
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se encontro el producto"));
+    }
+  }
 }

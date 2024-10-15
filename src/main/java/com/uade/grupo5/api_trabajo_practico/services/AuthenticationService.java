@@ -1,9 +1,5 @@
 package com.uade.grupo5.api_trabajo_practico.services;
 
-import lombok.RequiredArgsConstructor;
-
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +14,7 @@ import com.uade.grupo5.api_trabajo_practico.repositories.entities.RegisterReques
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 
 import jakarta.security.auth.message.AuthException;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

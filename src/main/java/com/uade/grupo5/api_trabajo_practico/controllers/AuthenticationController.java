@@ -52,13 +52,11 @@ public class AuthenticationController {
     try {
       return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(authService.authenticate(request)));
 
-    }catch (UserException error) {
-      return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ResponseData.error(error.getMessage()));
-    }catch(AuthException error){
+    }catch (UserException | AuthException error) {
       return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ResponseData.error(error.getMessage()));
     }catch (Exception error) {
       System.out.printf("[AuthenticationController.authenticate] -> %s", error.getMessage() );
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("Usuario o contraseña invalido."));
     }
 
   }
