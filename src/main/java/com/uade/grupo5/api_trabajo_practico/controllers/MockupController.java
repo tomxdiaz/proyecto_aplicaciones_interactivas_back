@@ -98,16 +98,16 @@ public class MockupController {
           List.of("imagen19.jpg", "imagen20.jpg"),
           "Ideal para perros y gatos", 80, false, categoria5Creada);
 
-      Product producto1Creado = productService.createProduct(producto1);
-      Product producto2Creado = productService.createProduct(producto2);
-      Product producto3Creado = productService.createProduct(producto3);
-      Product producto4Creado = productService.createProduct(producto4);
-      Product producto5Creado = productService.createProduct(producto5);
-      Product producto6Creado = productService.createProduct(producto6);
-      Product producto7Creado = productService.createProduct(producto7);
-      Product producto8Creado = productService.createProduct(producto8);
-      Product producto9Creado = productService.createProduct(producto9);
-      Product producto10Creado = productService.createProduct(producto10);
+      productService.createProduct(producto1);
+      productService.createProduct(producto2);
+      productService.createProduct(producto3);
+      productService.createProduct(producto4);
+      productService.createProduct(producto5);
+      productService.createProduct(producto6);
+      productService.createProduct(producto7);
+      productService.createProduct(producto8);
+      productService.createProduct(producto9);
+      productService.createProduct(producto10);
 
       return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success("Base inicializada correctamente!"));
 
