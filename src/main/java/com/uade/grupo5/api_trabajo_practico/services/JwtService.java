@@ -22,34 +22,51 @@ public class JwtService {
     private long jwtExpiration;
 
     // ** SIRVE **
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails) throws Exception {
+      try {
         return Jwts
-                .builder()
-                .subject(userDetails.getUsername())
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
-                .signWith(getSecretKey())
-                .compact();
+          .builder()
+          .subject(userDetails.getUsername())
+          .issuedAt(new Date(System.currentTimeMillis()))
+          .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
+          .signWith(getSecretKey())
+          .compact();
+      } catch (Exception error) {
+        throw new Exception("[JwtService.generateToken] -> " + error.getMessage());
+      }
     }
 
     // ** SIRVE **
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token, UserDetails userDetails) throws Exception{
+      try {
         final String username = extractClaim(token, Claims::getSubject);
         return (username.equals(userDetails.getUsername()));
+      } catch (Exception error) {
+        throw new Exception("[JwtService.isTokenValid] -> " + error.getMessage());
+      }
     }
 
     // ** SIRVE **
-    public boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) throws Exception{
+      try {
         return extractClaim(token, Claims::getExpiration).before(new Date());
+      } catch (Exception error) {
+        throw new Exception("[JwtService.isTokenValid] -> " + error.getMessage());
+      }
     }
 
     // ** SIRVE **
-    public String extractUsername(String token) {
+    public String extractUsername(String token) throws Exception{
+      try {
         return extractClaim(token, (n) -> n.getSubject());
+      } catch (Exception error) {
+        throw new Exception("[JwtService.extractUsername] -> " + error.getMessage());
+      }
     }
 
     // ** SIRVE **
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) throws Exception{
+      try {
         final Claims claims = Jwts
                 .parser()
                 .verifyWith(getSecretKey())
@@ -57,10 +74,17 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload();
         return claimsResolver.apply(claims);
+      } catch (Exception error) {
+        throw new Exception("[JwtService.extractClaim] -> " + error.getMessage());
+      }
     }
 
     // ** SIRVE **
-    private SecretKey getSecretKey() {
+    private SecretKey getSecretKey() throws Exception{
+      try {
         return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+      } catch (Exception error) {
+        throw new Exception("[JwtService.getSecretKey] -> " + error.getMessage());
+      }
     }
 }

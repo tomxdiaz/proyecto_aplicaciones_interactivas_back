@@ -30,8 +30,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain)
-            throws ServletException, IOException {
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
+      try {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
@@ -55,6 +55,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-
+      } catch (Exception error) {
+        throw new RuntimeException("[JwtAuthenticationFilter] -> " + error.getMessage());
+      }
     }
 }

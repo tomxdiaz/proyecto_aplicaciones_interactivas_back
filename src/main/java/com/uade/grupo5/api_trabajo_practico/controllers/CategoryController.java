@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.uade.grupo5.api_trabajo_practico.dto.CategoryDTO;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Category;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.ResponseData;
 import com.uade.grupo5.api_trabajo_practico.services.CategoryService;
 
 @RestController
@@ -21,7 +22,7 @@ public class CategoryController {
 
   // ** TOKEN FUNCIONANDO **
   @GetMapping("")
-  public ResponseEntity<?> getAllCategories() {
+  public ResponseEntity<ResponseData<?>> getAllCategories() {
     try {
       List<Category> allCategories = categoryService.getAllCategories();
 
@@ -29,11 +30,11 @@ public class CategoryController {
           .map(Category::toDTO)
           .toList();
 
-      return ResponseEntity.status(HttpStatus.OK).body(allCategoriesDTO);
+      return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(allCategoriesDTO));
 
     } catch (Exception error) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
+      System.out.printf("[CategoryService.getAllCategories] -> %s", error.getMessage() );
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudieron obtener las categorias"));
     }
   }
-
 }

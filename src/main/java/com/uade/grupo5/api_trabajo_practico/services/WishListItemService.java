@@ -14,6 +14,10 @@ public class WishListItemService {
   private WishListItemRepository wishListItemRepository;
 
   public List<WishListItem> findAllWishListItemsByUserId(Long userId) throws Exception {
-    return wishListItemRepository.findAllByUserId(userId);
+    try {
+      return wishListItemRepository.findAllByUserId(userId);
+    } catch (Exception error) {
+      throw new Exception("[WishListItemService.findAllWishListItemsByUserId] -> " + error.getMessage());
+    }
   }
 }
