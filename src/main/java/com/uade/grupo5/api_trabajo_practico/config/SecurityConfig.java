@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Role;
 
@@ -52,6 +55,28 @@ public class SecurityConfig {
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
+	}
+
+	// Configuracion de CORS
+	@Bean
+	public CorsFilter corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration corsConfig = new CorsConfiguration();
+		corsConfig.applyPermitDefaultValues();
+		corsConfig.setAllowCredentials(false);
+		source.registerCorsConfiguration("/**", corsConfig);
+		return new CorsFilter(source);
+	}
+
+	// Configuracion de CORS
+	@Bean
+	public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration corsConfig = new CorsConfiguration();
+		corsConfig.applyPermitDefaultValues();
+		corsConfig.setAllowCredentials(false);
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", corsConfig);
+		return source;
 	}
 
 }
