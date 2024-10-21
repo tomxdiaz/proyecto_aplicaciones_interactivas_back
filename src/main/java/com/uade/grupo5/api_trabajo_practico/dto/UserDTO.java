@@ -39,6 +39,7 @@ public class UserDTO {
     private List<Buy> orders;
     @JsonManagedReference
     private List<WishListItem> wishList;
+    @JsonManagedReference
     private List<Search> lastSearches;
 
     public User toEntity() {

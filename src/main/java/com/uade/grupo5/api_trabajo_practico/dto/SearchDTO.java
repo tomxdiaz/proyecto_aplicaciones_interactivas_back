@@ -1,7 +1,8 @@
 package com.uade.grupo5.api_trabajo_practico.dto;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Search;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
@@ -15,10 +16,11 @@ import lombok.Data;
 public class SearchDTO {
   private Long id;
   @NotNull
-  private Date date;
+  private LocalDateTime date;
   @NotNull
   private Product product;
   @NotNull
+  @JsonBackReference
   private User user;
 
   public Search toEntity() {

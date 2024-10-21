@@ -48,6 +48,8 @@ public class SecurityConfig {
 						.requestMatchers("/cart/**").authenticated()
 						//WishList
 						.requestMatchers("/wishlist/**").authenticated()
+						//Searches
+						.requestMatchers("/search/**").authenticated()
 						// Default
 						.anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

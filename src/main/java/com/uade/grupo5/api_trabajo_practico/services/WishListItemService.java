@@ -28,15 +28,9 @@ public class WishListItemService {
 
   public List<WishListItem> findAllWishListItemsByUserId(Long userId) throws Exception {
     try {
-      List<WishListItem> wishlist = wishListItemRepository.findAllByUserId(userId);
-      if (wishlist.isEmpty()) {
-        throw new WishListException("La wishlist esta vacía!");
-      }
-      return wishlist;
-    }catch (WishListException error) {
-      throw new WishListException(error.getMessage());
-    }
-    catch (Exception error) {
+      return wishListItemRepository.findAllByUserId(userId);
+
+  }catch (Exception error) {
       throw new Exception("[WishListItemService.findAllWishListItemsByUserId] -> " + error.getMessage());
     }
   }
@@ -47,11 +41,20 @@ public class WishListItemService {
     try {
       Product product = productRepository.findById(productDTO.getId())
               .orElseThrow(() -> new ProductException("Producto no encontrado"));
+      List<WishListItem> wishlist = authUser.getWishList();
+      boolean isProductInWishlist = wishlist.stream()
+              .anyMatch(item -> item.getProduct().getId().equals(product.getId()));
+
+      if (isProductInWishlist) {
+        throw new WishListException("El producto ya está en la wishlist.");
+      }
+
       WishListItem wishListItem = WishListItem.builder().user(authUser).product(product).build();
-      authUser.getWishList().add(wishListItem);
+      wishlist.add(wishListItem);
+
       userRepository.save(authUser);
       return wishListItem;
-    } catch (ProductException error) {
+    } catch (ProductException | WishListException error) {
       throw new ProductException(error.getMessage());
     } catch (Exception error) {
       throw new Exception("[WishListItemService.addProductToWishList] -> " + error.getMessage());

@@ -1,7 +1,6 @@
 package com.uade.grupo5.api_trabajo_practico.controllers;
 
 import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
-import com.uade.grupo5.api_trabajo_practico.exceptions.CartException;
 import com.uade.grupo5.api_trabajo_practico.exceptions.ProductException;
 import com.uade.grupo5.api_trabajo_practico.exceptions.UserException;
 import com.uade.grupo5.api_trabajo_practico.exceptions.WishListException;
@@ -34,7 +33,11 @@ public class WishListController {
             List<WishListItem> wishList = wishListService.findAllWishListItemsByUserId(authUser.getId());
             return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(wishList.stream().map(WishListItem::toDTO).toList()));
 
-        } catch (Exception error) {
+        } catch (UserException error) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error(error.getMessage()));
+
+        }catch (Exception error) {
+            System.out.printf("[WishListItemController.getUserWishList] -> %s", error.getMessage() );
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se encontraron productos en la wishlist"));
         }
 
@@ -48,10 +51,11 @@ public class WishListController {
             WishListItem item = wishListService.addProductToWishList(authUser, productDTO);
             return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(item.toDTO()));
 
-        } catch (UserException | ProductException error) {
+        } catch (UserException | ProductException |WishListException error) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error(error.getMessage()));
 
         } catch (Exception error) {
+            System.out.printf("[WishListItemController.addProductToWishList] -> %s", error.getMessage() );
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error(error.getMessage()));
         }
 
@@ -65,9 +69,10 @@ public class WishListController {
 
             return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success("WishList vaciada correctamente!"));
 
-        } catch (WishListException e) {
-            throw new RuntimeException(e);
+        } catch (UserException | WishListException error) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error(error.getMessage()));
         } catch (Exception error) {
+            System.out.printf("[WishListItemController.emptyWishList] -> %s", error.getMessage() );
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
         }
 
