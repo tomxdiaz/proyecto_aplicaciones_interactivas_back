@@ -37,6 +37,7 @@ public class UserDTO {
     @JsonManagedReference
     private Cart cart;
     private List<Buy> orders;
+    @JsonManagedReference
     private List<WishListItem> wishList;
     private List<Search> lastSearches;
 

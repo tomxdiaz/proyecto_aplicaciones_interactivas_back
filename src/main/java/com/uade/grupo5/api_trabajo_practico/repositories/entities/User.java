@@ -58,7 +58,7 @@ public class User implements UserDetails {
     private List<Buy> orders;
 
     @NotNull
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL ,orphanRemoval = true)
     @JsonManagedReference
     private List<WishListItem> wishList;
 
