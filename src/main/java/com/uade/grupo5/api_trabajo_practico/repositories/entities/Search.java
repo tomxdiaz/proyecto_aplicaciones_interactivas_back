@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.uade.grupo5.api_trabajo_practico.dto.SearchDTO;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,22 +21,17 @@ public class Search {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-
   @Column(nullable = false)
   private LocalDateTime date;
-
 
   @ManyToOne
   @JoinColumn(nullable = false, name = "user_id")
   @JsonBackReference
   private User user;
 
-
   @ManyToOne
   @JoinColumn(nullable = false, name = "product_id")
   private Product product;
-
-
 
   public SearchDTO toDTO() {
     return SearchDTO.builder()
