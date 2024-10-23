@@ -5,6 +5,7 @@ import java.util.List;
 import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,6 +39,7 @@ public class Product {
     @Column(nullable = false)
     private double price;
     @NotEmpty
+    @ElementCollection
     @Column(nullable = false)
     private List<String> images;
     @NotNull

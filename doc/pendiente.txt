@@ -3,9 +3,6 @@ Crear metodos HTTP de prueba para todos los controllers (Thunder/Postman):
     Mockup: OK
     Product: OK
     User: OK
-
-Agregar datos de prueba en mockup/initialize:
-    Categorias
-    Productos
+    Category: OK
 
 	
