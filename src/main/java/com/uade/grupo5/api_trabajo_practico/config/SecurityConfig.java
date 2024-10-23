@@ -47,7 +47,12 @@ public class SecurityConfig {
 						.requestMatchers("/category/**").permitAll()
 
 						// El resto de rutas aca
-
+						//Cart
+						.requestMatchers("/cart/**").authenticated()
+						//WishList
+						.requestMatchers("/wishlist/**").authenticated()
+						//Searches
+						.requestMatchers("/search/**").authenticated()
 						// Default
 						.anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

@@ -32,8 +32,10 @@ public class UserService {
     public User createUser(RegisterRequest request) throws Exception {
 			try {
 				boolean userExist = userRepository.existsByUsername(request.getUsername());
-        
-				if(userExist) throw new UserException("El usuario " + request.getUsername() + " ya existe");
+                if(userExist) throw new UserException("El usuario " + request.getUsername() + " ya existe");
+                userExist = userRepository.existsByEmailAddress(request.getEmailAddress());
+                if(userExist) throw new UserException("El email " + request.getEmailAddress() + " ya esta registrado.");
+
 
 				Cart cart = cartService.createCart();
 

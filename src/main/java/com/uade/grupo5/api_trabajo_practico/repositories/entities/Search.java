@@ -1,22 +1,17 @@
 package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.uade.grupo5.api_trabajo_practico.dto.SearchDTO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,20 +21,17 @@ public class Search {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotNull
   @Column(nullable = false)
-  private Date date;
+  private LocalDateTime date;
 
-  @NotNull
-  @ManyToOne
-  @JoinColumn(nullable = false, name = "product_id")
-  private Product product;
-
-  @NotNull
   @ManyToOne
   @JoinColumn(nullable = false, name = "user_id")
   @JsonBackReference
   private User user;
+
+  @ManyToOne
+  @JoinColumn(nullable = false, name = "product_id")
+  private Product product;
 
   public SearchDTO toDTO() {
     return SearchDTO.builder()

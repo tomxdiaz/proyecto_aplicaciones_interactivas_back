@@ -1,5 +1,6 @@
 package com.uade.grupo5.api_trabajo_practico.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.WishListItem;
@@ -13,6 +14,7 @@ import lombok.Data;
 public class WishListItemDTO {
   private Long id;
   @NotNull
+  @JsonBackReference
   private User user;
   @NotNull
   private Product product;
