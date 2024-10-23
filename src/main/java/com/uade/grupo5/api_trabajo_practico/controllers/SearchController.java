@@ -32,7 +32,7 @@ public class SearchController {
     public ResponseEntity<?> getUserSearches(@AuthenticationPrincipal UserDetails userDetails) {
         try {
             User authUser = userService.getUserByUsername(userDetails.getUsername());
-            List<Search> searches = searchService.findAllSearchesByUserId(authUser.getId());
+            List<Search> searches = searchService.findAllSearchesByUserId(authUser);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(ResponseData.success(searches.stream().map(Search::toDTO).toList()));
         } catch (UserException error) {
