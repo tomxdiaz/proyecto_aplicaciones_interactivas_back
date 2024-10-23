@@ -9,8 +9,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,20 +22,22 @@ public class Search {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotNull
+
   @Column(nullable = false)
   private LocalDateTime date;
 
-  @NotNull
-  @ManyToOne
-  @JoinColumn(nullable = false, name = "product_id")
-  private Product product;
 
-  @NotNull
   @ManyToOne
   @JoinColumn(nullable = false, name = "user_id")
   @JsonBackReference
   private User user;
+
+
+  @ManyToOne
+  @JoinColumn(nullable = false, name = "product_id")
+  private Product product;
+
+
 
   public SearchDTO toDTO() {
     return SearchDTO.builder()

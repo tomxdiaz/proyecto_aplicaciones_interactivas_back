@@ -1,7 +1,7 @@
 package com.uade.grupo5.api_trabajo_practico.services;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
 import com.uade.grupo5.api_trabajo_practico.exceptions.ProductException;
@@ -26,9 +26,11 @@ public class SearchService {
   private UserRepository userRepository;
 
 
-  public List<Search> findAllSearchesByUserId(Long userId) throws Exception {
+  public List<Search> findAllSearchesByUserId(User authUser) throws Exception {
     try {
-      return userRepository.findById(userId).get().getLastSearches();
+      List<Search> searches = authUser.getLastSearches();
+      Collections.reverse(searches);
+      return searches;
     } catch (Exception error) {
       throw new Exception("[SearchItemService.findAllSearchesByUserId] -> " + error.getMessage());
     }

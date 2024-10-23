@@ -18,10 +18,10 @@ public class SearchDTO {
   @NotNull
   private LocalDateTime date;
   @NotNull
-  private Product product;
-  @NotNull
   @JsonBackReference
   private User user;
+  @NotNull
+  private Product product;
 
   public Search toEntity() {
     return Search.builder()
