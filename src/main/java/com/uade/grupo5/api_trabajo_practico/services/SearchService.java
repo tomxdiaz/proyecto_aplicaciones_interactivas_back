@@ -17,8 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SearchService {
 
-  @Autowired
-  private SearchRepository searchRepository;
+
 
   @Autowired
   private ProductRepository productRepository;
@@ -41,6 +40,10 @@ public class SearchService {
               .orElseThrow(() -> new ProductException("Producto no encontrado"));
 
       List<Search> searches = authUser.getLastSearches();
+      if (searches.size() >= 10) {
+        searches.remove(0);
+      }
+
       Search search = Search.builder().user(authUser).product(product).date(LocalDateTime.now()).build();
       searches.add(search);
       userRepository.save(authUser);

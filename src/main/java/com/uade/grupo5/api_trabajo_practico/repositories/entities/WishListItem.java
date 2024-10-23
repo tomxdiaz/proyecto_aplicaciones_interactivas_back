@@ -19,7 +19,7 @@ public class WishListItem {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   @JoinColumn(nullable = false, name = "user_id")
   @JsonBackReference
   private User user;

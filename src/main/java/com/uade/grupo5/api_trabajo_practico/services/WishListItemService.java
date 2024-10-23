@@ -54,22 +54,50 @@ public class WishListItemService {
 
       userRepository.save(authUser);
       return wishListItem;
-    } catch (ProductException | WishListException error) {
+    } catch (ProductException error) {
       throw new ProductException(error.getMessage());
+    } catch (WishListException error) {
+      throw new WishListException(error.getMessage());
     } catch (Exception error) {
       throw new Exception("[WishListItemService.addProductToWishList] -> " + error.getMessage());
     }
 
   }
-    public void emptyWishList(User authUser) throws Exception {
-      try {
-        authUser.getWishList().clear();
-        userRepository.save(authUser);
-      }
-      catch (Exception error) {
-        throw new Exception("[WishListItemService.emptyWishList] -> " + error.getMessage());
-      }
+  public void removeProductFromWishList(User authUser , Long productId) throws Exception {
+    // Obtener el producto por ID
+    try {
+      Product product = productRepository.findById(productId)
+              .orElseThrow(() -> new ProductException("Producto no encontrado"));
+
+      List<WishListItem> wishlist = authUser.getWishList();
+      WishListItem itemToRemove = wishlist.stream()
+              .filter(item -> item.getProduct().getId().equals(product.getId()))
+              .findFirst()
+              .orElseThrow(() -> new WishListException("El producto no está en la wishlist."));
+
+
+      wishlist.remove(itemToRemove);
+      userRepository.save(authUser);
+
+    } catch (ProductException error) {
+      throw new ProductException(error.getMessage());
+    } catch (WishListException error) {
+      throw new WishListException(error.getMessage());
+    } catch (Exception error) {
+      throw new Exception("[WishListItemService.addProductToWishList] -> " + error.getMessage());
     }
+
+  }
+
+  public void emptyWishList(User authUser) throws Exception {
+    try {
+      authUser.getWishList().clear();
+      userRepository.save(authUser);
+    }
+    catch (Exception error) {
+      throw new Exception("[WishListItemService.emptyWishList] -> " + error.getMessage());
+    }
+  }
 
 
 
