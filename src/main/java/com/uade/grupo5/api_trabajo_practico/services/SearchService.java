@@ -6,7 +6,6 @@ import java.util.List;
 import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
 import com.uade.grupo5.api_trabajo_practico.exceptions.ProductException;
 import com.uade.grupo5.api_trabajo_practico.repositories.ProductRepository;
-import com.uade.grupo5.api_trabajo_practico.repositories.SearchRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.UserRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Search;
@@ -17,14 +16,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class SearchService {
 
-
-
   @Autowired
   private ProductRepository productRepository;
 
   @Autowired
   private UserRepository userRepository;
-
 
   public List<Search> findAllSearchesByUserId(Long userId) throws Exception {
     try {
@@ -37,7 +33,7 @@ public class SearchService {
   public Search addSearch(User authUser, ProductDTO productDTO) throws Exception {
     try {
       Product product = productRepository.findById(productDTO.getId())
-              .orElseThrow(() -> new ProductException("Producto no encontrado"));
+          .orElseThrow(() -> new ProductException("Producto no encontrado"));
 
       List<Search> searches = authUser.getLastSearches();
       if (searches.size() >= 10) {
@@ -54,7 +50,6 @@ public class SearchService {
       throw new Exception("[SearchItemService.addSearch] -> " + error.getMessage());
     }
   }
-
 
   public void emptySearches(User authUser) throws Exception {
     try {

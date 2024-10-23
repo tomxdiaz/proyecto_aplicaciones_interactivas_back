@@ -15,9 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/wishlist")
@@ -33,39 +31,42 @@ public class WishListController {
             User authUser = userService.getUserByUsername(userDetails.getUsername());
 
             List<WishListItem> wishList = wishListService.findAllWishListItemsByUserId(authUser.getId());
-            return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(wishList.stream().map(WishListItem::toDTO).toList()));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(ResponseData.success(wishList.stream().map(WishListItem::toDTO).toList()));
 
         } catch (UserException error) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
 
-        }catch (Exception error) {
-            System.out.printf("[WishListItemController.getUserWishList] -> %s", error.getMessage() );
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo recuperar la wishlist del usuario"));
+        } catch (Exception error) {
+            System.out.printf("[WishListItemController.getUserWishList] -> %s", error.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ResponseData.error("No se pudo recuperar la wishlist del usuario"));
         }
-
 
     }
 
     @PutMapping("")
-    public ResponseEntity<?> addProductToWishList(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<?> addProductToWishList(@AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody ProductDTO productDTO) {
         try {
             User authUser = userService.getUserByUsername(userDetails.getUsername());
             WishListItem item = wishListService.addProductToWishList(authUser, productDTO);
             return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(item.toDTO()));
 
-        } catch (UserException | ProductException |WishListException error) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error("No se agregar el producto a la wishlist"));
+        } catch (UserException | ProductException | WishListException error) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(ResponseData.error("No se agregar el producto a la wishlist"));
 
         } catch (Exception error) {
-            System.out.printf("[WishListItemController.addProductToWishList] -> %s", error.getMessage() );
+            System.out.printf("[WishListItemController.addProductToWishList] -> %s", error.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error(error.getMessage()));
         }
-
 
     }
 
     @PutMapping("/{productId}")
-    public ResponseEntity<?> removeProductFromWishList(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long productId) {
+    public ResponseEntity<?> removeProductFromWishList(@AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable Long productId) {
         try {
             User authUser = userService.getUserByUsername(userDetails.getUsername());
             wishListService.removeProductFromWishList(authUser, productId);
@@ -76,12 +77,13 @@ public class WishListController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
 
         } catch (Exception error) {
-            System.out.printf("[WishListItemController.addProductToWishList] -> %s", error.getMessage() );
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo recuperar la wishlist del usuario"));
+            System.out.printf("[WishListItemController.addProductToWishList] -> %s", error.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ResponseData.error("No se pudo recuperar la wishlist del usuario"));
         }
 
-
     }
+
     @PutMapping("/empty")
     public ResponseEntity<?> emptyWishList(@AuthenticationPrincipal UserDetails userDetails) {
         try {
@@ -92,8 +94,9 @@ public class WishListController {
         } catch (UserException | WishListException error) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
         } catch (Exception error) {
-            System.out.printf("[WishListItemController.emptyWishList] -> %s", error.getMessage() );
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se pudo vaciar la wishlist del usuario");
+            System.out.printf("[WishListItemController.emptyWishList] -> %s", error.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("No se pudo vaciar la wishlist del usuario");
         }
 
     }

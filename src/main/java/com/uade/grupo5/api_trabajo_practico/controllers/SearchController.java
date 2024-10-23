@@ -33,18 +33,22 @@ public class SearchController {
         try {
             User authUser = userService.getUserByUsername(userDetails.getUsername());
             List<Search> searches = searchService.findAllSearchesByUserId(authUser.getId());
-            return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(searches.stream().map(Search::toDTO).toList()));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(ResponseData.success(searches.stream().map(Search::toDTO).toList()));
         } catch (UserException error) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
 
         } catch (Exception error) {
             System.out.printf("[SearchController.getUserSearches] -> %s", error.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo recuperar las búsquedas del usuario"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ResponseData.error("No se pudo recuperar las búsquedas del usuario"));
         }
     }
+
     // Añadir una nueva búsqueda
     @PutMapping("")
-    public ResponseEntity<?> addSearch(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<?> addSearch(@AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody ProductDTO productDTO) {
         try {
             User authUser = userService.getUserByUsername(userDetails.getUsername());
             Search search = searchService.addSearch(authUser, productDTO);
@@ -54,7 +58,8 @@ public class SearchController {
 
         } catch (Exception error) {
             System.out.printf("[SearchController.addSearch] -> %s", error.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo registrar la busqueda del usuario"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ResponseData.error("No se pudo registrar la busqueda del usuario"));
         }
     }
 
@@ -64,13 +69,15 @@ public class SearchController {
         try {
             User authUser = userService.getUserByUsername(userDetails.getUsername());
             searchService.emptySearches(authUser);
-            return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success("Búsquedas eliminadas correctamente!"));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(ResponseData.success("Búsquedas eliminadas correctamente!"));
         } catch (UserException error) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
 
         } catch (Exception error) {
             System.out.printf("[SearchController.emptySearches] -> %s", error.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo vaciar el historial del usuario"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ResponseData.error("No se pudo vaciar el historial del usuario"));
         }
     }
 }
