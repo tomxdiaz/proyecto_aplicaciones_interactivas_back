@@ -49,7 +49,6 @@ public class WishListController {
     public ResponseEntity<?> addProductToWishList(@AuthenticationPrincipal UserDetails userDetails,
             @RequestBody ProductDTO productDTO) {
         try {
-            System.out.println(productDTO);
             User authUser = userService.getUserByUsername(userDetails.getUsername());
             WishListItem item = wishListService.addProductToWishList(authUser, productDTO);
             return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(item.toDTO()));
