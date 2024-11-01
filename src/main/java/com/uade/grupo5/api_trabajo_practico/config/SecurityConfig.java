@@ -2,6 +2,8 @@ package com.uade.grupo5.api_trabajo_practico.config;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Role;
 
@@ -47,11 +48,11 @@ public class SecurityConfig {
 						.requestMatchers("/category/**").permitAll()
 
 						// El resto de rutas aca
-						//Cart
+						// Cart
 						.requestMatchers("/cart/**").authenticated()
-						//WishList
+						// WishList
 						.requestMatchers("/wishlist/**").authenticated()
-						//Searches
+						// Searches
 						.requestMatchers("/search/**").authenticated()
 						// Default
 						.anyRequest().authenticated())
@@ -64,21 +65,13 @@ public class SecurityConfig {
 
 	// Configuracion de CORS
 	@Bean
-	public CorsFilter corsFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration corsConfig = new CorsConfiguration();
-		corsConfig.applyPermitDefaultValues();
-		corsConfig.setAllowCredentials(false);
-		source.registerCorsConfiguration("/**", corsConfig);
-		return new CorsFilter(source);
-	}
-
-	// Configuracion de CORS
-	@Bean
 	public UrlBasedCorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration corsConfig = new CorsConfiguration();
-		corsConfig.applyPermitDefaultValues();
-		corsConfig.setAllowCredentials(false);
+		corsConfig.setAllowedOrigins(List.of("http://localhost:3000")); // Origen permitido
+		corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Métodos permitidos
+		corsConfig.setAllowCredentials(true); // Si necesitas enviar cookies o autenticación
+		corsConfig.addAllowedHeader("*"); // Permite todos los headers
+
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", corsConfig);
 		return source;
