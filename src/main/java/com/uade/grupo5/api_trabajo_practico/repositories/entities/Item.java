@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -59,7 +61,7 @@ public class Item {
                 .description(this.getProduct().getDescription())
                 .price(this.getProduct().getPrice())
                 .quantity(this.getQuantity())
-                .images(this.getProduct().getImages())
+                .images(new ArrayList<>(this.getProduct().getImages()))
                 .build();
 
     }

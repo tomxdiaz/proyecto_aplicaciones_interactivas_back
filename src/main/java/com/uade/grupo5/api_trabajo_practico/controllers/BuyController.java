@@ -31,7 +31,7 @@ public class BuyController {
 
   // ** TOKEN FUNCIONANDO **
   @GetMapping("")
-  public ResponseEntity<ResponseData<?>> getUserBuys(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
+  public ResponseEntity<ResponseData<?>> getUserBuys(@AuthenticationPrincipal UserDetails userDetails) {
     try {
       User authUser = userService.getUserByUsername(userDetails.getUsername());
 

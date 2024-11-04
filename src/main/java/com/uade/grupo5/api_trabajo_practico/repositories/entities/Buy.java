@@ -65,7 +65,8 @@ public class Buy {
 
   public BuyDTO toDTO() {
     return BuyDTO.builder()
-        .id(this.id)
+        .id(this.id).items(this.items)
+
         .buyDate(this.buyDate)
         .user(user)
         .totalPrice(this.getTotalPrice())
