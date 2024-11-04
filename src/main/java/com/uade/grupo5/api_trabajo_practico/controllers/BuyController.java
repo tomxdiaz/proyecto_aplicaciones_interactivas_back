@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,10 +40,11 @@ public class BuyController {
 
     } catch (UserException error) {
       return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ResponseData.error(error.getMessage()));
-      
+
     } catch (Exception error) {
-      System.out.printf("[BuyController.getUserBuys] -> %s", error.getMessage() );
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudieron obtener las compras."));
+      System.out.printf("[BuyController.getUserBuys] -> %s", error.getMessage());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(ResponseData.error("No se pudieron obtener las compras."));
     }
   }
 
