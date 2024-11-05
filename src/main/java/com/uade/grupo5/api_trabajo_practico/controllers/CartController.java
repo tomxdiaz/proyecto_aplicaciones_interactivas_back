@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.uade.grupo5.api_trabajo_practico.dto.ItemDTO;
+import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
 import com.uade.grupo5.api_trabajo_practico.exceptions.CartException;
 import com.uade.grupo5.api_trabajo_practico.exceptions.ProductException;
 import com.uade.grupo5.api_trabajo_practico.exceptions.UserException;
@@ -45,23 +46,25 @@ public class CartController {
 
     } catch (UserException error) {
       return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ResponseData.error(error.getMessage()));
-      
+
     } catch (Exception error) {
-      System.out.printf("[CartController.getUserCart] -> %s", error.getMessage() );
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo recuperar el carro."));
+      System.out.printf("[CartController.getUserCart] -> %s", error.getMessage());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(ResponseData.error("No se pudo recuperar el carro."));
     }
   }
 
   // ** TOKEN FUNCIONANDO **
-  @PutMapping("/item")
-  public ResponseEntity<ResponseData<?>> addItemToCart(@AuthenticationPrincipal UserDetails userDetails,
-      @RequestBody ItemDTO itemDTO) {
+  @PutMapping("/product")
+  public ResponseEntity<ResponseData<?>> addProductToCart(@AuthenticationPrincipal UserDetails userDetails,
+      @RequestBody ProductDTO productDTO) {
     try {
+
       User authUser = userService.getUserByUsername(userDetails.getUsername());
 
       Cart cart = authUser.getCart();
 
-      Item addedItem = cartService.addItemToCart(itemDTO, cart.getId());
+      Item addedItem = cartService.addProductToCart(productDTO, cart.getId());
 
       ItemDTO addedItemDTO = addedItem.toDTO();
 
@@ -69,10 +72,34 @@ public class CartController {
 
     } catch (UserException | CartException | ProductException error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
-      
+
     } catch (Exception error) {
-      System.out.printf("[CartController.addItemToCart] -> %s", error.getMessage() );
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo agregar el item al carro"));
+      System.out.printf("[CartController.addItemToCart] -> %s", error.getMessage());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(ResponseData.error("No se pudo agregar el item al carro"));
+    }
+  }
+
+  // ** TOKEN FUNCIONANDO **
+  @PutMapping("/product/{productId}")
+  public ResponseEntity<ResponseData<?>> removeProductFromCart(@AuthenticationPrincipal UserDetails userDetails,
+      @PathVariable Long productId) {
+    try {
+      User authUser = userService.getUserByUsername(userDetails.getUsername());
+
+      Cart cart = authUser.getCart();
+
+      cartService.removeProductFromCart(cart.getId(), productId);
+
+      return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(cart.toDTO()));
+
+    } catch (UserException | CartException error) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
+
+    } catch (Exception error) {
+      System.out.printf("[CartController.addItemToCart] -> %s", error.getMessage());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(ResponseData.error("No se pudo quitar el item del carro."));
     }
   }
 
@@ -91,10 +118,11 @@ public class CartController {
 
     } catch (UserException | CartException error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
-      
+
     } catch (Exception error) {
-      System.out.printf("[CartController.addItemToCart] -> %s", error.getMessage() );
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo quitar el item del carro."));
+      System.out.printf("[CartController.addItemToCart] -> %s", error.getMessage());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(ResponseData.error("No se pudo quitar el item del carro."));
     }
   }
 
@@ -112,10 +140,11 @@ public class CartController {
 
     } catch (UserException | CartException error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
-      
+
     } catch (Exception error) {
-      System.out.printf("[CartController.emptyCart] -> %s", error.getMessage() );
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo vaciar el carro"));
+      System.out.printf("[CartController.emptyCart] -> %s", error.getMessage());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(ResponseData.error("No se pudo vaciar el carro"));
     }
   }
 
@@ -133,10 +162,11 @@ public class CartController {
 
     } catch (UserException | CartException error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseData.error(error.getMessage()));
-      
+
     } catch (Exception error) {
-      System.out.printf("[CartController.confirmCart] -> %s", error.getMessage() );
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseData.error("No se pudo generar la compra"));
+      System.out.printf("[CartController.confirmCart] -> %s", error.getMessage());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(ResponseData.error("No se pudo generar la compra"));
     }
   }
 
