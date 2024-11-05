@@ -64,7 +64,7 @@ public class CartController {
 
       Cart cart = authUser.getCart();
 
-      Item addedItem = cartService.addProductToCart(productDTO, cart.getId());
+      Item addedItem = cartService.addProductToCart(cart, productDTO);
 
       ItemDTO addedItemDTO = addedItem.toDTO();
 
@@ -89,7 +89,7 @@ public class CartController {
 
       Cart cart = authUser.getCart();
 
-      cartService.removeProductFromCart(cart.getId(), productId);
+      cartService.removeProductFromCart(cart, productId);
 
       return ResponseEntity.status(HttpStatus.OK).body(ResponseData.success(cart.toDTO()));
 

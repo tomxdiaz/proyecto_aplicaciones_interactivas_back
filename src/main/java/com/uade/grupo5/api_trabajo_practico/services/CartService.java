@@ -46,11 +46,10 @@ public class CartService {
 
   // ** SIRVE **
   @Transactional
-  public Item addProductToCart(ProductDTO productDTO, Long cartId) throws Exception {
+  public Item addProductToCart(Cart cart , ProductDTO productDTO) throws Exception {
     try {
-      Product product = productDTO.toEntity();
 
-      Cart cart = getCartById(cartId);
+      Product product = productService.getProductById(productDTO.getId());
 
       Item item = cart.getItems().stream()
           .filter(cartItem -> cartItem.getProductId().equals(product.getId()))
@@ -90,9 +89,8 @@ public class CartService {
 
   // ** SIRVE **
   @Transactional
-  public void removeProductFromCart(Long cartId, Long productId) throws Exception {
+  public void removeProductFromCart(Cart cart, Long productId) throws Exception {
     try {
-      Cart cart = getCartById(cartId);
 
       Product product = productService.getProductById(productId);
 
