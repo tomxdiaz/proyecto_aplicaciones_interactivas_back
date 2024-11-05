@@ -38,7 +38,7 @@ public class ProductService {
         // ** SIRVE **
         public Product getProductById(Long id) throws Exception {
           try {
-            Product product = productRepository.getReferenceById(id);
+            Product product = productRepository.findById(id).orElseThrow(() -> new ProductException("producto no encontrado"));
             return product;
           } catch (Exception error) {
             throw new Exception("[ProductService.getProductById] -> " + error.getMessage());
