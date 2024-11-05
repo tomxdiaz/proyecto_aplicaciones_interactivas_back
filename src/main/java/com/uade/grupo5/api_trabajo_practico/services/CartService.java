@@ -46,10 +46,10 @@ public class CartService {
 
   // ** SIRVE **
   @Transactional
-  public Item addProductToCart(Cart cart , ProductDTO productDTO) throws Exception {
+  public Item addProductToCart(Cart cart , Long productId) throws Exception {
     try {
 
-      Product product = productService.getProductById(productDTO.getId());
+      Product product = productService.getProductById(productId);
 
       Item item = cart.getItems().stream()
           .filter(cartItem -> cartItem.getProductId().equals(product.getId()))

@@ -55,16 +55,16 @@ public class CartController {
   }
 
   // ** TOKEN FUNCIONANDO **
-  @PutMapping("/product")
+  @PutMapping("/product/{productId}")
   public ResponseEntity<ResponseData<?>> addProductToCart(@AuthenticationPrincipal UserDetails userDetails,
-      @RequestBody ProductDTO productDTO) {
+      @PathVariable Long productId) {
     try {
 
       User authUser = userService.getUserByUsername(userDetails.getUsername());
 
       Cart cart = authUser.getCart();
 
-      Item addedItem = cartService.addProductToCart(cart, productDTO);
+      Item addedItem = cartService.addProductToCart(cart, productId);
 
       ItemDTO addedItemDTO = addedItem.toDTO();
 
@@ -81,7 +81,7 @@ public class CartController {
   }
 
   // ** TOKEN FUNCIONANDO **
-  @PutMapping("/product/{productId}")
+  @PutMapping("/product/{productId}/remove")
   public ResponseEntity<ResponseData<?>> removeProductFromCart(@AuthenticationPrincipal UserDetails userDetails,
       @PathVariable Long productId) {
     try {
