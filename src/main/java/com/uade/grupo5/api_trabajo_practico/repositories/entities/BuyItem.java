@@ -35,7 +35,7 @@ public class BuyItem {
   private int quantity;
   @NotEmpty
   @ElementCollection
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "LONGTEXT")
   private List<String> images;
   @NotNull
   @ManyToOne
