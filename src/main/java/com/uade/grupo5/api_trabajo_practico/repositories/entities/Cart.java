@@ -48,6 +48,9 @@ public class Cart {
             if (item.getQuantity() > item.getProduct().getStock()) {
                 throw new RuntimeException("Not enough stock of product: " + item.getProduct().getTitle());
             }
+            else {
+                item.getProduct().setStock(item.getProduct().getStock() - item.getQuantity());
+            }
             BuyItem buyItem = item.toBuyItem();
             buyItems.add(buyItem);
         });
