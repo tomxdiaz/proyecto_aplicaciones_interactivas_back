@@ -10,11 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.uade.grupo5.api_trabajo_practico.dto.ItemDTO;
-import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
 import com.uade.grupo5.api_trabajo_practico.exceptions.CartException;
 import com.uade.grupo5.api_trabajo_practico.exceptions.ProductException;
 import com.uade.grupo5.api_trabajo_practico.exceptions.UserException;

@@ -1,6 +1,5 @@
 package com.uade.grupo5.api_trabajo_practico.services;
 
-import com.uade.grupo5.api_trabajo_practico.dto.ProductDTO;
 import com.uade.grupo5.api_trabajo_practico.exceptions.CartException;
 import com.uade.grupo5.api_trabajo_practico.exceptions.ProductException;
 import com.uade.grupo5.api_trabajo_practico.repositories.CartRepository;
@@ -46,7 +45,7 @@ public class CartService {
 
   // ** SIRVE **
   @Transactional
-  public Item addProductToCart(Cart cart , Long productId) throws Exception {
+  public Item addProductToCart(Cart cart, Long productId) throws Exception {
     try {
 
       Product product = productService.getProductById(productId);
