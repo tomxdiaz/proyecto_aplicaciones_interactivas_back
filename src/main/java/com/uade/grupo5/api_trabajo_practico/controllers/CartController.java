@@ -102,7 +102,7 @@ public class CartController {
   }
 
   // ** TOKEN FUNCIONANDO **
-  @PutMapping("/item/{productId}")
+  @PutMapping("/item/{productId}/remove")
   public ResponseEntity<ResponseData<?>> removeItemFromCart(@AuthenticationPrincipal UserDetails userDetails,
       @PathVariable Long productId) {
     try {
