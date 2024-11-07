@@ -22,8 +22,9 @@ public class BuyDTO {
   @NotNull
   private List<BuyItem> items;
   @NotNull
-  private LocalDate buyDate;
+  private LocalDateTime buyDate;
   @NotNull
+  @JsonBackReference
   private User user;
   @NotNull
   private double totalPrice;

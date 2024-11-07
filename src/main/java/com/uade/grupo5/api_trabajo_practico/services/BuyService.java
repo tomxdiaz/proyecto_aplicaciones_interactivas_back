@@ -29,7 +29,7 @@ public class BuyService {
   public Buy createBuy(Cart cart) throws Exception {
     try{
       Buy buy = Buy.builder()
-        .buyDate(LocalDate.now())
+        .buyDate(LocalDateTime.now())
         .user(cart.getUser())
         .build();
 

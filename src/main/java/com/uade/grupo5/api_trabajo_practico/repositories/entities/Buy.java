@@ -36,7 +36,7 @@ public class Buy {
 
   @NotNull
   @Column(nullable = false)
-  private LocalDate buyDate;
+  private LocalDateTime buyDate;
 
   @NotEmpty
   @OneToMany(mappedBy = "buy", cascade = CascadeType.ALL)
