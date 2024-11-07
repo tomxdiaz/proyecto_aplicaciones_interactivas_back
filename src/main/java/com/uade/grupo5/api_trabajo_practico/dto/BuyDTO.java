@@ -1,8 +1,10 @@
 package com.uade.grupo5.api_trabajo_practico.dto;
 
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Buy;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.BuyItem;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.User;

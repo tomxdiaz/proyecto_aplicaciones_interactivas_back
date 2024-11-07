@@ -1,6 +1,7 @@
 package com.uade.grupo5.api_trabajo_practico.repositories.entities;
 
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
