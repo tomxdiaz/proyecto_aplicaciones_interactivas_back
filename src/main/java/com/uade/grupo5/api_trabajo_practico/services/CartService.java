@@ -49,7 +49,9 @@ public class CartService {
     try {
 
       Product product = productService.getProductById(productId);
-
+      if (product.getStock() == 0) {
+        throw new ProductException("Se acabo el stock del producto seleccionado");
+      }
       Item item = cart.getItems().stream()
           .filter(cartItem -> cartItem.getProductId().equals(product.getId()))
           .findFirst()

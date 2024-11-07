@@ -2,19 +2,31 @@ package com.uade.grupo5.api_trabajo_practico.services;
 
 import java.util.List;
 
+import com.uade.grupo5.api_trabajo_practico.repositories.CartRepository;
+import com.uade.grupo5.api_trabajo_practico.repositories.SearchRepository;
+import com.uade.grupo5.api_trabajo_practico.repositories.WishListItemRepository;
+import com.uade.grupo5.api_trabajo_practico.repositories.entities.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uade.grupo5.api_trabajo_practico.exceptions.ProductException;
 import com.uade.grupo5.api_trabajo_practico.repositories.ProductRepository;
 import com.uade.grupo5.api_trabajo_practico.repositories.entities.Product;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductService {
 
         @Autowired
         private ProductRepository productRepository;
+        @Autowired
+        private CartRepository cartRepository;
 
+        @Autowired
+        private WishListItemRepository wishListItemRepository;
+
+        @Autowired
+        private SearchRepository searchRepository;
         // ** SIRVE **
         public Product createProduct(Product product) throws Exception {
           try {
@@ -61,9 +73,19 @@ public class ProductService {
         }
 
         // ** SIRVE **
+        @Transactional
         public void deleteProduct(Long id) throws Exception {
           try {
-            productRepository.deleteById(id);
+
+              List<Cart> carts = cartRepository.findAll();
+              for (Cart cart : carts) {
+                  cart.getItems().removeIf(item -> item.getProduct().getId().equals(id));
+              }
+              cartRepository.saveAll(carts);
+
+              searchRepository.deleteByProductId(id);
+              wishListItemRepository.deleteByProductId(id);
+              productRepository.deleteById(id);
           } catch (Exception error) {
             throw new Exception("[ProductService.deleteProduct] -> " + error.getMessage());
           }
