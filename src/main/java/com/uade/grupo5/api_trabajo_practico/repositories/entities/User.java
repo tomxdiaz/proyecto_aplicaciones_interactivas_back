@@ -84,7 +84,6 @@ public class User implements UserDetails {
     }
 
     public void updateData(User newUser){
-        setUsername(newUser.getUsername());
         setName(newUser.getName());
         setLastName(newUser.getLastName());
         setBirthDate(newUser.getBirthDate());
