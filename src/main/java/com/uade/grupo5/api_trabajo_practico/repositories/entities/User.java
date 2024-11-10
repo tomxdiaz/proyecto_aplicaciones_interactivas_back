@@ -83,6 +83,14 @@ public class User implements UserDetails {
                 this.lastSearches);
     }
 
+    public void updateData(User newUser){
+        setUsername(newUser.getUsername());
+        setName(newUser.getName());
+        setLastName(newUser.getLastName());
+        setBirthDate(newUser.getBirthDate());
+        setEmailAddress(newUser.getEmailAddress());
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

@@ -49,9 +49,9 @@ public class UserController {
 
       User user = userDTO.toEntity();
 
-      user.setId(authUser.getId());
+      authUser.updateData(user);
 
-      User updatedUser = userService.updateUser(user);
+      User updatedUser = userService.updateUser(authUser);
 
       UserDTO updatedUserDTO = updatedUser.toDTO();
 

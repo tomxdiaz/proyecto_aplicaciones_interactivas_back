@@ -33,10 +33,13 @@ public class UserDTO {
     @NotNull
     private LocalDate birthDate;
     @NotNull
+    @JsonIgnore
     private String password;
     private Role role;
     @JsonManagedReference
+    @JsonIgnore
     private Cart cart;
+    @JsonIgnore
     private List<Buy> orders;
     @JsonIgnore
     private List<WishListItem> wishList;
