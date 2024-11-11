@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uade.grupo5.api_trabajo_practico.dto.UserDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -83,11 +84,12 @@ public class User implements UserDetails {
                 this.lastSearches);
     }
 
-    public void updateData(User newUser){
+    public void updateData(User newUser, String password){
         setName(newUser.getName());
         setLastName(newUser.getLastName());
         setBirthDate(newUser.getBirthDate());
         setEmailAddress(newUser.getEmailAddress());
+        setPassword(password);
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,9 @@ import com.uade.grupo5.api_trabajo_practico.services.UserService;
 public class UserController {
   @Autowired
   private UserService userService;
+
+  @Autowired
+    private PasswordEncoder passwordEncoder;
 
   // ** SIRVE **
   @GetMapping("")
@@ -49,7 +53,7 @@ public class UserController {
 
       User user = userDTO.toEntity();
 
-      authUser.updateData(user);
+      authUser.updateData(user, passwordEncoder.encode(user.getPassword()));
 
       User updatedUser = userService.updateUser(authUser);
 
