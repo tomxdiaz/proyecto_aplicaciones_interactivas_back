@@ -53,7 +53,11 @@ public class UserController {
 
       User user = userDTO.toEntity();
 
-      authUser.updateData(user, passwordEncoder.encode(user.getPassword()));
+      authUser.updateData(user);
+
+      String password = user.getPassword();
+
+      if(!password.equals("null")) authUser.setPassword(passwordEncoder.encode(password));
 
       User updatedUser = userService.updateUser(authUser);
 

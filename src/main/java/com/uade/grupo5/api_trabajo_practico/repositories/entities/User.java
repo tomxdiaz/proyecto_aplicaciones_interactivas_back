@@ -84,12 +84,11 @@ public class User implements UserDetails {
                 this.lastSearches);
     }
 
-    public void updateData(User newUser, String password){
+    public void updateData(User newUser){
         setName(newUser.getName());
         setLastName(newUser.getLastName());
         setBirthDate(newUser.getBirthDate());
         setEmailAddress(newUser.getEmailAddress());
-        setPassword(password);
     }
 
     @Override
